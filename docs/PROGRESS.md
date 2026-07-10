@@ -320,4 +320,5 @@
 - Files changed: `apps/web/lib/api-base.ts`, replay loading code, verdict page, provider/history API calls, `deploy/vps/docker-compose.yml`, and web tests.
 - Commands run: `pnpm --filter web test`; targeted `pnpm --filter web exec biome check ...`; `pnpm --filter web build`.
 - Result: Local tests and production web build pass. Full `pnpm --filter web lint` still reports pre-existing CRLF formatting issues across unrelated web files, so only touched files were formatted/checked.
-- Next step: Redeploy the VPS web container and verify a live run's Judge Verdict shows the matching captions/evidence instead of the kitchen demo replay.
+- Follow-up: Removed static demo wording from the signature strip and repair diff highlight terms, redeployed the VPS web container, and verified the user's real run `run_1783712063_ed14b152` over public HTTPS. The page now contains the screen/keyboard caption, does not contain the kitchen/chef placeholder wording, and the browser screenshot was saved to `output/playwright/captionman-live-verdict-real-run.png`.
+- Next step: Use the live demo URL in the final submission and keep Fireworks usage monitored during judging.

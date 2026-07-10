@@ -926,6 +926,6 @@
 - Command: `pnpm --filter web test`; targeted `pnpm --filter web exec biome check ...`; `pnpm --filter web build`
 - Environment: Windows PowerShell, Node v24.14.0, pnpm 11.7.0, Next.js 15.5.20.
 - Result: pass
-- Output summary: Web tests passed with 2 files and 5 tests. Targeted Biome check passed on the files touched by the Judge Verdict fix. Production `next build` completed and marked `/runs/[runId]` as dynamic server-rendered content.
+- Output summary: Web tests passed with 2 files and 5 tests. Targeted Biome check passed on the files touched by the Judge Verdict fix. Production `next build` completed and marked `/runs/[runId]` as dynamic server-rendered content. The VPS web container was rebuilt and restarted. Public verification for `https://captionman.grimnej.com/runs/run_1783712063_ed14b152` returned 200, contained the real screen/keyboard caption, and did not contain the previous kitchen/chef placeholder wording. Browser smoke verification passed and saved `output/playwright/captionman-live-verdict-real-run.png`.
 - Failures: Full `pnpm --filter web lint` still fails on pre-existing CRLF formatting diagnostics across unrelated web files.
-- Fixes attempted: Added `getApiBase()` with server/client-aware URL resolution, configured VPS web runtime with `API_INTERNAL_BASE_URL=http://api:8000`, removed silent mock fallback for real run artifact failures, and added regression tests.
+- Fixes attempted: Added `getApiBase()` with server/client-aware URL resolution, configured VPS web runtime with `API_INTERNAL_BASE_URL=http://api:8000`, removed silent mock fallback for real run artifact failures, added regression tests, and removed static demo wording from real verdict components.
