@@ -36,7 +36,11 @@ export function RepairDiff({
   unsupportedTerms: string[];
 }) {
   const reduceMotion = useReducedMotion();
-  const saferTerms = ["person", "indoor", "kitchen-like setting"];
+  const saferTerms = after
+    .split(/\s+/)
+    .map((term) => term.replace(/^[^\w]+|[^\w]+$/g, ""))
+    .filter((term) => term.length > 5)
+    .slice(0, 4);
 
   return (
     <motion.section

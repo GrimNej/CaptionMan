@@ -7,6 +7,14 @@ export function SignatureMomentStrip({
   artifact: JudgeReplayArtifact;
 }) {
   const repaired = artifact.court.find((item) => item.repair)?.repair;
+  const unsupportedTerms = Array.from(
+    new Set(
+      artifact.court.flatMap((row) =>
+        row.candidates.flatMap((candidate) => candidate.unsupportedTerms),
+      ),
+    ),
+  ).slice(0, 3);
+  const finalCaption = repaired?.after ?? artifact.finalCaptions.formal;
 
   return (
     <section
@@ -20,8 +28,19 @@ export function SignatureMomentStrip({
             Ruby flag
           </span>
           <p className="mt-3 text-lg font-semibold">
-            <mark className="cm-mark-ruby">chef</mark> and{" "}
-            <mark className="cm-mark-ruby">restaurant</mark> are unsupported.
+            {unsupportedTerms.length > 0 ? (
+              <>
+                {unsupportedTerms.map((term, index) => (
+                  <span key={term}>
+                    {index > 0 ? " " : ""}
+                    <mark className="cm-mark-ruby">{term}</mark>
+                  </span>
+                ))}{" "}
+                challenged before verdict.
+              </>
+            ) : (
+              "No unsupported claim survived final selection."
+            )}
           </p>
         </div>
         <div className="cm-panel-soft p-4">
@@ -29,10 +48,7 @@ export function SignatureMomentStrip({
             <CheckCircle2 size={14} />
             Repair diff
           </span>
-          <p className="mt-3 text-lg font-semibold">
-            {repaired?.after ??
-              "A safer caption keeps only evidence-backed claims."}
-          </p>
+          <p className="mt-3 text-lg font-semibold">{finalCaption}</p>
         </div>
         <div className="cm-panel-soft p-4">
           <span className="cm-chip cm-chip-gold">
