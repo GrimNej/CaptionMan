@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc" viewBox="0 0 1200 620">
+  <title id="title">CaptionMan Caption Court Pipeline</title>
+  <desc id="desc">A four-stage pipeline showing a video becoming evidence, caption candidates, audited repairs, and final Track 2 output.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#fbf9ff"/>
+      <stop offset="0.55" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#fff2fb"/>
+    </linearGradient>
+    <linearGradient id="brand" x1="0" x2="1">
+      <stop offset="0" stop-color="#7357ff"/>
+      <stop offset="1" stop-color="#ec64d8"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-25%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="14" stdDeviation="16" flood-color="#251f4f" flood-opacity="0.14"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="#8b7cff"/>
+    </marker>
+    <style>
+      .title{font:700 34px Arial,sans-serif;fill:#17172f}
+      .sub{font:500 18px Arial,sans-serif;fill:#2f2b45}
+      .card{fill:#fff;stroke:#eadfff;stroke-width:2;rx:22;filter:url(#shadow)}
+      .step{font:700 20px Arial,sans-serif;fill:#17172f}
+      .body{font:500 15px Arial,sans-serif;fill:#2f2b45}
+      .chip{font:700 13px Arial,sans-serif;fill:#fff}
+      .line{fill:none;stroke:#8b7cff;stroke-width:3;stroke-dasharray:9 10;marker-end:url(#arrow)}
+      .pulse{animation:pulse 2.8s ease-in-out infinite}
+      .dash{animation:dash 2.4s linear infinite}
+      .glow{animation:glow 2.6s ease-in-out infinite}
+      @keyframes pulse{0%,100%{opacity:1}50%{opacity:.98}}
+      @keyframes dash{from{stroke-dashoffset:38}to{stroke-dashoffset:0}}
+      @keyframes glow{0%,100%{opacity:.82}50%{opacity:1}}
+      @media (prefers-reduced-motion: reduce){.pulse,.dash,.glow{animation:none}}
+    </style>
+  </defs>
+  <rect width="1200" height="620" fill="url(#bg)"/>
+  <circle cx="990" cy="100" r="140" fill="#f3eaff" opacity=".55"/>
+  <circle cx="170" cy="525" r="175" fill="#fff0fb" opacity=".75"/>
+
+  <text x="64" y="70" class="title">Caption Court Pipeline</text>
+  <text x="64" y="102" class="sub">The output is not a first draft. It is evidence, challenge, repair, and verdict.</text>
+
+  <g transform="translate(70 190)">
+    <rect width="210" height="210" class="card"/>
+    <rect x="28" y="30" width="154" height="86" rx="16" fill="#f0ecff" stroke="#dacfff"/>
+    <polygon points="92,55 92,91 124,73" fill="url(#brand)"/>
+    <rect x="38" y="132" width="132" height="10" rx="5" fill="#17172f" opacity=".82"/>
+    <rect x="38" y="154" width="96" height="10" rx="5" fill="#17172f" opacity=".42"/>
+    <rect x="28" y="24" width="76" height="24" rx="12" fill="url(#brand)" class="glow"/>
+    <text x="48" y="41" class="chip">video</text>
+    <text x="28" y="184" class="step">Clip Input</text>
+  </g>
+
+  <g transform="translate(355 190)">
+    <rect width="210" height="210" class="card"/>
+    <circle cx="62" cy="66" r="30" fill="#efeaff" stroke="#d9ccff" stroke-width="2"/>
+    <circle cx="148" cy="66" r="30" fill="#fff0fb" stroke="#f1c4ea" stroke-width="2"/>
+    <rect x="38" y="124" width="134" height="12" rx="6" fill="#17172f" opacity=".8"/>
+    <rect x="38" y="150" width="112" height="12" rx="6" fill="#7357ff" opacity=".75"/>
+    <text x="28" y="184" class="step">Evidence File</text>
+    <text x="28" y="207" class="body">frames, scenes, avoid claims</text>
+  </g>
+
+  <g transform="translate(640 190)">
+    <rect width="210" height="210" class="card"/>
+    <rect x="30" y="36" width="150" height="34" rx="17" fill="#f0ecff"/>
+    <rect x="30" y="86" width="150" height="34" rx="17" fill="#fff0fb"/>
+    <rect x="30" y="136" width="150" height="34" rx="17" fill="#f7f5ff"/>
+    <path d="M48 53 L68 53" stroke="#7357ff" stroke-width="5" stroke-linecap="round"/>
+    <path d="M48 103 L68 103" stroke="#ec64d8" stroke-width="5" stroke-linecap="round"/>
+    <path d="M48 153 L68 153" stroke="#17172f" stroke-width="5" stroke-linecap="round"/>
+    <text x="28" y="184" class="step">Caption Court</text>
+    <text x="28" y="207" class="body">tone, factuality, risk</text>
+  </g>
+
+  <g transform="translate(925 190)">
+    <rect width="210" height="210" class="card"/>
+    <path d="M64 46 h82 a22 22 0 0 1 22 22 v78 a22 22 0 0 1-22 22 h-82 a22 22 0 0 1-22-22 v-78 a22 22 0 0 1 22-22z" fill="#f5f1ff" stroke="#dbcfff" stroke-width="2"/>
+    <path d="M74 86 h70 M74 112 h62 M74 138 h42" stroke="#17172f" stroke-width="10" stroke-linecap="round"/>
+    <path d="M156 50 l10 22 24 8-24 8-10 22-10-22-24-8 24-8z" fill="url(#brand)" class="glow"/>
+    <text x="28" y="184" class="step">Final JSON</text>
+    <text x="28" y="207" class="body">four styles, schema-safe</text>
+  </g>
+
+  <path d="M286 294 H346" class="line dash"/>
+  <path d="M571 294 H631" class="line dash"/>
+  <path d="M856 294 H916" class="line dash"/>
+
+  <rect x="320" y="470" width="560" height="70" rx="22" fill="#fff" stroke="#eadfff" stroke-width="2"/>
+  <text x="365" y="500" class="step">Track 2 styles</text>
+  <text x="365" y="526" class="body">formal | sarcastic | humorous tech | humorous non-tech</text>
+</svg>

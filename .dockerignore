@@ -20,6 +20,8 @@ output
 input
 extra_files
 presentation
+assets
+SVGs
 tmp
 docs
 apps/web

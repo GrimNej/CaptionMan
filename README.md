@@ -1,27 +1,80 @@
-# CaptionMan
+<p align="center">
+  <img src="assets/banner-captionman.png" alt="CaptionMan banner" width="100%" />
+</p>
 
-Captions With Receipts
+<p align="center">
+  <img src="assets/logo-captionman.png" alt="CaptionMan logo" width="120" />
+</p>
 
-CaptionMan is an evidence-grounded video captioning system for AMD Developer Hackathon ACT II Track 2. It creates requested caption styles by building a structured evidence file, generating candidate captions, auditing them with deterministic and model-based checks, repairing weak candidates, and exporting schema-ready results.
+<h1 align="center">CaptionMan</h1>
 
-## What CaptionMan Does
+<p align="center">
+  <strong>Captions With Receipts</strong>
+</p>
 
-CaptionMan runs as a CLI-first judged runner and as a separate demo product surface. The judged runner reads `/input/tasks.json`, adapts the top-level task array through a schema boundary, builds safe evidence, produces every requested style, validates the output, and writes `/output/results.json` atomically.
+<p align="center">
+  Evidence-first video captioning for AMD Developer Hackathon ACT II Track 2.
+</p>
 
-## Why It Is Different
+<p align="center">
+  <a href="https://captionman.grimnej.com/studio"><img alt="Live Demo" src="https://img.shields.io/badge/Live%20Demo-captionman.grimnej.com-7357ff?style=for-the-badge"></a>
+  <a href="https://github.com/GrimNej/CaptionMan"><img alt="GitHub" src="https://img.shields.io/badge/GitHub-CaptionMan-17172f?style=for-the-badge&logo=github"></a>
+  <img alt="Track 2" src="https://img.shields.io/badge/AMD%20ACT%20II-Track%202%20Video%20Captioning-ec64d8?style=for-the-badge">
+  <img alt="Docker" src="https://img.shields.io/badge/Docker-linux%2Famd64-2496ed?style=for-the-badge&logo=docker&logoColor=white">
+</p>
 
-The pipeline is judge-aware: captions are generated from evidence, checked against hard rules, scored for tone and hallucination risk, and repaired when needed. The implementation avoids debug leakage in official output and keeps all provider calls behind budget guards.
+<p align="center">
+  <img alt="Python" src="https://img.shields.io/badge/Python-3.12%2B-3776ab?style=flat-square&logo=python&logoColor=white">
+  <img alt="FastAPI" src="https://img.shields.io/badge/FastAPI-demo%20API-009688?style=flat-square&logo=fastapi&logoColor=white">
+  <img alt="Next.js" src="https://img.shields.io/badge/Next.js-Studio-000000?style=flat-square&logo=nextdotjs&logoColor=white">
+  <img alt="Fireworks" src="https://img.shields.io/badge/Fireworks%20AI-direct%20provider-f05a28?style=flat-square">
+  <img alt="Gemma" src="https://img.shields.io/badge/Gemma-configured%20specialist-7c4dff?style=flat-square">
+</p>
 
-## Track Alignment
+---
 
-CaptionMan supports:
+## What Is CaptionMan?
+
+CaptionMan is a professional video-captioning system built for **Track 2: Video Captioning**. It takes a video clip and produces the four required caption styles:
 
 - `formal`
 - `sarcastic`
 - `humorous_tech`
 - `humorous_non_tech`
 
-The adapter layer keeps the internal model separate from the official Track 2 schema:
+The core idea is simple: CaptionMan does not trust the first model response. It samples the video, builds an evidence file, generates caption candidates, challenges unsupported claims, repairs weak outputs, and exports schema-safe Track 2 results.
+
+That is the project moat: **Caption Court**.
+
+---
+
+## Live Submission Links
+
+| Item | Link |
+|---|---|
+| Hosted demo | <https://captionman.grimnej.com/studio> |
+| Public repository | <https://github.com/GrimNej/CaptionMan> |
+| Docker image | `ghcr.io/grimnej/captionman:final` |
+| Pinned digest | `ghcr.io/grimnej/captionman@sha256:138ce0b9828aff1cd65b13143d14962c1d94e2d72e034a630ed691c660c8293c` |
+
+The Docker image is the official judged artifact. The hosted demo is a review surface for humans.
+
+---
+
+## The Caption Court Pipeline
+
+![Caption Court Pipeline](SVGs/01-caption-court-pipeline.svg)
+
+CaptionMan turns video captioning into an evidence-backed workflow:
+
+| Stage | What Happens |
+|---|---|
+| Clip Input | Download or read the video, inspect duration, and sample representative frames. |
+| Evidence File | Build grounded observations, frame references, avoid-claims, and scene summaries. |
+| Caption Court | Generate and challenge candidates for factuality, tone, coverage, and risk. |
+| Final JSON | Export only the official Track 2 caption schema, without debug leakage. |
+
+Official output shape:
 
 ```json
 [
@@ -37,17 +90,106 @@ The adapter layer keeps the internal model separate from the official Track 2 sc
 ]
 ```
 
-Track 2 does not require an inference log, does not inject API credentials, and does not require `ALLOWED_MODELS`. The submitted artifact is a publicly pullable Docker image that supports `linux/amd64` and can run with CaptionMan's own temporary hackathon API credentials.
+---
 
-## Architecture
+## Judge Replay
 
-- `apps/api`: Python CLI, FastAPI demo API, providers, video tools, evidence, Caption Court, and tests.
-- `apps/web`: Next.js App Router demo UI.
-- `prompts`: Model-facing prompt files with prompt-injection guardrails.
-- `scripts`: Result validation, source hygiene, and secret scans.
-- `docs`: Schema lock, architecture, security, and living handoff documents.
+![Judge Replay Experience](SVGs/02-judge-replay-experience.svg)
 
-## Quickstart With Mock Provider
+The hosted Studio includes a Judge Replay page for completed runs. It shows:
+
+- sampled frames as visual receipts
+- temporal evidence segments
+- caption candidates and selected captions
+- repair/verdict details
+- final captions ready for copy or review
+
+This is intentionally separate from the official Docker output. Judges get a clean JSON file from Docker; humans get an explainable product experience in the demo.
+
+---
+
+## Official Docker Path
+
+![Deployment Boundaries](SVGs/03-deployment-boundaries.svg)
+
+The judged Docker path is backend-only and does not depend on the frontend.
+
+```bash
+docker pull --platform linux/amd64 ghcr.io/grimnej/captionman:final
+docker run --rm ghcr.io/grimnej/captionman:final captionman doctor
+```
+
+For official evaluation, mount input and output folders:
+
+```bash
+docker run --rm \
+  -v "$PWD/input:/input" \
+  -v "$PWD/output:/output" \
+  ghcr.io/grimnej/captionman:final
+```
+
+Then validate the output:
+
+```bash
+python scripts/validate_results.py --input input/tasks.json --output output/results.json
+```
+
+The final public image was verified as:
+
+- publicly pullable
+- `linux/amd64`
+- official-mode safe
+- schema-valid on the Track 2 practice clips
+- no debug fields in judged output
+- no repository secrets detected before push
+
+---
+
+## Model Routing
+
+![Model Routing Map](SVGs/04-model-routing-map.svg)
+
+CaptionMan uses role-based routing rather than pretending one model should do everything.
+
+| Role | Verified Route |
+|---|---|
+| Visual understanding | Kimi route through Fireworks |
+| Caption writing | GLM route through Fireworks |
+| Judge/repair checks | GLM route through Fireworks |
+| Gemma | Configured specialist route; claimed only to the level reported by `captionman doctor` |
+
+Current public claim: **Gemma is configured as a routed specialist/repair option, but the verified champion route for the final Docker image is Kimi + GLM.**
+
+This wording is deliberate. CaptionMan does not claim Gemma-only caption generation or Gemma multimodal behavior unless the doctor output and tournament notes verify that route.
+
+---
+
+## Hosted Demo
+
+The hosted demo is live at:
+
+```text
+https://captionman.grimnej.com/studio
+```
+
+The demo supports:
+
+- direct video URLs
+- local video uploads
+- queued runs
+- four-style caption output
+- real sampled-frame replay
+- Judge Verdict pages
+- run history
+- server-side Fireworks credentials
+
+The browser never receives the Fireworks API key. Runtime credentials live only on the server.
+
+---
+
+## Quick Start: Mock Provider
+
+Use mock mode for local development without spending provider credits.
 
 ```bash
 cd apps/api
@@ -55,104 +197,167 @@ uv sync
 uv run captionman demo-fixture --output ../../input/tasks.json
 AI_PROVIDER=mock uv run captionman run --input ../../input/tasks.json --output ../../output/results.json
 cd ../..
-python scripts/validate_results.py output/results.json
 python scripts/validate_results.py --input input/tasks.json --output output/results.json
 ```
 
-## Quickstart With Fireworks Provider
+---
+
+## Quick Start: Fireworks Provider
+
+Create a local `.env` from the example:
 
 ```bash
 cp .env.example .env
-# Set FIREWORKS_API_KEY, VISION_MODEL, TEXT_MODEL, and JUDGE_MODEL.
+```
+
+Set at least:
+
+```text
+FIREWORKS_API_KEY=...
+AI_PROVIDER=fireworks_direct
+MODEL_ROUTING_MODE=champion
+CHAMPION_ROUTE=fireworks_kimi_glm
+GEMMA_MODEL=accounts/fireworks/models/gemma-4-31b-it
+GEMMA_USAGE_MODE=off
+REQUIRE_GEMMA_FOR_SUBMISSION=false
+```
+
+Then verify provider readiness:
+
+```bash
 cd apps/api
-AI_PROVIDER=fireworks uv run captionman doctor
+uv run captionman doctor
 ```
 
-Fireworks support is conditional on `captionman doctor` verifying API access and configured models.
+Real provider runs can spend Fireworks credits. Use mock mode for routine checks.
 
-CaptionMan supports multiple provider routes for Track 2 evaluation. During development, it can use local environment credentials. For final packaging, the selected route is a temporary limited hackathon credential through `AI_PROVIDER=fireworks_direct`; proxy support remains optional. Details live in `docs/CREDENTIAL_STRATEGY.md`.
+---
 
-## Docker Judged Mode
+## Local Demo
 
-```bash
-docker build -t captionman .
-docker run --rm captionman captionman doctor
-docker run --rm -e AI_PROVIDER=mock -v "$PWD/input:/input" -v "$PWD/output:/output" captionman
-python scripts/validate_results.py output/results.json
-python scripts/validate_results.py --input input/tasks.json --output output/results.json
-```
-
-The judged Dockerfile does not build or depend on the frontend.
-
-## Final Public Image
-
-Normal development images stay key-free and default to `AI_PROVIDER=mock`. The final submitted image is built only after green gates and explicit approval, with the temporary hackathon-only Fireworks key injected through a BuildKit secret:
-
-```bash
-docker buildx build \
-  --platform linux/amd64 \
-  --no-cache \
-  --build-arg ALLOW_EMBEDDED_HACKATHON_KEY=true \
-  --build-arg RUNTIME_AI_PROVIDER=fireworks_direct \
-  --build-arg RUNTIME_OFFICIAL_MODE=true \
-  --secret id=fireworks_api_key,src=.data/final-secrets/fireworks_api_key.txt \
-  -t <public-registry>/<namespace>/captionman:<tag> \
-  --push .
-```
-
-Before submitting the image URL, verify it from a clean pull:
-
-```bash
-docker pull --platform linux/amd64 <public-registry>/<namespace>/captionman:<tag>
-docker run --rm <public-registry>/<namespace>/captionman:<tag> captionman doctor
-```
-
-The embedded-key image is temporary and must be revoked or rotated after judging.
-
-## Demo Frontend
-
-On Windows, use the checked-in launcher for final review/demo testing. It starts the FastAPI API and the built Next.js app, sets the real-provider demo environment without shell quoting, verifies `/api/health`, verifies `/api/doctor`, waits for `/studio`, and then prints the exact URLs and process IDs.
+On Windows:
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts\launch_demo.ps1 -Restart
 ```
 
-The UI includes a landing page, Run Studio, no-credit Judge Replay, real sample runs, uploaded-video runs, and real sampled-frame replay when backend artifacts are available. It is a demo/product surface and does not affect judged CLI output.
+The launcher starts:
 
-## Model Routing And Gemma
+- FastAPI API on port `8000`
+- production Next.js Studio on port `3000`
+- health checks for `/api/health`
+- doctor checks for `/api/doctor`
+- the Studio route at `/studio`
 
-CaptionMan uses routed model configuration rather than assuming one model should do every job. `captionman doctor` reports the selected route, credential source, visual model, caption model, repair model, proxy status, and Gemma status.
+---
 
-Gemma is treated as a specialist for style control and repair when configured and measured. The project does not claim Gemma multimodal or Gemma-only behavior unless `captionman doctor` and the tournament docs verify that route.
+## Project Structure
 
-## Environment Variables
-
-See `.env.example` for provider, pipeline, download, API, and frontend variables.
-
-## Schema Lock Note
-
-The Track 2 schema is confirmed from the participant guide. Run:
-
-```bash
-cd apps/api
-uv run captionman schema-lock
+```text
+CaptionMan/
+|-- assets/                  # README branding: banner and logo
+|-- SVGs/                    # Animated README diagrams
+|-- apps/
+|   |-- api/                 # CLI runner, FastAPI demo API, providers, tests
+|   `-- web/                 # Next.js Studio and Judge Replay UI
+|-- deploy/
+|   `-- vps/                 # Non-secret hosted-demo deployment templates
+|-- docs/                    # Living implementation, test, and submission docs
+|-- input/                   # Local judged-run input mount
+|-- output/                  # Local judged-run output mount
+|-- prompts/                 # Model-facing prompt files and guardrails
+|-- scripts/                 # Validators, hygiene checks, launcher
+|-- Dockerfile               # Official judged runner image
+|-- Dockerfile.demo          # Demo packaging path
+`-- README.md
 ```
 
-## Security
+---
 
-CaptionMan blocks obvious unsafe download targets, avoids logging secrets and signed URLs, redacts sensitive fields, and keeps debug artifacts out of official results.
+## Verification Commands
 
-## Testing
+Backend:
 
 ```bash
 cd apps/api
 uv run pytest
-uv run ruff check .
-cd ../..
+```
+
+Web:
+
+```bash
+pnpm --filter web test
+pnpm --filter web build
+```
+
+Repository hygiene:
+
+```bash
 python scripts/check_source_hygiene.py
 python scripts/check_no_secrets.py
 ```
 
-## Submission Checklist
+Docker smoke test:
 
-Before submission, run the final green-flag gates in `docs/SUBMISSION_CHECKLIST.md` and update `docs/TEST_REPORT.md`.
+```bash
+docker run --rm ghcr.io/grimnej/captionman:final captionman doctor
+```
+
+---
+
+## Security And Credential Handling
+
+CaptionMan follows a strict credential boundary:
+
+- `.env` is never committed.
+- Fireworks keys are not printed in logs.
+- Browser code never receives provider keys.
+- Official output does not contain debug artifacts.
+- The final embedded-key image uses a temporary hackathon-only key.
+- That key must be revoked or rotated after judging.
+
+The hosted VPS demo reads credentials from server-side environment files. The repository contains only non-secret deployment templates.
+
+---
+
+## Why CaptionMan Is Different
+
+Most caption demos stop at "upload video, ask model, show text."
+
+CaptionMan adds the missing production layer:
+
+- evidence before captions
+- challenge before verdict
+- repair before export
+- schema lock before output
+- budget controls before provider calls
+- Docker isolation before judging
+- human-readable replay without polluting official JSON
+
+The result is a system built for both evaluation and inspection: clean enough for the official runner, clear enough for a judge to understand, and strict enough to avoid obvious captioning failures.
+
+---
+
+## Documentation
+
+| Document | Purpose |
+|---|---|
+| [`docs/SUBMISSION_CHECKLIST.md`](docs/SUBMISSION_CHECKLIST.md) | Final image and submission gates |
+| [`docs/TEST_REPORT.md`](docs/TEST_REPORT.md) | Verification history |
+| [`docs/SPEC_LOCK.md`](docs/SPEC_LOCK.md) | Track 2 schema and adapter notes |
+| [`docs/CREDENTIAL_STRATEGY.md`](docs/CREDENTIAL_STRATEGY.md) | Direct/provider/proxy credential strategy |
+| [`docs/GEMMA_PROOF.md`](docs/GEMMA_PROOF.md) | Gemma claim boundary |
+| [`deploy/vps/README.md`](deploy/vps/README.md) | Hosted demo deployment notes |
+
+---
+
+## License
+
+MIT. See [`LICENSE`](LICENSE).
+
+---
+
+<p align="center">
+  <strong>CaptionMan</strong><br />
+  Captions With Receipts.
+</p>

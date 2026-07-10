@@ -929,3 +929,11 @@
 - Output summary: Web tests passed with 2 files and 5 tests. Targeted Biome check passed on the files touched by the Judge Verdict fix. Production `next build` completed and marked `/runs/[runId]` as dynamic server-rendered content. The VPS web container was rebuilt and restarted. Public verification for `https://captionman.grimnej.com/runs/run_1783712063_ed14b152` returned 200, contained the real screen/keyboard caption, and did not contain the previous kitchen/chef placeholder wording. Browser smoke verification passed and saved `output/playwright/captionman-live-verdict-real-run.png`.
 - Failures: Full `pnpm --filter web lint` still fails on pre-existing CRLF formatting diagnostics across unrelated web files.
 - Fixes attempted: Added `getApiBase()` with server/client-aware URL resolution, configured VPS web runtime with `API_INTERNAL_BASE_URL=http://api:8000`, removed silent mock fallback for real run artifact failures, added regression tests, and removed static demo wording from real verdict components.
+
+### 2026-07-11 02:10
+- Command: SVG XML validation, Playwright direct SVG rendering, ASCII scan, no-secrets scan, and source-hygiene scan.
+- Environment: Windows PowerShell, Playwright Chromium via `apps/web`, local README/SVG assets.
+- Result: pass
+- Output summary: All four `SVGs/*.svg` files parsed as XML, direct Chromium rendering produced screenshots under `output/playwright/direct-*.png`, and text bounding diagnostics reported zero text elements outside SVG viewports. README and SVGs are ASCII-only. `python scripts/check_no_secrets.py` and `python scripts/check_source_hygiene.py` passed.
+- Failures: Initial inline review page made SVG images appear broken due to file-backed image loading; the second inline render exposed a real animation issue where group-level transforms collapsed the first diagram. Early contact-sheet inspection also found low contrast at README scale.
+- Fixes attempted: Switched to inline and then direct SVG rendering for QA, removed layout-changing transform animation from SVG containers, increased label contrast/size, tightened the first diagram label positions, and kept motion to connector dashes/accent glow.

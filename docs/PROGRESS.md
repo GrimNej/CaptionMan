@@ -322,3 +322,11 @@
 - Result: Local tests and production web build pass. Full `pnpm --filter web lint` still reports pre-existing CRLF formatting issues across unrelated web files, so only touched files were formatted/checked.
 - Follow-up: Removed static demo wording from the signature strip and repair diff highlight terms, redeployed the VPS web container, and verified the user's real run `run_1783712063_ed14b152` over public HTTPS. The page now contains the screen/keyboard caption, does not contain the kitchen/chef placeholder wording, and the browser screenshot was saved to `output/playwright/captionman-live-verdict-real-run.png`.
 - Next step: Use the live demo URL in the final submission and keep Fireworks usage monitored during judging.
+
+### 2026-07-11 02:10
+- Milestone: Public README polish
+- Summary: Reworked the README into a professional submission-facing project page with banner/logo branding, live links, accurate Docker/Gemma wording, and four animated SVG diagrams under `SVGs/`.
+- Files changed: `README.md`, `.gitignore`, `.dockerignore`, `assets/`, `SVGs/`, and living docs.
+- Commands run: SVG XML validation; Playwright direct SVG render screenshots; ASCII scan for README/SVGs; `python scripts/check_no_secrets.py`; `python scripts/check_source_hygiene.py`.
+- Result: README/SVG files are ASCII-safe, SVGs are XML-valid, direct browser render checks found no text outside the viewport, secret scan passed, and source hygiene passed. Changes are intentionally not pushed so the user can review first.
+- Next step: User reviews the README and diagrams locally; after approval, commit and push the README asset update.

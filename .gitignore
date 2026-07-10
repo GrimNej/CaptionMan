@@ -28,6 +28,10 @@ output/*
 *.jpeg
 *.png
 *.webp
+!assets/
+!assets/*.png
+!SVGs/
+!SVGs/*.svg
 !apps/web/public/captionman-hero.jpg
 *.log
 *.jsonl

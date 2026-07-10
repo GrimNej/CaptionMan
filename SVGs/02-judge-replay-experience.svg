@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc" viewBox="0 0 1200 680">
+  <title id="title">CaptionMan Judge Replay Experience</title>
+  <desc id="desc">A visual map of the Judge Replay page showing frames, evidence, caption challenges, and the final verdict.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#faf1ff"/>
+    </linearGradient>
+    <linearGradient id="brand" x1="0" x2="1">
+      <stop offset="0" stop-color="#7357ff"/>
+      <stop offset="1" stop-color="#ec64d8"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="145%">
+      <feDropShadow dx="0" dy="12" stdDeviation="14" flood-color="#22194c" flood-opacity="0.13"/>
+    </filter>
+    <style>
+      .h{font:700 34px Arial,sans-serif;fill:#17172f}
+      .p{font:500 18px Arial,sans-serif;fill:#2f2b45}
+      .panel{fill:#fff;stroke:#eadfff;stroke-width:2;rx:20;filter:url(#shadow)}
+      .soft{fill:#faf7ff;stroke:#eadfff;stroke-width:2;rx:14}
+      .t{font:700 18px Arial,sans-serif;fill:#17172f}
+      .b{font:500 14px Arial,sans-serif;fill:#2f2b45}
+      .tiny{font:700 12px Arial,sans-serif;fill:#fff}
+      .line{fill:none;stroke:#8c7cff;stroke-width:3;stroke-dasharray:8 8}
+      .dash{animation:dash 2.5s linear infinite}
+      .pop{animation:pop 3s ease-in-out infinite}
+      .fade{animation:fade 2.4s ease-in-out infinite}
+      @keyframes dash{from{stroke-dashoffset:40}to{stroke-dashoffset:0}}
+      @keyframes pop{0%,100%{opacity:1}50%{opacity:.98}}
+      @keyframes fade{0%,100%{opacity:.72}50%{opacity:1}}
+      @media (prefers-reduced-motion: reduce){.dash,.pop,.fade{animation:none}}
+    </style>
+  </defs>
+  <rect width="1200" height="680" fill="url(#bg)"/>
+  <text x="64" y="70" class="h">Judge Replay</text>
+  <text x="64" y="102" class="p">A run is inspectable: the viewer can see the frames, evidence, challenges, and chosen captions.</text>
+
+  <rect x="70" y="155" width="1060" height="440" rx="28" fill="#ffffff" stroke="#eadfff" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="105" y="195" width="420" height="350" class="panel pop"/>
+  <text x="135" y="232" class="t">Evidence Reel</text>
+  <text x="135" y="258" class="b">sampled frames become visible receipts</text>
+  <g transform="translate(135 290)">
+    <rect width="92" height="58" rx="12" fill="#eee9ff"/>
+    <rect x="110" width="92" height="58" rx="12" fill="#fff0fb"/>
+    <rect x="220" width="92" height="58" rx="12" fill="#eee9ff"/>
+    <rect x="0" y="82" width="92" height="58" rx="12" fill="#fff0fb"/>
+    <rect x="110" y="82" width="92" height="58" rx="12" fill="#eee9ff"/>
+    <rect x="220" y="82" width="92" height="58" rx="12" fill="#fff0fb"/>
+    <path d="M36 20 l22 9-22 9z" fill="url(#brand)" opacity=".85"/>
+    <path d="M146 102 l22 9-22 9z" fill="url(#brand)" opacity=".85"/>
+  </g>
+  <path d="M145 470 h330" stroke="#17172f" stroke-width="10" stroke-linecap="round" opacity=".75"/>
+  <path d="M145 498 h250" stroke="#7357ff" stroke-width="10" stroke-linecap="round" opacity=".72"/>
+
+  <rect x="580" y="195" width="235" height="155" class="panel pop"/>
+  <text x="610" y="232" class="t">Temporal Evidence</text>
+  <text x="610" y="259" class="b">what the system saw</text>
+  <rect x="610" y="288" width="150" height="12" rx="6" fill="#17172f" opacity=".76"/>
+  <rect x="610" y="314" width="120" height="12" rx="6" fill="#7357ff" opacity=".7"/>
+
+  <rect x="855" y="195" width="235" height="155" class="panel pop"/>
+  <text x="885" y="232" class="t">Caption Court</text>
+  <text x="885" y="259" class="b">candidate versus verdict</text>
+  <rect x="885" y="286" width="74" height="26" rx="13" fill="#e84d88" class="fade"/>
+  <text x="907" y="304" class="tiny">risk</text>
+  <rect x="975" y="286" width="74" height="26" rx="13" fill="#28a98a" class="fade"/>
+  <text x="994" y="304" class="tiny">kept</text>
+
+  <rect x="580" y="390" width="510" height="155" class="panel pop"/>
+  <text x="610" y="427" class="t">Gold Verdict</text>
+  <text x="610" y="454" class="b">selected caption with visible receipts</text>
+  <path d="M610 488 h310" stroke="#17172f" stroke-width="12" stroke-linecap="round" opacity=".82"/>
+  <path d="M610 522 h245" stroke="#ec64d8" stroke-width="12" stroke-linecap="round" opacity=".74"/>
+  <circle cx="1018" cy="504" r="34" fill="url(#brand)" class="fade"/>
+  <text x="990" y="510" class="tiny">final</text>
+
+  <path d="M525 330 C560 330 560 272 580 272" class="line dash"/>
+  <path d="M815 272 H855" class="line dash"/>
+  <path d="M972 350 C972 378 880 378 835 390" class="line dash"/>
+  <path d="M525 440 C552 440 552 462 580 462" class="line dash"/>
+</svg>
