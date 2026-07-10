@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 680" role="img" aria-label="Stylized video analysis frame">
+  <rect width="1200" height="680" fill="#111821"/>
+  <rect x="64" y="58" width="1072" height="564" rx="18" fill="#0b1118" stroke="#294255" stroke-width="2"/>
+  <path d="M130 478 C260 348 366 418 492 292 C612 170 760 260 854 196 C940 138 1016 164 1084 116 L1084 622 L130 622 Z" fill="#183246"/>
+  <path d="M146 512 C294 414 380 476 508 362 C628 254 740 326 856 270 C944 228 1012 244 1070 202" fill="none" stroke="#56d5ff" stroke-width="5" opacity=".72"/>
+  <circle cx="286" cy="270" r="70" fill="#f5c451" opacity=".9"/>
+  <rect x="142" y="96" width="208" height="34" rx="8" fill="#172331" stroke="#56d5ff" opacity=".75"/>
+  <rect x="142" y="148" width="146" height="18" rx="9" fill="#58e6a6" opacity=".8"/>
+  <rect x="884" y="472" width="170" height="66" rx="10" fill="#172331" stroke="#ff6b8a" opacity=".82"/>
+  <circle cx="930" cy="505" r="16" fill="#ff6b8a"/>
+  <rect x="962" y="492" width="62" height="10" rx="5" fill="#dce8ef"/>
+  <rect x="962" y="512" width="42" height="10" rx="5" fill="#9fb0bd"/>
+</svg>

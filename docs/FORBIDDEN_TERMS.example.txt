@@ -1,0 +1,2 @@
+# Add local denylist terms here if needed.
+# Keep real competitor names out of the final public repository.

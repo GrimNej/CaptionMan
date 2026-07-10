@@ -1,0 +1,25 @@
+FROM node:24-slim AS web
+WORKDIR /app
+RUN corepack enable
+COPY package.json pnpm-workspace.yaml pnpm-lock.yaml .npmrc ./
+COPY apps/web/package.json ./apps/web/package.json
+COPY packages/shared-schemas/package.json ./packages/shared-schemas/package.json
+RUN pnpm install --frozen-lockfile
+COPY apps/web ./apps/web
+COPY packages ./packages
+RUN pnpm --filter web build
+
+FROM python:3.12-slim
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+RUN apt-get update && apt-get install -y --no-install-recommends ffmpeg curl ca-certificates && rm -rf /var/lib/apt/lists/*
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
+WORKDIR /app
+COPY apps/api/pyproject.toml apps/api/uv.lock ./
+RUN uv sync --frozen --no-dev --no-install-project
+COPY apps/api/app ./app
+COPY prompts ./prompts
+COPY --from=web /app/apps/web/.next ./web/.next
+RUN uv sync --frozen --no-dev
+ENV PATH="/app/.venv/bin:$PATH"
+CMD ["uvicorn", "app.server.main:api", "--host", "0.0.0.0", "--port", "8000"]
