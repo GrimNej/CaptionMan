@@ -34,3 +34,4 @@ output/*
 pnpm-debug.log*
 debug/
 extra_files/
+presentation/

@@ -289,3 +289,19 @@
 - Commands run: `uv run pytest`; `python scripts/check_no_secrets.py`; `python scripts/check_source_hygiene.py`; final embedded-key `docker buildx build`; `docker push ghcr.io/grimnej/captionman:final`; clean unauthenticated public pull; `docker run --rm ghcr.io/grimnej/captionman:final captionman doctor`; public-image v1-v3 practice run; `python scripts/validate_results.py --input input/tasks.json --output .data/verify/public-final-output/results.json`; caption artifact scan.
 - Result: Final image `ghcr.io/grimnej/captionman:final` is publicly pullable, `linux/amd64`, official-mode, `fireworks_direct`, embedded temporary hackathon credential, and verified on v1-v3 guide practice tasks. Current manifest digest is `sha256:138ce0b9828aff1cd65b13143d14962c1d94e2d72e034a630ed691c660c8293c`.
 - Next step: Submit `ghcr.io/grimnej/captionman:final` to the Track 2 Docker image field. After judging, revoke the temporary Fireworks key and the GitHub token, delete local secret files, and remove/pull down the key-containing image if possible.
+
+### 2026-07-10 20:00
+- Milestone: Final presentation deck
+- Summary: Built the editable Slidev source and final 10-slide CaptionMan Track 2 PDF deck with local assets, local font packages, real product screenshots, real sampled frames, claim traceability, and visual QA documentation.
+- Files changed: `presentation/` source tree and generated assets, plus living docs.
+- Commands run: `pnpm install` and `pnpm rebuild esbuild sharp playwright-chromium` from `presentation`; `pnpm screenshots`; `pnpm export:pdf`; `pdfinfo CaptionMan_Track2_Presentation.pdf`; `pdftoppm -png -r 144 CaptionMan_Track2_Presentation.pdf rendered/pdf-page`.
+- Result: `presentation/CaptionMan_Track2_Presentation.pdf` has exactly 10 pages at 1440 x 810 pt, all ten 1920x1080 slide PNGs were generated, the 5x2 contact sheet was generated, and PDF-rendered pages 1, 4, 6, 9, and 10 were inspected without clipping, missing images, margins, or font fallback issues.
+- Next step: Use `presentation/CaptionMan_Track2_Presentation.pdf` for the hackathon presentation package.
+
+### 2026-07-10 20:25
+- Milestone: Showcase video kit
+- Summary: Launched the local product, verified mock judged mode, checked live doctor routing state, captured a guided screenshot set for the three practice video runs, generated a Gemma routing proof card, and wrote a detailed video narration/showcase guide under ignored `extra_files/`.
+- Files changed: `extra_files/showcase_video_kit/` assets and living docs.
+- Commands run: `AI_PROVIDER=mock OFFICIAL_MODE=true uv run captionman run --input ../../input/tasks.json --output ../../output/results.json`; `uv run captionman doctor` with mock; `python scripts/validate_results.py --input input/tasks.json --output output/results.json`; `AI_PROVIDER=fireworks_direct OFFICIAL_MODE=true uv run captionman doctor`; `powershell -NoProfile -ExecutionPolicy Bypass -File scripts\launch_demo.ps1 -Restart -SkipOpen`; endpoint checks for `/api/health`, `/api/doctor?live=false`, and `/studio`; Playwright screenshot generation from `apps/web`.
+- Result: Showcase guide is at `extra_files/showcase_video_kit/SHOWCASE_VIDEO_GUIDE.md` with 11 screenshots and 3 representative sampled frames. Doctor confirms Gemma is configured as the repair model but inactive in the current verified champion route, so the guide includes an accurate Gemma claim line.
+- Next step: Use the showcase kit assets to assemble the video presentation.

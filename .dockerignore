@@ -19,6 +19,7 @@ node_modules
 output
 input
 extra_files
+presentation
 tmp
 docs
 apps/web

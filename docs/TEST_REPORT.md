@@ -897,3 +897,19 @@
 - Output summary: Public image digest is `sha256:138ce0b9828aff1cd65b13143d14962c1d94e2d72e034a630ed691c660c8293c`; manifest includes `linux/amd64`; doctor passed with `fireworks_direct`, `OFFICIAL_MODE=true`, `embedded_hackathon_key`, Kimi vision ready, GLM caption/judge ready, and live provider check passing. Public v1-v3 output validation passed, and the artifact scan found no mock/contact-sheet/frame/sample/meta/dangling-caption failure patterns.
 - Failures: Earlier public-image runs exposed generic v3 evidence, model self-commentary, visible-text artifacts, dangling endings, vehicle-blur-only v1 captions, and unprofessional office tech phrasing.
 - Fixes attempted: Added caption-safety regressions and targeted Track 2 fallbacks before the final pushed image.
+
+### 2026-07-10 20:00
+- Command: `pnpm screenshots`; `pnpm export:pdf`; `pdfinfo CaptionMan_Track2_Presentation.pdf`; `pdftoppm -png -r 144 CaptionMan_Track2_Presentation.pdf rendered/pdf-page`
+- Environment: Windows PowerShell, Node v24.14.0, pnpm 11.7.0, Slidev 52.2.3, Playwright Chromium, Sharp, Poppler/MiKTeX `pdfinfo` and `pdftoppm`.
+- Result: pass
+- Output summary: Slidev rendered ten 1920x1080 PNGs and `contact-sheet.png`; PDF export produced `CaptionMan_Track2_Presentation.pdf`; `pdfinfo` reported 10 pages and 1440 x 810 pt page size; PDF was rendered back to 10 PNG pages and key pages were visually inspected.
+- Failures: Initial screenshots exposed Slidev's `#slidev-goto-dialog` overlay. Initial slide 9 product screenshot crop was too accidental, and slide 4 used stale exact frame-count wording.
+- Fixes attempted: Hid Slidev UI chrome, generated a deliberate local product screenshot crop, refined the routing path geometry, and changed slide 4 to "bounded representative frames" before final export.
+
+### 2026-07-10 20:25
+- Command: Mock judged run, validation, doctor checks, demo launcher, endpoint checks, and Playwright showcase screenshots.
+- Environment: Windows PowerShell, backend under `apps/api`, production Next.js app on port 3000, FastAPI on port 8000, Playwright from `apps/web`.
+- Result: pass
+- Output summary: Mock official run wrote `output/results.json`; input-aware validation passed; mock doctor passed; `fireworks_direct` doctor passed with Gemma configured as repair model but inactive; launcher brought up API and Studio; `/api/health`, `/api/doctor?live=false`, and `/studio` responded; 11 showcase screenshots and 3 representative sampled frames were generated under `extra_files/showcase_video_kit/`.
+- Failures: Initial Playwright screenshot script was run from the repo root and could not resolve `@playwright/test`; the first raw doctor screenshot was visually weak; the first Gemma proof card rendered unsupported glyphs.
+- Fixes attempted: Reran Playwright from `apps/web`, replaced the raw doctor screenshot with a designed proof card, and regenerated the card with ASCII-only text.
