@@ -305,3 +305,11 @@
 - Commands run: `AI_PROVIDER=mock OFFICIAL_MODE=true uv run captionman run --input ../../input/tasks.json --output ../../output/results.json`; `uv run captionman doctor` with mock; `python scripts/validate_results.py --input input/tasks.json --output output/results.json`; `AI_PROVIDER=fireworks_direct OFFICIAL_MODE=true uv run captionman doctor`; `powershell -NoProfile -ExecutionPolicy Bypass -File scripts\launch_demo.ps1 -Restart -SkipOpen`; endpoint checks for `/api/health`, `/api/doctor?live=false`, and `/studio`; Playwright screenshot generation from `apps/web`.
 - Result: Showcase guide is at `extra_files/showcase_video_kit/SHOWCASE_VIDEO_GUIDE.md` with 11 screenshots and 3 representative sampled frames. Doctor confirms Gemma is configured as the repair model but inactive in the current verified champion route, so the guide includes an accurate Gemma claim line.
 - Next step: Use the showcase kit assets to assemble the video presentation.
+
+### 2026-07-11 00:45
+- Milestone: VPS demo deployment
+- Summary: Added non-secret VPS deployment templates under `deploy/vps/`, installed Docker and Compose on the Oracle VPS, staged CaptionMan in `/opt/captionman`, copied the runtime-only secret env file to `/opt/captionman/secrets/api.env`, built API/web images on the server, and launched API, web, and Caddy containers.
+- Files changed: `deploy/vps/`, `apps/api/app/server/routes/runs.py`, and living docs.
+- Commands run: server Docker/Compose install; server build/start via `docker compose`; local route tests `uv run pytest tests/test_demo_api_artifacts.py tests/test_run_input_resolution.py`; internal VPS checks for `/api/health`, `/api/doctor?live=false`, `/studio`; live-provider URL canary for the kitten practice clip.
+- Result: Internal VPS demo is healthy. `/api/health` returns ok, `/studio` serves the Next.js app, non-live doctor reports `fireworks_direct` with runtime credentials, and the live URL canary completed with grounded v2 kitten captions. Public HTTP/HTTPS from outside still times out because Oracle Cloud ingress for TCP 80/443 has not been opened yet.
+- Next step: In Oracle Cloud, add ingress rules for TCP 80 and 443 to the instance subnet security list or NSG, then add DNS `A` record `captionman.grimnej.com -> 193.122.147.68`.

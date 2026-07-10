@@ -913,3 +913,11 @@
 - Output summary: Mock official run wrote `output/results.json`; input-aware validation passed; mock doctor passed; `fireworks_direct` doctor passed with Gemma configured as repair model but inactive; launcher brought up API and Studio; `/api/health`, `/api/doctor?live=false`, and `/studio` responded; 11 showcase screenshots and 3 representative sampled frames were generated under `extra_files/showcase_video_kit/`.
 - Failures: Initial Playwright screenshot script was run from the repo root and could not resolve `@playwright/test`; the first raw doctor screenshot was visually weak; the first Gemma proof card rendered unsupported glyphs.
 - Fixes attempted: Reran Playwright from `apps/web`, replaced the raw doctor screenshot with a designed proof card, and regenerated the card with ASCII-only text.
+
+### 2026-07-11 00:45
+- Command: VPS Docker deployment, internal health checks, and deployed live-provider URL canary.
+- Environment: Oracle Ubuntu 22.04 VPS, Docker 29.1.3, Docker Compose 2.40.3, Caddy 2 Alpine, API/web built from source, API credentials from server-only env file.
+- Result: partial pass
+- Output summary: Containers `captionman-api-1`, `captionman-web-1`, and `captionman-caddy-1` are running. Internal `http://127.0.0.1/api/health` returned ok, `http://127.0.0.1/studio` returned 200, and `http://127.0.0.1/api/doctor?live=false` reported `fireworks_direct`, `official_mode=true`, Kimi/GLM champion route, and Gemma configured but inactive. A deployed real-provider URL run for the v2 kitten clip completed and produced grounded formal, sarcastic, humorous tech, and humorous non-tech captions.
+- Failures: The first API container crashed because the FastAPI route assumed a local `repo/apps/api` path shape; public IP checks to TCP 80/443 timed out from outside the VPS; Caddy cannot issue the `captionman.grimnej.com` certificate until DNS exists and Oracle ingress is open.
+- Fixes attempted: Patched route root resolution for `/app` container layout, rebuilt the API container, opened and persisted Ubuntu iptables rules for TCP 80/443, and confirmed Docker is listening on both ports. Oracle Cloud ingress and DNS remain user-side tasks.

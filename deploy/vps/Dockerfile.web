@@ -1,0 +1,23 @@
+FROM node:24-slim
+
+WORKDIR /app
+
+RUN corepack enable
+
+COPY package.json pnpm-workspace.yaml pnpm-lock.yaml .npmrc ./
+COPY apps/web/package.json ./apps/web/package.json
+COPY packages/shared-schemas/package.json ./packages/shared-schemas/package.json
+
+RUN pnpm install --frozen-lockfile
+
+COPY apps/web ./apps/web
+COPY packages ./packages
+
+ARG NEXT_PUBLIC_API_BASE_URL=""
+ENV NEXT_PUBLIC_API_BASE_URL=${NEXT_PUBLIC_API_BASE_URL}
+
+RUN pnpm --filter web build
+
+EXPOSE 3000
+
+CMD ["pnpm", "--filter", "web", "exec", "next", "start", "-H", "0.0.0.0", "-p", "3000"]

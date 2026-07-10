@@ -1,0 +1,21 @@
+{
+    email admin@grimnej.com
+}
+
+captionman.grimnej.com {
+    encode zstd gzip
+    request_body {
+        max_size 120MB
+    }
+    reverse_proxy /api/* api:8000
+    reverse_proxy web:3000
+}
+
+:80 {
+    encode zstd gzip
+    request_body {
+        max_size 120MB
+    }
+    reverse_proxy /api/* api:8000
+    reverse_proxy web:3000
+}

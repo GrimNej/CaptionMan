@@ -1,0 +1,66 @@
+services:
+  api:
+    build:
+      context: ./repo
+      dockerfile: Dockerfile
+      args:
+        RUNTIME_AI_PROVIDER: "fireworks_direct"
+        RUNTIME_OFFICIAL_MODE: "true"
+        RUNTIME_MODEL_ROUTING_MODE: "champion"
+        RUNTIME_CHAMPION_ROUTE: "fireworks_kimi_glm"
+        RUNTIME_GEMMA_USAGE_MODE: "off"
+        ALLOW_EMBEDDED_HACKATHON_KEY: "false"
+    command:
+      - "uvicorn"
+      - "app.server.main:api"
+      - "--host"
+      - "0.0.0.0"
+      - "--port"
+      - "8000"
+    restart: unless-stopped
+    env_file:
+      - ./secrets/api.env
+    environment:
+      AI_PROVIDER: "fireworks_direct"
+      OFFICIAL_MODE: "true"
+      MODEL_ROUTING_MODE: "champion"
+      CHAMPION_ROUTE: "fireworks_kimi_glm"
+      GEMMA_USAGE_MODE: "off"
+      REQUIRE_GEMMA_FOR_SUBMISSION: "false"
+      DATA_DIR: "/data"
+      CORS_ORIGINS: "https://captionman.grimnej.com,http://captionman.grimnej.com,http://193.122.147.68"
+      MAX_DOWNLOAD_MB: "100"
+      MAX_VIDEO_SECONDS: "130"
+      MAX_SECONDS_PER_VIDEO: "120"
+    volumes:
+      - ./data:/data
+    expose:
+      - "8000"
+
+  web:
+    build:
+      context: ./web-context
+      dockerfile: ../Dockerfile.web
+      args:
+        NEXT_PUBLIC_API_BASE_URL: ""
+    restart: unless-stopped
+    environment:
+      NEXT_PUBLIC_API_BASE_URL: ""
+    expose:
+      - "3000"
+    depends_on:
+      - api
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./caddy-data:/data
+      - ./caddy-config:/config
+    depends_on:
+      - api
+      - web

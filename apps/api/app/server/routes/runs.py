@@ -15,7 +15,7 @@ from app.utils.url_security import assert_safe_url
 
 router = APIRouter()
 API_ROOT = Path(__file__).resolve().parents[3]
-REPO_ROOT = API_ROOT.parents[1]
+REPO_ROOT = API_ROOT.parents[1] if len(API_ROOT.parents) > 1 else API_ROOT
 ALLOWED_VIDEO_EXTENSIONS = {".mp4", ".mov", ".avi", ".mkv", ".webm"}
 TRACK2_STYLES = ["formal", "sarcastic", "humorous_tech", "humorous_non_tech"]
 
