@@ -1,4 +1,5 @@
-import { Clock, Film, ShieldCheck } from "lucide-react";
+import { AlertTriangle, Clock, Film, ShieldCheck } from "lucide-react";
+import Link from "next/link";
 import { CaptionCourtRail } from "@/components/evidence-cinema/caption-court-rail";
 import { EvidenceReel } from "@/components/evidence-cinema/evidence-reel";
 import { FinalCaptionCard } from "@/components/evidence-cinema/final-caption-card";
@@ -16,7 +17,42 @@ export default async function JudgeReplayPage({
   params: Promise<{ runId: string }>;
 }) {
   const { runId } = await params;
-  const artifact = await getReplayArtifact(runId);
+  const artifactResult = await getReplayArtifact(runId)
+    .then((artifact) => ({ artifact, error: "" }))
+    .catch((error) => ({
+      artifact: null,
+      error:
+        error instanceof Error
+          ? error.message
+          : "Could not load this Judge Verdict.",
+    }));
+
+  if (!artifactResult.artifact) {
+    return (
+      <Shell>
+        <main className="cm-page grid gap-7">
+          <section className="cm-panel p-8">
+            <span className="cm-kicker">
+              <AlertTriangle size={15} />
+              Judge Verdict / {runId}
+            </span>
+            <h1 className="mt-4 max-w-3xl text-4xl font-semibold leading-none md:text-6xl">
+              This verdict could not be loaded.
+            </h1>
+            <p className="cm-muted mt-4 max-w-2xl">
+              {artifactResult.error} Return to the Studio and open the verdict
+              from a completed run.
+            </p>
+            <Link className="cm-button cm-button-primary mt-6" href="/studio">
+              Back to Studio
+            </Link>
+          </section>
+        </main>
+      </Shell>
+    );
+  }
+
+  const artifact = artifactResult.artifact;
 
   return (
     <Shell>

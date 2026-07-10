@@ -313,3 +313,11 @@
 - Commands run: server Docker/Compose install; server build/start via `docker compose`; local route tests `uv run pytest tests/test_demo_api_artifacts.py tests/test_run_input_resolution.py`; internal VPS checks for `/api/health`, `/api/doctor?live=false`, `/studio`; live-provider URL canary for the kitten practice clip.
 - Result: Public VPS demo is healthy after Oracle Cloud ingress and DNS were configured. `captionman.grimnej.com` resolves to `193.122.147.68`, public TCP 80/443 is reachable, Caddy obtained a Let's Encrypt certificate, public `https://captionman.grimnej.com/api/health` returns ok, public `/api/doctor?live=false` reports `fireworks_direct` with runtime credentials, and public `/studio` returns 200. A Playwright browser smoke test loaded the live Studio and captured `output/playwright/captionman-live-studio.png`.
 - Next step: Use `https://captionman.grimnej.com/studio` as the hosted demo URL for the submission, and monitor Fireworks credit usage during judging.
+
+### 2026-07-11 01:35
+- Milestone: Live Judge Verdict artifact fix
+- Summary: Fixed the deployed web replay route so server-rendered Judge Verdict pages load the real run artifacts through `API_INTERNAL_BASE_URL` instead of silently falling back to the bundled demo replay. Added an explicit verdict-load error state for real run IDs and regression tests that prevent mock fallback for missing artifacts.
+- Files changed: `apps/web/lib/api-base.ts`, replay loading code, verdict page, provider/history API calls, `deploy/vps/docker-compose.yml`, and web tests.
+- Commands run: `pnpm --filter web test`; targeted `pnpm --filter web exec biome check ...`; `pnpm --filter web build`.
+- Result: Local tests and production web build pass. Full `pnpm --filter web lint` still reports pre-existing CRLF formatting issues across unrelated web files, so only touched files were formatted/checked.
+- Next step: Redeploy the VPS web container and verify a live run's Judge Verdict shows the matching captions/evidence instead of the kitchen demo replay.

@@ -2,6 +2,7 @@
 
 import { AlertTriangle, CheckCircle2, RadioTower, WifiOff } from "lucide-react";
 import { useEffect, useState } from "react";
+import { getApiBase } from "@/lib/api-base";
 
 type DoctorState =
   | { status: "loading" }
@@ -22,8 +23,7 @@ export function ProviderStatusMini({ compact = false }: { compact?: boolean }) {
     let ignore = false;
     async function load() {
       try {
-        const base =
-          process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8000";
+        const base = getApiBase();
         const response = await fetch(`${base}/api/doctor?live=false`, {
           cache: "no-store",
         });

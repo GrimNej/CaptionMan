@@ -1,3 +1,4 @@
+import { getApiBase } from "./api-base";
 import { mockReplay } from "./mock-replay";
 import {
   type CaptionStyle,
@@ -58,8 +59,7 @@ export async function getReplayArtifact(
   }
 
   try {
-    const base =
-      process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8000";
+    const base = getApiBase();
     const [replayResponse, resultsResponse] = await Promise.all([
       fetch(`${base}/api/runs/${runId}/artifacts/judge-replay`, {
         cache: "no-store",
@@ -69,15 +69,21 @@ export async function getReplayArtifact(
       }),
     ]);
     if (!replayResponse.ok || !resultsResponse.ok) {
-      return { ...mockReplay, runId };
+      throw new Error(
+        `Replay artifacts unavailable for ${runId}: judge=${replayResponse.status}, results=${resultsResponse.status}`,
+      );
     }
     return artifactFromApiArtifacts({
       runId,
       replay: await replayResponse.json(),
       results: await resultsResponse.json(),
     });
-  } catch {
-    return { ...mockReplay, runId };
+  } catch (error) {
+    throw new Error(
+      `Could not load Judge Verdict for ${runId}: ${
+        error instanceof Error ? error.message : "unknown error"
+      }`,
+    );
   }
 }
 
@@ -98,7 +104,7 @@ export function artifactFromApiArtifacts({
   );
   const result = parsedResults[0];
   const evidence = rawReplay.evidence ?? {};
-  const base = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8000";
+  const base = getApiBase();
   const segments = evidence.segments?.length
     ? evidence.segments
     : [

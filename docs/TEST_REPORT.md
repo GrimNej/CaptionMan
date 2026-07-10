@@ -921,3 +921,11 @@
 - Output summary: Containers `captionman-api-1`, `captionman-web-1`, and `captionman-caddy-1` are running. Internal `http://127.0.0.1/api/health` returned ok, `http://127.0.0.1/studio` returned 200, and `http://127.0.0.1/api/doctor?live=false` reported `fireworks_direct`, `official_mode=true`, Kimi/GLM champion route, and Gemma configured but inactive. A deployed real-provider URL run for the v2 kitten clip completed and produced grounded formal, sarcastic, humorous tech, and humorous non-tech captions. After DNS/ingress were added, public DNS resolved, public TCP 80/443 passed, Caddy obtained a Let's Encrypt certificate, public HTTPS health and doctor checks passed, and a browser smoke test loaded `https://captionman.grimnej.com/studio`.
 - Failures: The first API container crashed because the FastAPI route assumed a local `repo/apps/api` path shape; public IP checks to TCP 80/443 initially timed out from outside the VPS; Caddy initially could not issue the `captionman.grimnej.com` certificate before DNS existed.
 - Fixes attempted: Patched route root resolution for `/app` container layout, rebuilt the API container, opened and persisted Ubuntu iptables rules for TCP 80/443, added Oracle Cloud ingress and DNS, restarted Caddy, and verified certificate issuance plus public HTTPS.
+
+### 2026-07-11 01:35
+- Command: `pnpm --filter web test`; targeted `pnpm --filter web exec biome check ...`; `pnpm --filter web build`
+- Environment: Windows PowerShell, Node v24.14.0, pnpm 11.7.0, Next.js 15.5.20.
+- Result: pass
+- Output summary: Web tests passed with 2 files and 5 tests. Targeted Biome check passed on the files touched by the Judge Verdict fix. Production `next build` completed and marked `/runs/[runId]` as dynamic server-rendered content.
+- Failures: Full `pnpm --filter web lint` still fails on pre-existing CRLF formatting diagnostics across unrelated web files.
+- Fixes attempted: Added `getApiBase()` with server/client-aware URL resolution, configured VPS web runtime with `API_INTERNAL_BASE_URL=http://api:8000`, removed silent mock fallback for real run artifact failures, and added regression tests.

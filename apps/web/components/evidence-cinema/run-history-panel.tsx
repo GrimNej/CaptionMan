@@ -7,6 +7,7 @@ import {
   XCircle,
 } from "lucide-react";
 import Link from "next/link";
+import { getApiBase } from "@/lib/api-base";
 
 type ApiRun = {
   run_id?: string;
@@ -16,8 +17,7 @@ type ApiRun = {
 
 async function getRuns(): Promise<ApiRun[]> {
   try {
-    const base =
-      process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8000";
+    const base = getApiBase();
     const response = await fetch(`${base}/api/runs`, { cache: "no-store" });
     if (!response.ok) {
       return [];

@@ -1,7 +1,35 @@
-import { describe, expect, it } from "vitest";
-import { artifactFromApiArtifacts } from "../lib/replay-artifact";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import { getApiBase } from "../lib/api-base";
+import {
+  artifactFromApiArtifacts,
+  getReplayArtifact,
+} from "../lib/replay-artifact";
+
+afterEach(() => {
+  vi.unstubAllEnvs();
+  vi.unstubAllGlobals();
+});
 
 describe("replay artifact adapter", () => {
+  it("uses an internal API base while server-rendering", () => {
+    vi.stubEnv("API_INTERNAL_BASE_URL", "http://api:8000");
+    vi.stubEnv("NEXT_PUBLIC_API_BASE_URL", "");
+
+    expect(getApiBase()).toBe("http://api:8000");
+  });
+
+  it("does not fall back to mock replay for real run artifact failures", async () => {
+    vi.stubEnv("API_INTERNAL_BASE_URL", "http://api:8000");
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async () => new Response("not found", { status: 404 })),
+    );
+
+    await expect(getReplayArtifact("run-missing")).rejects.toThrow(
+      "Replay artifacts unavailable",
+    );
+  });
+
   it("adapts backend replay and official results for Evidence Cinema", () => {
     const artifact = artifactFromApiArtifacts({
       runId: "run-001",
