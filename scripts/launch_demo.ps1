@@ -146,7 +146,7 @@ if ($null -eq $apiPid) {
     $env:CAPTION_CANDIDATES_PER_STYLE = "1"
     $env:MAX_MODEL_CALLS_PER_VIDEO = "8"
     $env:MAX_EVIDENCE_ATTEMPTS = "2"
-    $env:MAX_CAPTION_RECOVERY_CALLS = "1"
+    $env:MAX_CAPTION_RECOVERY_CALLS = "3"
     $env:NUM_FRAMES = "12"
     $env:MIN_FRAMES = "10"
     $env:MAX_FRAMES = "14"

@@ -57,7 +57,7 @@ class Settings(BaseSettings):
     caption_candidates_per_style: int = 2
     enable_self_repair: bool = True
     max_repair_attempts_per_style: int = 1
-    max_caption_recovery_calls: int = 1
+    max_caption_recovery_calls: int = 3
     max_video_seconds: int = 130
     max_seconds_per_video: float = 120
     max_total_seconds: float = 900
