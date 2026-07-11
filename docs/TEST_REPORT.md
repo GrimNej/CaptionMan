@@ -985,3 +985,11 @@
 - Output summary: Three tasks and all 12 captions were present, ASCII-safe, artifact-free, schema-valid, and completed in 74.33 seconds. Visual inspection confirmed v1 semantics but found a separate desktop monitor/keyboard mislabeled as a laptop in v3, unnecessary hairstyle detail, and speculative `presumably solving` language in v2 sarcasm.
 - Failures: Automated schema and phrase scans did not detect object-classification error or the new speculative marker.
 - Fixes attempted: Added content-general person/action prioritization, laptop-versus-desktop evidence rules, and safety rejection for `apparently`, `probably`, `presumably`, and `supposedly`.
+
+### 2026-07-11 12:45
+- Command: Focused evidence/safety/prompt tests; direct-provider v3 run with debug replay; input-aware validation; workstation and speculation scan.
+- Environment: Windows PowerShell, Kimi K2.6 plus GLM 5.2, original v3 office footage.
+- Result: pass after deterministic boundary correction
+- Output summary: Provider evidence normalized the uncertain hardware subtype to `computer`, removed hairstyle and building-use inference, and produced office/typing captions without laptop or speculative-adverb artifacts. Replay recorded two normal calls plus one per-style recovery.
+- Failures: Prompt compliance alone did not prevent Kimi from repeating the laptop misclassification; a non-tech simile used `pretending` without one of the previously blocked adverbs.
+- Fixes attempted: Added content-general evidence normalization and expanded private-intent detection to expect, hope, plan, pretend, want, and wish variants, including `pretending not to`.

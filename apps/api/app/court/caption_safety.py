@@ -25,7 +25,8 @@ META_FRAGMENTS = (
 
 SPECULATIVE_INTENT_PATTERNS = (
     r"\b(?:apparently|probably|presumably|supposedly)\b",
-    r"\b(?:hoping|wishing|thinking|deciding|planning|pretending) to\b",
+    r"\b(?:expect(?:s|ed|ing)?|hop(?:e|es|ed|ing)|plan(?:s|ned|ning)?|pretend(?:s|ed|ing)?|want(?:s|ed|ing)?|wish(?:es|ed|ing)?)\b",
+    r"\b(?:thinking|deciding) to\b",
 )
 
 ASCII_PUNCTUATION = str.maketrans(

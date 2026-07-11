@@ -134,7 +134,10 @@ class FireworksProvider:
                 end_seconds=float(
                     segment.get("end_seconds", probe.duration_seconds or 10),
                 ),
-                observations=_string_list(segment.get("observations")),
+                observations=[
+                    _normalize_evidence_text(observation)
+                    for observation in _string_list(segment.get("observations"))
+                ],
             )
             for segment in payload.get("segments", [])
             if isinstance(segment, dict)
@@ -144,15 +147,23 @@ class FireworksProvider:
                 EvidenceSegment(
                     start_seconds=0,
                     end_seconds=float(probe.duration_seconds or 10),
-                    observations=[str(payload.get("overall_summary") or "A video clip is shown.")],
+                    observations=[
+                        _normalize_evidence_text(
+                            str(payload.get("overall_summary") or "A video clip is shown.")
+                        )
+                    ],
                 )
             ]
-        summary = str(payload.get("overall_summary") or fallback_hint or "A video clip is shown.")
-        main_event = str(
-            payload.get("main_event")
-            or payload.get("overall_summary")
-            or fallback_hint
-            or "A video clip is shown."
+        summary = _normalize_evidence_text(
+            str(payload.get("overall_summary") or fallback_hint or "A video clip is shown.")
+        )
+        main_event = _normalize_evidence_text(
+            str(
+                payload.get("main_event")
+                or payload.get("overall_summary")
+                or fallback_hint
+                or "A video clip is shown."
+            )
         )
         return EvidenceGraph(
             video_id=task.video_id,
@@ -160,8 +171,14 @@ class FireworksProvider:
             main_event=main_event,
             segments=segments,
             frame_artifacts=frame_artifacts,
-            global_subjects=_string_list(payload.get("global_subjects")),
-            global_objects=_string_list(payload.get("global_objects")),
+            global_subjects=[
+                _normalize_evidence_text(subject)
+                for subject in _string_list(payload.get("global_subjects"))
+            ],
+            global_objects=[
+                _normalize_evidence_text(item)
+                for item in _string_list(payload.get("global_objects"))
+            ],
             visible_text=_string_list(payload.get("visible_text")),
             audio_cues=_string_list(payload.get("audio_cues")),
             forbidden_assumptions=_string_list(payload.get("forbidden_assumptions"))
@@ -435,6 +452,23 @@ def _string_list(value: object) -> list[str]:
     if isinstance(value, str) and value:
         return [value]
     return []
+
+
+def _normalize_evidence_text(text: str) -> str:
+    normalized = re.sub(r"(?i)\blaptop(?: computer)?\b", "computer", text)
+    normalized = re.sub(r"(?i)\bdesktop (?:computer|workstation)\b", "computer", normalized)
+    normalized = re.sub(
+        r"(?i)\bhigh-rise (?:residential|apartment) buildings?\b",
+        "high-rise buildings",
+        normalized,
+    )
+    normalized = re.sub(
+        r"(?i)\b(?:residential|apartment) buildings?\b",
+        "buildings",
+        normalized,
+    )
+    normalized = re.sub(r"(?i)\s+with an? [\w-]+ hairstyle\b", "", normalized)
+    return re.sub(r"\s+", " ", normalized).strip()
 
 
 def _clean_caption(text: str, limit: int = 240) -> str:

@@ -378,3 +378,11 @@
 - Commands run: Full embedded-key Docker practice run, input-aware validation, ASCII/artifact scans, and direct v1/v3 frame inspection.
 - Result: Root causes were isolated to evidence specificity and speculative wording rather than schema or runtime behavior.
 - Next step: Lock general person/object grounding rules, rebuild, and repeat final Docker quality checks.
+
+### 2026-07-11 12:45
+- Milestone: Conservative evidence normalization
+- Summary: Prompt-only hardware guidance still allowed Kimi to call the visible workstation a laptop. Added a provider boundary that normalizes high-risk laptop/desktop subtypes to `computer`, removes unsupported residential/apartment use labels, and strips incidental hairstyle phrases. Extended recovery prompts and safety detection for speculative intent.
+- Files changed: Fireworks evidence construction, caption safety, all individual recovery prompts, quality tests, and living docs.
+- Commands run: Focused tests; direct-provider v3 rerun with replay evidence; input-aware validation; person/workstation artifact scan.
+- Result: Evidence and all captions used `computer`, focused on typing and glancing in an office, and omitted laptop/hairstyle details. A remaining `pretending` simile was converted into a deterministic invalid-output condition so the affected style must recover.
+- Next step: Run full gates, rebuild the final image, and repeat exact Docker practice validation.

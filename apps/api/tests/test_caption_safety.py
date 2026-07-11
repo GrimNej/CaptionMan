@@ -62,6 +62,9 @@ def test_speculative_private_intent_is_rejected() -> None:
     assert not caption_is_usable(
         "A kitten sits in the woods, presumably solving mysteries while sunlight shifts."
     )
+    assert not caption_is_usable(
+        "A person types at a desk like someone pretending not to check the clock."
+    )
 
 
 def test_fallback_uses_evidence_not_video_id() -> None:
