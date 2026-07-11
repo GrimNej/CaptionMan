@@ -40,7 +40,7 @@
 - Description: Serverless vision responses can occasionally be empty, generic, or place usable content in a provider reasoning field even when JSON output is requested.
 - Reproduction: Run a real-provider task with debug replay and inspect whether `uncertainty_notes` reports an unstructured response.
 - Current workaround: Recover provider reasoning content when present, reject generic evidence, and make one budget-counted evidence retry with Kimi K2.7 after Qwen3.7 Plus. The domain-neutral parser remains the final boundary and never uses filenames, task IDs, URLs, or sample descriptions.
-- Owner/next step: Keep retry/model-readiness regressions and monitor real runs; do not add benchmark-specific fallback answers.
+- Owner/next step: Keep retry/model-readiness regressions and Compose-pinned frame bounds; monitor real runs without adding benchmark-specific fallback answers.
 
 ### ISSUE-005: Gemma Specialist Route Not Serverless On Current Account
 - Severity: medium

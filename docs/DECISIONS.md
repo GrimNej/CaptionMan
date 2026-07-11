@@ -153,3 +153,11 @@
 - Decision: Require every final caption to share meaningful terms with the compact evidence anchor. For `humorous_tech`, any technical concept absent from the evidence must be explicitly marked as figurative with `like`, `as if`, or `as though`; otherwise use the evidence-grounded style fallback.
 - Alternatives considered: Trust prompt compliance; ban all technical vocabulary; add another model judge; add public-sample-specific rules.
 - Consequences: Unrelated captions and literal unseen software claims fail closed without another model call. Some risky jokes become conservative deterministic metaphors, preserving factuality, style presence, latency, and hidden-set generalization.
+
+### ADR-019: Compose Pins Scoring-Critical Demo Limits
+- Date: 2026-07-11
+- Status: accepted
+- Context: After the Qwen deployment, public doctor showed the correct route but replay revealed only six images because an older server-only env file overrode the image's newer sampling defaults.
+- Decision: Pin model route, frame count bounds, frame encoding, call budget, evidence attempts, and caption recovery directly in `deploy/vps/docker-compose.yml`. Keep the server env file responsible for credentials, not scoring-critical quality settings.
+- Alternatives considered: Edit the private env file in place; rely on Dockerfile defaults; accept lower-quality demo sampling.
+- Consequences: The hosted Studio and judged image now use the same bounded quality profile, and future stale env values cannot silently downgrade public demo output.

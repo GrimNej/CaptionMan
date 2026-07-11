@@ -2,13 +2,13 @@
 
 ## Current State
 
-- Current milestone: The Qwen champion judged image with semantic postconditions is built, real-provider validated, published, and anonymously pull-verified. The human demo remains live at `https://captionman.grimnej.com/studio`; judged Docker behavior remains independent from the frontend.
+- Current milestone: The Qwen champion judged image is published and anonymously pull-verified, and the hosted Studio now runs the same frame and recovery quality profile. Judged Docker behavior remains independent from the frontend.
 - Current branch: `main`
-- Last completed task: Promoted Qwen3.7 Plus with a counted Kimi K2.7 fallback, added evidence-overlap and figurative-tech final gates, replaced the Docker Hub submission tag, and verified the public artifact end to end.
+- Last completed task: Aligned the isolated VPS API with the verified Qwen release, pinned 10-14 frame and bounded recovery settings in Compose, and verified a 10-frame/two-call public canary plus its Judge Verdict page.
 - Final submission reference: `docker.io/grimnej/captionman:submission`
 - Immutable digest: `sha256:0e672ddfcf898971344043be5d29bffa01de132e15e6e929cf84e876608fdfae`
 - Image contract: plain Docker v2 manifest, `linux/amd64`, 277.20 MiB compressed, default command `captionman run --input /input/tasks.json --output /output/results.json`.
-- Last passing gates: full backend suite with 79 tests; Ruff lint and format checks; no-secrets and source-hygiene scans; exact-image doctor; mounted official mock run; exact-image real v1-v3 run in 56.43 seconds; input-aware validator; manual review of all 12 captions; anonymous Docker Hub manifest inspection and pull; published-digest live doctor and mock run.
+- Last passing gates: full backend suite with 79 tests; Ruff lint and format checks; no-secrets and source-hygiene scans; exact-image doctor; mounted official mock run; exact-image real v1-v3 run in 56.43 seconds; input-aware validator; manual review of all 12 captions; anonymous Docker Hub manifest inspection and pull; published-digest live doctor and mock run; hosted 10-frame/two-call canary in 56.12 seconds; public Judge Verdict content check.
 - Environment assumptions: `uv` manages the backend; pnpm is pinned to 11.7.0; Docker Desktop runs the Linux engine. The final image uses the approved temporary embedded hackathon credential because Track 2 does not inject credentials.
 - Git state: `.env`, `.data/final-secrets/`, `extra_files/`, generated outputs, presentation work, and local Docker verification data remain ignored. No secret value is committed or documented.
 

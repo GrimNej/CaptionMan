@@ -252,3 +252,12 @@
 - Behavior implemented: Final captions require meaningful overlap with the compact scene anchor. Unseen technical terms in `humorous_tech` require an explicit figurative marker, while deterministic fallback preserves the scene and requested tone without another provider call. Evidence normalization also preserves sentence-initial capitalization after removing uncertain qualifiers.
 - Tests added: Unrelated-caption rejection, unmarked unseen-tech rejection, explicit-metaphor acceptance, and sentence-initial capitalization preservation.
 - Known limitations: The public evaluator still exposes only an aggregate score. These postconditions reduce observable semantic failure modes but cannot guarantee a leaderboard rank before the hidden judge reruns.
+
+### Slice ID: CM-027
+- Milestone: Hosted demo quality-profile lock
+- Objective: Deploy the final caption route to the VPS and prevent stale private env values from overriding scoring-critical frame and recovery settings.
+- Files added: None.
+- Files modified: `deploy/vps/docker-compose.yml` and living docs.
+- Behavior implemented: VPS Compose explicitly sets Qwen3.7 primary vision, Kimi K2.7 fallback, 10-14 sampled images at 768px, an eight-call cap, two evidence attempts, and one caption recovery. Credentials remain in the server-only env file.
+- Tests added: Compose validation, internal/public health checks, public doctor inspection, real hosted URL canary, replay frame/call inspection, and public Judge Verdict content check.
+- Known limitations: The VPS is a human-review surface and remains outside official Docker scoring. Its first uncached API rebuild took about six minutes on the small Oracle host.
