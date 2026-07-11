@@ -186,7 +186,7 @@
 - Objective: Let users paste direct video URLs, keep upload support, and make the main UI feel like the real product rather than a validation harness.
 - Files added: None.
 - Files modified: `apps/api/app/server/routes/runs.py`, `apps/api/tests/test_demo_api_artifacts.py`, `apps/web/app/page.tsx`, `apps/web/app/studio/page.tsx`, `apps/web/app/submission/page.tsx`, `apps/web/app/runs/[runId]/page.tsx`, and frontend Studio/replay/navigation components.
-- Behavior implemented: `/api/runs/url` writes a one-video Track 2 task after safe URL validation; Studio queues direct video URLs and uploads; visible mock/demo CTAs were removed from the main product surface; known Track 2 filenames/URLs get clean scene hints for fallback runs; notifications no longer cover caption cards.
+- Behavior implemented: `/api/runs/url` writes a one-video Track 2 task after safe URL validation; Studio queues direct video URLs and uploads; visible mock/demo CTAs were removed from the main product surface; explicit user descriptions can seed demo metadata; notifications no longer cover caption cards. Later hidden-set hardening removed all scene inference from filenames, task IDs, and URLs.
 - Tests added: URL route task creation, private-host rejection, production browser URL/upload/replay workflow, and capped real-provider Studio URL canary.
 - Known limitations: Internal mock mode and replay fallback still exist for tests and resilience, but they are no longer the primary user-facing path.
 
@@ -195,7 +195,7 @@
 - Objective: Fix the bad local-upload caption path, improve caption specificity, and make the product controls clearer for judges.
 - Files added: None committed. Ignored guide added at `extra_files/CAPTIONMAN_UI_UX_GUIDE.md`.
 - Files modified: `apps/api/app/server/routes/runs.py`, `apps/api/app/providers/fireworks.py`, `apps/api/app/core/job_runner.py`, `apps/api/app/court/caption_safety.py`, caption prompt files, caption/credential/upload tests, and frontend navigation/Studio/verdict labels.
-- Behavior implemented: Upload tasks now use proper `file:///` URIs, legacy malformed Windows file URIs remain readable, unknown upload filenames no longer seed scene descriptions, job failures expose sanitized messages, caption prompts target richer 18-32 word detail, sampled-frame wording is blocked, and top navigation includes a consistent `My Portfolio` link.
+- Behavior implemented: Upload tasks now use proper `file:///` URIs, legacy malformed Windows file URIs remain readable, upload filenames no longer seed scene descriptions, job failures expose sanitized messages, caption prompts target concise factual detail, sampled-frame wording is blocked, and top navigation includes a consistent `My Portfolio` link.
 - Tests added: Unknown upload filename no-scene-hint test, Windows file URI compatibility test, flower/contact-sheet fallback regression, and sampled-frame-count caption regression.
 - Known limitations: Real-provider runs still depend on Fireworks credits and model behavior; final public key-containing image remains unbuilt until explicit approval.
 
@@ -225,3 +225,12 @@
 - Behavior implemented: Docker context now excludes `.env`, local secrets, frontend, docs, `extra_files`, local media, generated outputs, temp files, and host Python caches. The root Dockerfile remains backend-only and copies only the API package, prompts, and README into `/app`.
 - Tests added: No-cache `linux/amd64` Docker build, runtime boundary inspection, Docker doctor, official mock Docker run plus input-aware validation, and fake embedded-key final build/config inspection.
 - Known limitations: The real public key-containing image is still not built or pushed; it requires the final registry/tag and explicit user confirmation.
+
+### Slice ID: CM-024
+- Milestone: Leaderboard caption-quality correction
+- Objective: Correct the 0.46 hidden-set score by improving generalization, visual coverage, tone alignment, and fallback integrity without changing the official schema.
+- Files added: `prompts/caption_batch.md`, `apps/api/tests/test_fireworks_quality.py`, and `apps/api/tests/test_frame_sampler.py`.
+- Files modified: Fireworks provider, judged pipeline, frame sampler, caption safety, schema adapter, demo task routes, all caption/evidence prompts, Docker runtime settings, backend tests, README diagrams, and living docs.
+- Behavior implemented: Judged runs use 10-14 timestamped 768px images rather than one contact sheet, disable Kimi/GLM reasoning for structured low-latency output, build domain-neutral evidence, generate all four styles from one factual core, retry only missing or invalid styles, reject incomplete and speculative-intent captions, and never infer scene content from public sample IDs or URLs.
+- Tests added: Duration-scaled timestamp coverage, domain-neutral unstructured evidence recovery, batch-provider routing, public-sample-ID collision protection, incomplete caption recovery, speculative intent rejection, prompt scoring alignment, and no scene inference from URL/task ID.
+- Known limitations: The organizer exposes only one aggregate LLM-judge score, so a leaderboard gain cannot be guaranteed before resubmission. Audio tracks are detected but not transcribed, and Gemma remains configured but inactive because the current account does not expose a verified serverless Gemma route.

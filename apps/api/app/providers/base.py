@@ -14,3 +14,12 @@ class CaptionProvider(Protocol):
     def caption(self, task: VideoTask, evidence: EvidenceGraph, style: CaptionStyle) -> str: ...
 
     def doctor(self) -> dict[str, object]: ...
+
+
+class BatchCaptionProvider(Protocol):
+    def caption_batch(
+        self,
+        task: VideoTask,
+        evidence: EvidenceGraph,
+        styles: tuple[CaptionStyle, ...],
+    ) -> dict[CaptionStyle, str]: ...

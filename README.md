@@ -42,7 +42,7 @@ CaptionMan is a professional video-captioning system built for **Track 2: Video 
 - `humorous_tech`
 - `humorous_non_tech`
 
-The core idea is simple: CaptionMan does not trust the first model response. It samples the video, builds an evidence file, generates caption candidates, challenges unsupported claims, repairs weak outputs, and exports schema-safe Track 2 results.
+The core idea is simple: CaptionMan separates seeing from writing. It samples 10-14 timestamped images across the video, builds a content-neutral evidence file, writes all requested styles from one shared factual core, rejects malformed or speculative drafts, and exports schema-safe Track 2 results.
 
 That is the project moat: **Caption Court**.
 
@@ -71,7 +71,7 @@ CaptionMan turns video captioning into an evidence-backed workflow:
 |---|---|
 | Clip Input | Download or read the video, inspect duration, and sample representative frames. |
 | Evidence File | Build grounded observations, frame references, avoid-claims, and scene summaries. |
-| Caption Court | Generate and challenge candidates for factuality, tone, coverage, and risk. |
+| Caption Court | Generate the four tones together, then gate incomplete, speculative, or meta output before selection. |
 | Final JSON | Export only the official Track 2 caption schema, without debug leakage. |
 
 Official output shape:
@@ -155,10 +155,10 @@ CaptionMan uses role-based routing rather than pretending one model should do ev
 |---|---|
 | Visual understanding | Kimi route through Fireworks |
 | Caption writing | GLM route through Fireworks |
-| Judge/repair checks | GLM route through Fireworks |
+| Output safety | Deterministic completeness, speculation, and schema gates with per-style GLM recovery |
 | Gemma | Configured specialist route; claimed only to the level reported by `captionman doctor` |
 
-Current public claim: **Gemma is configured as a routed specialist/repair option, but the verified champion route for the final Docker image is Kimi + GLM.**
+Current public claim: **Gemma is configured as an inactive specialist option, while the verified champion route for the final Docker image is Kimi vision + GLM four-style writing.**
 
 This wording is deliberate. CaptionMan does not claim Gemma-only caption generation or Gemma multimodal behavior unless the doctor output and tournament notes verify that route.
 
@@ -327,8 +327,8 @@ Most caption demos stop at "upload video, ask model, show text."
 CaptionMan adds the missing production layer:
 
 - evidence before captions
-- challenge before verdict
-- repair before export
+- one shared factual core across all four tones
+- bounded per-style recovery before export
 - schema lock before output
 - budget controls before provider calls
 - Docker isolation before judging

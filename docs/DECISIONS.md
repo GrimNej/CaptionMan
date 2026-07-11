@@ -110,7 +110,7 @@
 - Date: 2026-07-10
 - Status: accepted
 - Context: A local upload named `348656_medium.mp4` produced fake fallback wording derived from the filename.
-- Decision: Unknown filenames must not become scene descriptions. Only known Track 2 markers or explicit user scene hints may seed fallback scene evidence.
+- Decision: Filenames, task IDs, and URLs must not become scene descriptions. Only explicit user-provided scene hints may seed fallback evidence; judged runs rely on visual analysis.
 - Alternatives considered: Keep deriving readable labels from filenames; require users to always provide scene hints.
 - Consequences: Uploads rely on visual evidence first and fail more conservatively instead of inventing captions from filenames.
 
@@ -129,3 +129,11 @@
 - Decision: Use `scripts\launch_demo.ps1` for the Windows final-review demo path. The script owns environment setup, service startup, health checks, doctor checks, and ready URL reporting.
 - Alternatives considered: Keep ad hoc terminal commands; use Docker Compose for the demo UI; require users to manually start API and web processes.
 - Consequences: Local demo startup is more repeatable and easier to explain, while judged Docker mode remains CLI-first and independent from the frontend.
+
+### ADR-016: Hidden-Set Quality Uses Multi-Image Evidence And One Shared Style Batch
+- Date: 2026-07-11
+- Status: accepted
+- Context: The first scored image reached only 0.46. Audit evidence showed six video frames collapsed into a low-resolution contact sheet, one separate text call per style, broad safety phrase bans, sample-ID scene hints, and sample-specific fallback captions. A non-sample flower run also emitted an incomplete sarcastic fragment that passed schema validation.
+- Decision: Remove every sample-derived scene hint and answer fallback. Send 10-14 individually compressed, timestamped images to Kimi with reasoning disabled, build domain-neutral evidence, and ask GLM for all requested tones in one scoring-aligned JSON batch. Reject structurally incomplete, meta, or speculative-intent drafts and recover only the affected style.
+- Alternatives considered: Tune only the old per-style prompts; add an unconditional GLM review call; compare outputs with competitor submissions; activate an unverified Gemma route.
+- Consequences: Normal real-provider execution drops from five logical calls to two, temporal and visual detail increase, all styles share one factual core, and hidden clips no longer inherit public-sample assumptions. A trial review call was rejected because it changed none of 16 measured captions while adding latency and cost.

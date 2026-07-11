@@ -37,3 +37,51 @@ def test_pipeline_uses_provider_evidence_builder_when_available(monkeypatch) -> 
     )
 
     assert replay[0]["evidence"]["overall_summary"] == "Provider-built evidence"
+
+
+def test_pipeline_prefers_one_batch_caption_call(monkeypatch) -> None:
+    class BatchProvider(MockProvider):
+        def __init__(self) -> None:
+            self.batch_calls = 0
+            self.single_calls = 0
+
+        def caption_batch(self, task, evidence, styles):  # noqa: ANN001
+            self.batch_calls += 1
+            return {
+                "formal": "A runner crosses an outdoor track during a race.",
+                "sarcastic": (
+                    "A runner crosses the track, because standing still was never "
+                    "competitive enough."
+                ),
+                "humorous_tech": (
+                    "A runner crosses the track with the human processor firmly set to "
+                    "performance mode."
+                ),
+                "humorous_non_tech": (
+                    "A runner crosses the track while the finish line tries very hard to "
+                    "look farther away."
+                ),
+            }
+
+        def caption(self, task, evidence, style):  # noqa: ANN001
+            self.single_calls += 1
+            return super().caption(task, evidence, style)
+
+    provider = BatchProvider()
+    monkeypatch.setattr("app.core.pipeline.make_provider", lambda _settings: provider)
+
+    results, replay = run_pipeline(
+        [
+            VideoTask(
+                video_id="hidden-run",
+                video_uri="mock://hidden-run",
+                metadata={"description": "A runner crosses an outdoor track"},
+            )
+        ],
+        Settings(ai_provider="mock", official_mode=True),
+    )
+
+    assert provider.batch_calls == 1
+    assert provider.single_calls == 0
+    assert results[0].formal.startswith("A runner")
+    assert replay[0]["budget"]["call_stages"] == ["captions:batch"]

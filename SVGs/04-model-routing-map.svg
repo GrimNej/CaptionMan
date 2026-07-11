@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc" viewBox="0 0 1200 650">
   <title id="title">CaptionMan Model Routing Map</title>
-  <desc id="desc">A routing diagram showing visual analysis, caption writing, judging, repair, and budget controls.</desc>
+  <desc id="desc">A routing diagram showing visual analysis, batched caption writing, output safety, an optional specialist, and budget controls.</desc>
   <defs>
     <linearGradient id="brand" x1="0" x2="1">
       <stop offset="0" stop-color="#7357ff"/>
@@ -52,12 +52,12 @@
   <text x="900" y="235" class="b">natural four-style captions</text>
 
   <rect x="865" y="300" width="260" height="95" class="card pulse"/>
-  <text x="900" y="338" class="t">GLM Judge</text>
-  <text x="900" y="365" class="b">tone and factuality checks</text>
+  <text x="900" y="338" class="t">Safety Gate</text>
+  <text x="900" y="365" class="b">completeness + recovery</text>
 
   <rect x="865" y="430" width="260" height="95" class="card pulse"/>
   <text x="900" y="468" class="t">Gemma Specialist</text>
-  <text x="900" y="495" class="b">configured repair route</text>
+  <text x="900" y="495" class="b">configured, inactive option</text>
 
   <path d="M335 235 C395 235 405 275 448 296" class="line dash"/>
   <path d="M335 415 C395 415 405 370 448 338" class="line dash"/>

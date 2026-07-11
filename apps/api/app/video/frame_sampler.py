@@ -13,10 +13,7 @@ def sample_frames(video: Path, output_dir: Path, count: int) -> list[Path]:
         return []
     probe = probe_video(video)
     duration = max(float(probe.duration_seconds or safe_count), 0.1)
-    timestamps = [
-        min(duration - 0.05, max(0.0, duration * (index + 0.5) / safe_count))
-        for index in range(safe_count)
-    ]
+    timestamps = uniform_timestamps(duration, safe_count)
     frames: list[Path] = []
     for index, timestamp in enumerate(timestamps):
         frame = output_dir / f"frame-{index:03d}.jpg"
@@ -37,3 +34,17 @@ def sample_frames(video: Path, output_dir: Path, count: int) -> list[Path]:
         if frame.exists() and frame.stat().st_size > 0:
             frames.append(frame)
     return frames
+
+
+def uniform_timestamps(duration_seconds: float, count: int) -> list[float]:
+    if count <= 0:
+        return []
+    duration = max(duration_seconds, 0.1)
+    if count == 1:
+        return [duration / 2]
+    margin = min(0.5, duration * 0.02)
+    usable = max(duration - (2 * margin), 0)
+    return [
+        min(duration - 0.05, max(0.0, margin + (usable * index / (count - 1))))
+        for index in range(count)
+    ]

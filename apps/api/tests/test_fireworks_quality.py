@@ -1,0 +1,37 @@
+from __future__ import annotations
+
+from app.core.config import Settings
+from app.providers.fireworks import (
+    _extract_json_or_fallback,
+    _frame_count,
+    _summary_from_observations,
+)
+
+
+def test_frame_count_scales_with_hidden_clip_duration() -> None:
+    settings = Settings(num_frames=12, min_frames=10, max_frames=14)
+
+    assert _frame_count(30, settings) == 10
+    assert _frame_count(60, settings) == 12
+    assert _frame_count(120, settings) == 14
+
+
+def test_unstructured_vision_fallback_is_domain_neutral() -> None:
+    payload = _extract_json_or_fallback(
+        "A goalkeeper dives to the left.\nThe ball travels toward the lower corner."
+    )
+
+    assert "goalkeeper" in payload["overall_summary"].lower()
+    assert payload["segments"][0]["observations"]
+
+
+def test_summary_selection_is_not_hardcoded_to_public_domains() -> None:
+    summary = _summary_from_observations(
+        [
+            "Rain falls across a quiet field.",
+            "Dark clouds move over the field as wind bends the tall grass.",
+        ]
+    )
+
+    assert "Rain falls" in summary
+    assert "Dark clouds" in summary

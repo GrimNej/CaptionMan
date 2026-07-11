@@ -76,9 +76,7 @@ def test_url_run_writes_track2_task_and_starts_runner(tmp_path) -> None:
         "humorous_non_tech",
     ]
     assert payload[0]["video_url"].startswith("https://storage.googleapis.com/")
-    assert payload[0]["description"] == (
-        "An office worker uses a desktop computer in a modern open-plan office."
-    )
+    assert payload[0]["description"] == ""
 
 
 def test_url_run_rejects_private_host(tmp_path) -> None:

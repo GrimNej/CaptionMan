@@ -9,14 +9,15 @@ Select the champion route with a bounded test, not by preference. The tournament
 | Route | Vision role | Caption role | Repair role | Status |
 |---|---|---|---|---|
 | `mock_baseline` | deterministic local evidence | mock captions | deterministic cleanup | implemented and used for gates |
-| `fireworks_kimi_glm` | `VISION_MODEL` via `fireworks_direct` | `TEXT_MODEL` | `JUDGE_MODEL` or deterministic cleanup | verified on v1-v3 direct Fireworks canaries |
+| `fireworks_kimi_glm` | `VISION_MODEL` over timestamped images | one `TEXT_MODEL` requested-style batch | per-style `TEXT_MODEL` recovery or deterministic evidence fallback | verified on holdout and v1-v3 direct Fireworks canaries |
 | `specialist_vision_gemma_style` | best verified image-capable model | `GEMMA_MODEL` via `fireworks_direct` when doctor verifies it | `GEMMA_MODEL` or deterministic cleanup | blocked on serverless Gemma availability |
 | `proxy_champion` | private proxy selected route | private proxy selected route | private proxy selected route | pending proxy deployment |
 
 ## Current Evidence
 
 - Mock route passes schema, local tests, and Docker judged mode.
-- Direct Fireworks route has validated v1, v2, and v3 practice outputs with capped model calls.
+- Direct Fireworks route has validated a non-sample flower holdout plus v1-v3 practice outputs with two logical calls per video in the normal path.
+- An unconditional third review call was measured and rejected because it changed none of 16 captions while increasing runtime and spend.
 - Gemma specialist route is configured but not active: `accounts/fireworks/models/gemma-4-31b-it` is not serverless on the current account, so `captionman doctor` correctly fails that route.
 - Proxy champion route is not active until `PROXY_BASE_URL` is configured and proxy doctor passes.
 

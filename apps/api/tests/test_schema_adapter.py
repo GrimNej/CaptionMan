@@ -19,7 +19,7 @@ def test_adapt_input_accepts_official_track2_list() -> None:
     assert tasks[0].requested_styles == ["formal", "sarcastic"]
 
 
-def test_adapt_input_adds_known_track2_scene_description() -> None:
+def test_adapt_input_does_not_infer_scene_from_task_id_or_url() -> None:
     tasks = adapt_input(
         [
             {
@@ -33,9 +33,7 @@ def test_adapt_input_adds_known_track2_scene_description() -> None:
         ]
     )
 
-    assert tasks[0].metadata["description"] == (
-        "Office worker at a desktop computer in a modern open-plan office."
-    )
+    assert tasks[0].metadata == {}
 
 
 def test_adapt_output_drops_debug_fields() -> None:

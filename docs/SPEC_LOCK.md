@@ -3,7 +3,7 @@
 ## Status
 
 - Schema status: confirmed
-- Last checked date: 2026-07-10
+- Last checked date: 2026-07-11
 - Checked by: Codex
 - Official source checked: Participant Guide_ AMD Developer Hackathon (ACT II).pdf, plus organizer/maintainer clarification relayed by the user
 - Source type: participant guide plus maintainer clarification
@@ -63,6 +63,8 @@
 - Track 2 does not inject `FIREWORKS_API_KEY`, `FIREWORKS_BASE_URL`, or `ALLOWED_MODELS`; the final image must use CaptionMan's own temporary hackathon credential.
 - Hidden clips are 30 seconds to 2 minutes and evaluation uses unseen video content.
 - Scoring is based on caption accuracy and style match across clips and requested styles.
+- The final score is a weighted average across roughly 12 hidden clips spanning nature, urban, animals, people, sports, food, weather, and technology.
+- General rules prohibit hardcoding or caching answers for specific inputs.
 - Missing requested styles score zero for that clip.
 - Runtime limit is 10 minutes.
 - Compressed image size must be under 10 GB.
@@ -72,4 +74,7 @@
 
 - `schema_adapter.py` implemented: yes
 - `validate_results.py` aligned: yes
-- Docker mock run validated: yes, last rechecked 2026-07-10 during submission packaging audit
+- Input adapter infers scene content from task IDs, filenames, or URLs: no
+- Judged visual evidence: 10-14 timestamped images across the full video
+- Caption generation: one shared requested-style JSON batch plus targeted per-style recovery
+- Docker mock run validated: pending final 2026-07-11 rebuilt-image gate

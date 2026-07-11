@@ -47,8 +47,8 @@ class Settings(BaseSettings):
 
     pipeline_mode: Literal["fast", "balanced", "quality"] = "balanced"
     num_frames: int = 12
-    min_frames: int = 8
-    max_frames: int = 16
+    min_frames: int = 10
+    max_frames: int = 14
     scene_threshold: float = 0.30
     frame_max_width: int = 768
     frame_jpeg_quality: int = 82

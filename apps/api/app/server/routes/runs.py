@@ -55,7 +55,7 @@ def create_url_run(payload: UrlRunCreate, request: Request) -> dict[str, object]
     task = _track2_task(
         task_id=safe_task_id,
         video_url=payload.video_url,
-        description=payload.description.strip() or _scene_description(payload.video_url),
+        description=payload.description.strip(),
         source_label=payload.video_url,
     )
     task_path.write_text(json.dumps([task], indent=2), encoding="utf-8")
@@ -101,7 +101,7 @@ async def create_upload_run(
     task = _track2_task(
         task_id=safe_task_id,
         video_url=video_path.resolve().as_uri(),
-        description=description.strip() or _scene_description(filename),
+        description=description.strip(),
         source_label=filename,
     )
     task_path.write_text(json.dumps([task], indent=2), encoding="utf-8")
@@ -172,21 +172,3 @@ def _source_stem(source: str) -> str:
     path = urlparse(source).path if "://" in source else source
     stem = Path(path).stem
     return stem or "video"
-
-
-def _scene_description(source: str) -> str:
-    lowered = source.lower()
-    known = {
-        "1860079": "An autumn city boulevard with golden trees and moving traffic.",
-        "13825391": "An orange kitten moves through green garden foliage.",
-        "3044693": "An office worker uses a desktop computer in a modern open-plan office.",
-        "urban_autumn_boulevard": "An autumn city boulevard with golden trees and moving traffic.",
-        "kitten": "An orange kitten moves through green garden foliage.",
-        "office_worker_computer": (
-            "An office worker uses a desktop computer in a modern open-plan office."
-        ),
-    }
-    for marker, description in known.items():
-        if marker in lowered:
-            return description
-    return ""

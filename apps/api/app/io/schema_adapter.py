@@ -12,14 +12,6 @@ from app.io.official_schema import (
 TASK_ID_KEYS = ("video_id", "task_id", "id", "name")
 VIDEO_KEYS = ("video_url", "video", "url", "path", "source", "video_uri")
 STYLE_KEYS = ("formal", "sarcastic", "humorous_tech", "humorous_non_tech")
-KNOWN_SCENE_DESCRIPTIONS = {
-    "1860079": "Urban autumn boulevard with golden trees and city traffic.",
-    "13825391": "Orange kitten among green foliage in a garden.",
-    "3044693": "Office worker at a desktop computer in a modern open-plan office.",
-    "v1": "Urban autumn boulevard with golden trees and city traffic.",
-    "v2": "Orange kitten among green foliage in a garden.",
-    "v3": "Office worker at a desktop computer in a modern open-plan office.",
-}
 
 
 def adapt_input(data: Any) -> list[VideoTask]:
@@ -55,22 +47,12 @@ def _adapt_task(raw: Any, index: int) -> VideoTask:
     if not isinstance(metadata, dict):
         ignored_keys = {*TASK_ID_KEYS, *VIDEO_KEYS, "styles"}
         metadata = {key: value for key, value in raw.items() if key not in ignored_keys}
-    metadata = dict(metadata)
-    metadata.setdefault("description", _known_scene_description(video_id, video_uri))
     return VideoTask(
         video_id=video_id,
         video_uri=video_uri,
         requested_styles=requested_styles,
-        metadata=metadata,
+        metadata=dict(metadata),
     )
-
-
-def _known_scene_description(video_id: str, video_uri: str) -> str:
-    source = f"{video_id} {video_uri}".lower()
-    for marker, description in KNOWN_SCENE_DESCRIPTIONS.items():
-        if marker in source:
-            return description
-    return ""
 
 
 def adapt_output(results: list[InternalResult]) -> OfficialResults:

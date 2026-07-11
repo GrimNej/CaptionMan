@@ -1,15 +1,17 @@
 from __future__ import annotations
 
+from typing import cast
+
 from app.core.budget import BudgetExceededError, BudgetState
 from app.core.config import Settings
 from app.core.fallbacks import progressive_fallback_from_best_available_evidence
 from app.court.candidate_generator import generate_candidates
-from app.court.caption_safety import ensure_safe_caption
+from app.court.caption_safety import ensure_safe_caption, fallback_caption
 from app.court.final_selector import select_final
 from app.court.hard_rules import validate_caption
 from app.evidence.timeline_builder import build_evidence
 from app.io.official_schema import InternalResult, VideoTask
-from app.providers.base import CaptionStyle
+from app.providers.base import BatchCaptionProvider, CaptionStyle
 from app.providers.model_registry import make_provider
 
 STYLES: tuple[CaptionStyle, ...] = (
@@ -33,23 +35,40 @@ def run_pipeline(
             max_model_calls=settings.max_model_calls_per_video,
             max_seconds=settings.max_seconds_per_video,
         )
+        evidence = build_evidence(task)
+        court_rows: list[dict[str, object]] = []
         try:
             if hasattr(provider, "build_evidence"):
                 budget.register_model_call("evidence:vision")
                 evidence = provider.build_evidence(task)  # type: ignore[attr-defined]
-            else:
-                evidence = build_evidence(task)
             style_outputs: dict[str, str] = {}
-            court_rows: list[dict[str, object]] = []
             requested_styles = (
                 tuple(style for style in STYLES if style in set(task.requested_styles)) or STYLES
             )
+            batch_method = getattr(provider, "caption_batch", None)
+            batch_outputs: dict[CaptionStyle, str] = {}
+            if callable(batch_method) and budget.can_call_model():
+                budget.register_model_call("captions:batch")
+                try:
+                    batch_provider = cast(BatchCaptionProvider, provider)
+                    batch_outputs = batch_provider.caption_batch(task, evidence, requested_styles)
+                except Exception:  # noqa: BLE001
+                    batch_outputs = {}
             for style in requested_styles:
-                candidates = generate_candidates(task, evidence, style, provider, budget, settings)
+                candidates = []
+                batch_caption = batch_outputs.get(style, "")
+                if batch_caption:
+                    candidates.append(batch_caption)
+                if not candidates:
+                    try:
+                        candidates = generate_candidates(
+                            task, evidence, style, provider, budget, settings
+                        )
+                    except Exception:  # noqa: BLE001
+                        candidates = [fallback_caption(evidence, style)]
                 accepted = [caption for caption in candidates if validate_caption(caption).ok]
-                caption = ensure_safe_caption(
-                    select_final(accepted or candidates, style), evidence, style
-                )
+                selected = select_final(accepted or candidates, style)
+                caption = ensure_safe_caption(selected, evidence, style)
                 style_outputs[style] = caption
                 court_rows.append({"style": style, "candidates": candidates, "selected": caption})
             for style in STYLES:
@@ -60,9 +79,17 @@ def run_pipeline(
                 **style_outputs,
             )
         except BudgetExceededError:
-            result = progressive_fallback_from_best_available_evidence(task, "budget_exceeded")
+            if evidence.overall_summary and evidence.overall_summary != "A short video clip":
+                style_outputs = {style: fallback_caption(evidence, style) for style in STYLES}
+                result = InternalResult(
+                    video_id=task.video_id,
+                    requested_styles=task.requested_styles,
+                    fallback_reason="budget_exceeded",
+                    **style_outputs,
+                )
+            else:
+                result = progressive_fallback_from_best_available_evidence(task, "budget_exceeded")
             court_rows = []
-            evidence = build_evidence(task)
         results.append(result)
         replay.append(
             {

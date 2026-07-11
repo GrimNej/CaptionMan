@@ -10,13 +10,13 @@
 - Current workaround:
 - Owner/next step:
 
-### ISSUE-001: Final Embedded-Key Image Not Yet Built
-- Severity: medium
+### ISSUE-001: Public Submission Image Contains A Temporary Embedded Key
+- Severity: high
 - Area: Submission credentials
-- Description: The user-approved temporary hackathon-only Fireworks key is present locally in ignored `.env`, but the final public image with an embedded temporary key has not been built or pushed.
-- Reproduction: Run the normal Docker image without `FIREWORKS_API_KEY`; it stays key-free by design. The 2026-07-10 fake embedded-key audit proves the final guard path works, but it intentionally did not use the real key.
-- Current workaround: Use local `.env` for real-provider canaries and normal key-free Docker images for mock judged gates. Fake-key guard tests have proven the final image will default to `fireworks_direct`, `OFFICIAL_MODE=true`, and `embedded_hackathon_key` when built with the required final args.
-- Owner/next step: Build and push the real embedded-key image only after explicit user confirmation and registry target selection, verify clean public pull, then revoke/rotate the key after judging.
+- Description: Track 2 injects no credentials, so the approved public submission image intentionally contains a temporary, spend-limited hackathon-only Fireworks key. Repository and normal development images remain key-free.
+- Reproduction: Run `captionman doctor` inside the final image without `FIREWORKS_API_KEY`; credential source reports `embedded_hackathon_key`.
+- Current workaround: Auto top-up is disabled, the key is separate from the user's main key, and embedding requires the explicit final-build guard. Do not reuse this image or key outside judging.
+- Owner/next step: Revoke the temporary Fireworks key immediately after judging, then remove the public key-containing tags where practical.
 
 ### ISSUE-002: Fireworks Provider Requires Credentials
 - Severity: low
@@ -35,12 +35,12 @@
 - Owner/next step: Keep Docker Desktop running when executing final Docker gates.
 
 ### ISSUE-004: Fireworks Vision Model May Ignore JSON-Only Prompt
-- Severity: medium
+- Severity: low
 - Area: Provider quality
-- Description: `kimi-k2p6` is verified as image-capable, but it may return useful reasoning-style observations instead of strict JSON evidence.
-- Reproduction: Run the real-provider `v1` sample with debug replay enabled and inspect `uncertainty_notes`.
-- Current workaround: Extract concrete visual observations from unstructured model output and fall back to task metadata when the response is unusable.
-- Owner/next step: Probe alternative image-capable models only when the credit budget allows.
+- Description: `kimi-k2p6` is verified as image-capable. Disabling reasoning produced strict JSON in current holdout and v1-v3 canaries, but provider behavior can still vary.
+- Reproduction: Run a real-provider task with debug replay and inspect whether `uncertainty_notes` reports an unstructured response.
+- Current workaround: The fallback parser is domain-neutral and extracts concrete observations without relying on filenames, task IDs, public URLs, or sample descriptions.
+- Owner/next step: Keep the fallback regression tests and monitor real runs; do not add benchmark-specific fallback answers.
 
 ### ISSUE-005: Gemma Specialist Route Not Serverless On Current Account
 - Severity: medium
@@ -61,10 +61,10 @@
 ### ISSUE-007: Real-Provider Humor Can Still Need Safety Repair
 - Severity: low
 - Area: Caption quality
-- Description: The live model can occasionally phrase humor around sampled-frame structure, such as count-based stages or poses, instead of only the video content.
-- Reproduction: Run a short time-lapse-style upload and inspect humorous outputs.
-- Current workaround: Caption safety now rejects sample-count language and replaces it with evidence-grounded fallbacks.
-- Owner/next step: Keep adding regression tests for any new artifact phrasing found during user review.
+- Description: Humor can introduce figurative comparisons that are stylistically strong but add unnecessary unsupported specificity.
+- Reproduction: Run varied hidden-like videos and inspect whether jokes introduce brands, private intent, profession, or unseen outcomes.
+- Current workaround: Batch prompts ban unsupported brands/classifications and private intent; structural safety rejects speculative-intent patterns and regenerates only the affected style.
+- Owner/next step: Prefer evidence-preserving prompt changes over broad phrase blacklists or sample-specific canned captions.
 
 ### ISSUE-008: Restored Uploads Cannot Rerun Without Re-Selecting The File
 - Severity: low
@@ -73,3 +73,11 @@
 - Reproduction: Upload a local file, complete the run, open Judge Verdict, go back, then try to rerun the restored upload.
 - Current workaround: The restored result remains reviewable, and the user can re-upload the source file to run it again.
 - Owner/next step: Consider IndexedDB file persistence only if rerunning restored uploads becomes essential.
+
+### ISSUE-009: Aggregate Leaderboard Score Has No Per-Style Diagnostics
+- Severity: medium
+- Area: Evaluation
+- Description: The public leaderboard exposes only the aggregate Track 2 LLM-judge score, so the exact hidden clip, style, and accuracy-versus-tone losses behind 0.46 are unavailable.
+- Reproduction: Inspect the scored leaderboard entry; no per-clip or per-style report is provided.
+- Current workaround: Optimize strictly against the published rubric, use non-sample holdouts, remove all sample-derived behavior, validate every output structurally, and compare call/runtime/fallback evidence across bounded canaries.
+- Owner/next step: Resubmit the updated public image and use the next aggregate score as the only authoritative external measurement. Do not claim a top-five score before the leaderboard confirms it.
