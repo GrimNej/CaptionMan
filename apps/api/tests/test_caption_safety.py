@@ -119,9 +119,39 @@ def test_fallback_preserves_each_requested_tone() -> None:
         for style in ("formal", "sarcastic", "humorous_tech", "humorous_non_tech")
     }
     assert len(set(outputs.values())) == 4
-    assert "literal loop" in outputs["humorous_tech"]
+    assert "literal instruction" in outputs["humorous_tech"]
     assert "impressively official" in outputs["sarcastic"]
     assert "tiny performance" in outputs["humorous_non_tech"]
+
+
+def test_unrelated_caption_is_replaced_with_evidence_anchor() -> None:
+    caption = ensure_safe_caption(
+        "A chef prepares a meal in a crowded restaurant kitchen.",
+        _evidence(),
+        "formal",
+    )
+
+    assert "basketball" in caption.lower()
+    assert "chef" not in caption.lower()
+
+
+def test_unseen_technical_claim_requires_a_figurative_marker() -> None:
+    caption = ensure_safe_caption(
+        "A basketball player dribbles across an indoor court while deploying code to production.",
+        _evidence(),
+        "humorous_tech",
+    )
+
+    assert "deploying code" not in caption.lower()
+    assert "like a program" in caption.lower()
+
+
+def test_explicit_technical_metaphor_remains_usable() -> None:
+    raw_caption = (
+        "A basketball player dribbles across an indoor court like an algorithm debugging its route."
+    )
+
+    assert ensure_safe_caption(raw_caption, _evidence(), "humorous_tech") == raw_caption
 
 
 def test_ensure_safe_caption_replaces_dangling_generation() -> None:

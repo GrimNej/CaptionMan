@@ -44,6 +44,43 @@ PRODUCTION_ARTIFACT_PATTERNS = (
     r"(?:\d+|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve) seconds?\b",
 )
 
+GROUNDING_STOPWORDS = {
+    "a",
+    "an",
+    "and",
+    "as",
+    "at",
+    "by",
+    "for",
+    "from",
+    "in",
+    "into",
+    "is",
+    "it",
+    "near",
+    "of",
+    "on",
+    "or",
+    "the",
+    "their",
+    "them",
+    "through",
+    "to",
+    "toward",
+    "towards",
+    "with",
+}
+
+TECHNICAL_TERM_PATTERN = re.compile(
+    r"\b(?:algorithm|app|bandwidth|buffer|bug|cache|code|commit|compile|cpu|database|"
+    r"debug|download|firewall|firmware|glitch|gpu|hardware|latency|loop|network|packet|"
+    r"pathfinding|pixel|production|program|reboot|router|server|software|thread|upload|"
+    r"wi-?fi)\w*\b",
+    flags=re.IGNORECASE,
+)
+
+FIGURATIVE_MARKER_PATTERN = re.compile(r"\b(?:like|as if|as though)\b", flags=re.IGNORECASE)
+
 ASCII_PUNCTUATION = str.maketrans(
     {
         "\u00a0": " ",
@@ -95,7 +132,11 @@ DANGLING_WORDS = {
 
 def ensure_safe_caption(caption: str, evidence: EvidenceGraph, style: CaptionStyle) -> str:
     cleaned = clean_caption(caption)
-    if not caption_is_usable(cleaned):
+    if (
+        not caption_is_usable(cleaned)
+        or not _caption_matches_evidence(cleaned, evidence)
+        or not _style_claims_are_safe(cleaned, evidence, style)
+    ):
         return fallback_caption(evidence, style)
     return cleaned
 
@@ -167,8 +208,47 @@ def fallback_caption(evidence: EvidenceGraph, style: CaptionStyle) -> str:
     if style == "sarcastic":
         return clean_caption(f"{subject}, making a routine moment look impressively official")
     if style == "humorous_tech":
-        return clean_caption(f"{subject}, running the visible action like one very literal loop")
+        return clean_caption(f"{subject}, like a program executing one very literal instruction")
     return clean_caption(f"{subject}, turning the ordinary moment into a tiny performance")
+
+
+def _caption_matches_evidence(caption: str, evidence: EvidenceGraph) -> bool:
+    evidence_text = f"{evidence.overall_summary} {evidence.main_event}"
+    evidence_terms = _grounding_terms(evidence_text)
+    caption_terms = _grounding_terms(caption)
+    required_overlap = 1 if len(evidence_terms) < 4 else 2
+    return len(evidence_terms & caption_terms) >= required_overlap
+
+
+def _style_claims_are_safe(
+    caption: str,
+    evidence: EvidenceGraph,
+    style: CaptionStyle,
+) -> bool:
+    if style != "humorous_tech":
+        return True
+    caption_terms = {match.group(0).lower() for match in TECHNICAL_TERM_PATTERN.finditer(caption)}
+    if not caption_terms:
+        return True
+    evidence_text = " ".join(
+        [
+            evidence.overall_summary,
+            evidence.main_event,
+            *(observation for segment in evidence.segments for observation in segment.observations),
+        ]
+    )
+    evidence_terms = {
+        match.group(0).lower() for match in TECHNICAL_TERM_PATTERN.finditer(evidence_text)
+    }
+    return caption_terms <= evidence_terms or bool(FIGURATIVE_MARKER_PATTERN.search(caption))
+
+
+def _grounding_terms(text: str) -> set[str]:
+    return {
+        token
+        for token in re.findall(r"[a-z]+", text.lower())
+        if len(token) > 2 and token not in GROUNDING_STOPWORDS
+    }
 
 
 def _caption_from_json(text: str) -> str | None:

@@ -26,7 +26,7 @@ Style requirements:
 - humorous_tech: clearly funny with one familiar technology or programming metaphor; do not claim unseen software or hardware is literally present.
 - humorous_non_tech: clearly funny through one everyday comparison or observation, with no technology or programming jargon.
 
-Before returning JSON, silently verify that every caption is factually compatible with the evidence, grammatically complete, distinct in tone, and understandable without seeing the other captions.
+Before returning JSON, silently verify that every caption is factually compatible with the evidence, grammatically complete, distinct in tone, and understandable without seeing the other captions. In `humorous_tech`, any technical action, object, or system absent from the factual evidence must be visibly figurative: introduce it with `like`, `as if`, or `as though`; otherwise rewrite it.
 
 Return JSON only in this shape:
 {"captions":{"formal":"...","sarcastic":"...","humorous_tech":"...","humorous_non_tech":"..."}}
