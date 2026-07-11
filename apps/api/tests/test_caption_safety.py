@@ -85,6 +85,15 @@ def test_canned_style_openings_are_rejected() -> None:
     assert not caption_is_usable(
         "Behold, a kitten crosses the garden with the urgency of a royal inspection."
     )
+    assert not caption_is_usable(
+        "Traffic moves through the city, because nothing accelerates a commute like six lanes."
+    )
+
+
+def test_production_duration_jokes_are_rejected() -> None:
+    assert not caption_is_usable(
+        "Traffic races through the city after compressing the entire commute into six seconds."
+    )
 
 
 def test_fallback_uses_evidence_not_video_id() -> None:

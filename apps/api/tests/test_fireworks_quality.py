@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 from app.core.config import Settings
+from app.evidence.evidence_schema import EvidenceGraph, EvidenceSegment
 from app.providers.fireworks import (
+    _caption_context_json,
     _extract_json_or_fallback,
     _frame_count,
     _normalize_evidence_text,
@@ -63,3 +65,34 @@ def test_evidence_normalization_removes_incidental_clothing() -> None:
     )
 
     assert normalized == "A person types at a desktop computer in a modern office."
+
+
+def test_evidence_normalization_removes_conjoined_incidental_clothing() -> None:
+    normalized = _normalize_evidence_text(
+        "A person wearing a black jacket and orange top types in an office."
+    )
+
+    assert normalized == "A person types in an office."
+
+
+def test_caption_context_excludes_incidental_timeline_details() -> None:
+    evidence = EvidenceGraph(
+        video_id="hidden-4",
+        overall_summary="A cyclist rides along a wet city street.",
+        main_event="Cyclist travels through the city in rain.",
+        global_subjects=["cyclist"],
+        segments=[
+            EvidenceSegment(
+                start_seconds=0,
+                end_seconds=5,
+                observations=["A red sign appears briefly behind the cyclist."],
+            )
+        ],
+    )
+
+    context = _caption_context_json(evidence)
+
+    assert "scene_anchor" in context
+    assert "wet city street" in context
+    assert "red sign" not in context
+    assert "segments" not in context

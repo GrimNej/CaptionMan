@@ -26,7 +26,7 @@ META_FRAGMENTS = (
 
 SPECULATIVE_INTENT_PATTERNS = (
     r"\b(?:apparently|probably|presumably|supposedly)\b",
-    r"\b(?:expect(?:s|ed|ing)?|hop(?:e|es|ed|ing)|plan(?:s|ned|ning)?|pretend(?:s|ed|ing)?|want(?:s|ed|ing)?|wish(?:es|ed|ing)?)\b",
+    r"\b(?:expect(?:s|ed|ing)?|hop(?:e|es|ed|ing)|plan(?:s|ned|ning)?|pretend(?:s|ed|ing)?|wait(?:s|ed|ing)?|want(?:s|ed|ing)?|wish(?:es|ed|ing)?)\b",
     r"\b(?:thinking|deciding) to\b",
 )
 
@@ -34,8 +34,14 @@ CANNED_STYLE_PATTERNS = (
     r"\bah yes\b",
     r"\banother heroic day\b",
     r"\bbehold\b",
+    r"\bbecause nothing\b",
     r"\bnothing says\b",
     r"\bproving once again\b",
+)
+
+PRODUCTION_ARTIFACT_PATTERNS = (
+    r"\bcompress\w*\b.{0,40}\b"
+    r"(?:\d+|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve) seconds?\b",
 )
 
 ASCII_PUNCTUATION = str.maketrans(
@@ -105,6 +111,8 @@ def caption_is_usable(caption: str) -> bool:
     if any(re.search(pattern, lowered) for pattern in SPECULATIVE_INTENT_PATTERNS):
         return False
     if any(re.search(pattern, lowered) for pattern in CANNED_STYLE_PATTERNS):
+        return False
+    if any(re.search(pattern, lowered) for pattern in PRODUCTION_ARTIFACT_PATTERNS):
         return False
     if re.search(r"\b(?:f|frame)\s*0?\d+\b", lowered):
         return False
