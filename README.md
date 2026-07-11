@@ -54,8 +54,8 @@ That is the project moat: **Caption Court**.
 |---|---|
 | Hosted demo | <https://captionman.grimnej.com/studio> |
 | Public repository | <https://github.com/GrimNej/CaptionMan> |
-| Docker image | `ghcr.io/grimnej/captionman:final` |
-| Pinned digest | `ghcr.io/grimnej/captionman@sha256:138ce0b9828aff1cd65b13143d14962c1d94e2d72e034a630ed691c660c8293c` |
+| Docker image | `ghcr.io/grimnej/captionman:submission` |
+| Pinned digest | `ghcr.io/grimnej/captionman@sha256:b0626dc06303c3b711b0e29711b2b485eac6b84b5daef84dd10ebd12af99af2c` |
 
 The Docker image is the official judged artifact. The hosted demo is a review surface for humans.
 
@@ -115,8 +115,8 @@ This is intentionally separate from the official Docker output. Judges get a cle
 The judged Docker path is backend-only and does not depend on the frontend.
 
 ```bash
-docker pull --platform linux/amd64 ghcr.io/grimnej/captionman:final
-docker run --rm ghcr.io/grimnej/captionman:final captionman doctor
+docker pull --platform linux/amd64 ghcr.io/grimnej/captionman:submission
+docker run --rm ghcr.io/grimnej/captionman:submission captionman doctor
 ```
 
 For official evaluation, mount input and output folders:
@@ -125,7 +125,7 @@ For official evaluation, mount input and output folders:
 docker run --rm \
   -v "$PWD/input:/input" \
   -v "$PWD/output:/output" \
-  ghcr.io/grimnej/captionman:final
+  ghcr.io/grimnej/captionman:submission
 ```
 
 Then validate the output:
@@ -300,7 +300,7 @@ python scripts/check_no_secrets.py
 Docker smoke test:
 
 ```bash
-docker run --rm ghcr.io/grimnej/captionman:final captionman doctor
+docker run --rm ghcr.io/grimnej/captionman:submission captionman doctor
 ```
 
 ---

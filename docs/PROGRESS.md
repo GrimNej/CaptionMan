@@ -330,3 +330,11 @@
 - Commands run: SVG XML validation; Playwright direct SVG render screenshots; ASCII scan for README/SVGs; `python scripts/check_no_secrets.py`; `python scripts/check_source_hygiene.py`.
 - Result: README/SVG files are ASCII-safe, SVGs are XML-valid, direct browser render checks found no text outside the viewport, secret scan passed, and source hygiene passed. Changes are intentionally not pushed so the user can review first.
 - Next step: User reviews the README and diagrams locally; after approval, commit and push the README asset update.
+
+### 2026-07-11 09:20
+- Milestone: Submission Docker reference compatibility
+- Summary: Replaced the digest-form submission recommendation with a tag-only, single-platform-compatible GHCR reference after the submission page reported `PULL_ERROR` for the digest reference.
+- Files changed: `README.md`, `docs/SUBMISSION_CHECKLIST.md`, `docs/AGENT_HANDOFF.md`, `docs/PROGRESS.md`, and `docs/TEST_REPORT.md`.
+- Commands run: Anonymous clean-config pull of `ghcr.io/grimnej/captionman:final`; `docker run --rm ghcr.io/grimnej/captionman:final captionman doctor`; mock official mounted run plus `scripts/validate_results.py`; real-provider v1 canary; real-provider v1-v3 full mounted run; rebuilt and pushed `ghcr.io/grimnej/captionman:submission` with `--platform linux/amd64 --provenance=false --sbom=false`; anonymous clean-config pull of `ghcr.io/grimnej/captionman:submission`; `docker run --rm ghcr.io/grimnej/captionman:submission captionman doctor`; real-provider v1-v3 mounted run plus `scripts/validate_results.py`.
+- Result: `ghcr.io/grimnej/captionman:submission` is publicly pullable without credentials, served as a plain Docker v2 manifest, `linux/amd64`, official-mode, `fireworks_direct`, embedded temporary hackathon credential, doctor-verified, and schema-valid on the v1-v3 practice task set in about 94 seconds.
+- Next step: Re-save the Track 2 submission with the exact tag-only image reference `ghcr.io/grimnej/captionman:submission`, not a digest reference.

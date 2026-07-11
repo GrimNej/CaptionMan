@@ -937,3 +937,11 @@
 - Output summary: All four `SVGs/*.svg` files parsed as XML, direct Chromium rendering produced screenshots under `output/playwright/direct-*.png`, and text bounding diagnostics reported zero text elements outside SVG viewports. README and SVGs are ASCII-only. `python scripts/check_no_secrets.py` and `python scripts/check_source_hygiene.py` passed.
 - Failures: Initial inline review page made SVG images appear broken due to file-backed image loading; the second inline render exposed a real animation issue where group-level transforms collapsed the first diagram. Early contact-sheet inspection also found low contrast at README scale.
 - Fixes attempted: Switched to inline and then direct SVG rendering for QA, removed layout-changing transform animation from SVG containers, increased label contrast/size, tightened the first diagram label positions, and kept motion to connector dashes/accent glow.
+
+### 2026-07-11 09:20
+- Command: Anonymous clean-config pull of `ghcr.io/grimnej/captionman:submission`; manifest inspection; `docker run --rm ghcr.io/grimnej/captionman:submission captionman doctor`; mounted real-provider v1-v3 run; `python scripts/validate_results.py output/docker-submission-final-tag/results.json`.
+- Environment: Docker Desktop Linux engine, public GHCR package, final embedded temporary hackathon Fireworks credential.
+- Result: pass
+- Output summary: `ghcr.io/grimnej/captionman:submission` pulled without registry credentials, serves as `application/vnd.docker.distribution.manifest.v2+json`, doctor passed with `linux/amd64`, official mode, `fireworks_direct`, embedded credential source, Kimi vision model ready, GLM caption/judge models ready, and live provider check passing. The v1-v3 official practice set wrote `/output/results.json` in about 94 seconds and validation passed.
+- Failures: The submission platform rejected the digest-form reference with `PULL_ERROR`, even though the underlying image was public. The platform's own message asks for a tag reference.
+- Fixes attempted: Built and pushed the safer tag-only submission artifact `ghcr.io/grimnej/captionman:submission` with provenance/SBOM attestations disabled.
