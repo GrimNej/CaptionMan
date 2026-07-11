@@ -19,6 +19,8 @@ def test_fireworks_batch_prompt_tracks_official_scoring_dimensions() -> None:
     assert "image-production process" in prompt
     assert "compact scene anchor" in prompt
     assert "Never exceed 24 words" in prompt
+    assert "broad setting" in prompt
+    assert "never trade it for clothing" in prompt
 
 
 def test_fireworks_evidence_prompt_does_not_infer_visual_style_from_blur() -> None:

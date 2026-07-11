@@ -78,6 +78,15 @@ def test_speculative_private_intent_is_rejected() -> None:
     )
 
 
+def test_canned_style_openings_are_rejected() -> None:
+    assert not caption_is_usable(
+        "Nothing says autumn like traffic crawling past yellow trees in the city."
+    )
+    assert not caption_is_usable(
+        "Behold, a kitten crosses the garden with the urgency of a royal inspection."
+    )
+
+
 def test_fallback_uses_evidence_not_video_id() -> None:
     caption = fallback_caption(_evidence(video_id="v1"), "formal")
     assert "basketball" in caption.lower()

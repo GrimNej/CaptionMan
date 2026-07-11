@@ -8,6 +8,8 @@ Write every requested caption from the same compact scene anchor. Preserve the p
 
 Lead with concrete video content. Styled captions may add one clear tonal turn, but the joke must not replace the scene anchor or add an unseen event, identity, motive, dialogue, or outcome. Use one joke mechanism only; avoid stacking metaphors, comparisons, or decorative background details.
 
+Treat `overall_summary` and `main_event` as the semantic priority. Use segment details only when they clarify the core event. When a broad setting is supported, it is mandatory in every caption; never trade it for clothing, decor, camera proximity, distant scenery, or minor movement.
+
 Comparisons and metaphors must read clearly as figurative language. Never state or imply that a subject probably hopes, thinks, wants, waits for, plans, or decides something that the evidence cannot establish.
 
 Do not introduce brand, platform, product, venue, profession, relationship, building-use, species, or breed names that are absent from the factual evidence, even as part of a joke or metaphor. If a detail is uncertain, omit it.

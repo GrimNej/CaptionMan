@@ -30,6 +30,14 @@ SPECULATIVE_INTENT_PATTERNS = (
     r"\b(?:thinking|deciding) to\b",
 )
 
+CANNED_STYLE_PATTERNS = (
+    r"\bah yes\b",
+    r"\banother heroic day\b",
+    r"\bbehold\b",
+    r"\bnothing says\b",
+    r"\bproving once again\b",
+)
+
 ASCII_PUNCTUATION = str.maketrans(
     {
         "\u00a0": " ",
@@ -95,6 +103,8 @@ def caption_is_usable(caption: str) -> bool:
     if any(fragment in lowered for fragment in META_FRAGMENTS):
         return False
     if any(re.search(pattern, lowered) for pattern in SPECULATIVE_INTENT_PATTERNS):
+        return False
+    if any(re.search(pattern, lowered) for pattern in CANNED_STYLE_PATTERNS):
         return False
     if re.search(r"\b(?:f|frame)\s*0?\d+\b", lowered):
         return False

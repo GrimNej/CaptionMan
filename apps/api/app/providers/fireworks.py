@@ -458,6 +458,12 @@ def _normalize_evidence_text(text: str) -> str:
     normalized = re.sub(r"(?i)\blaptop(?: computer)?\b", "computer", text)
     normalized = re.sub(r"(?i)\b(?:light|dark)-colored\s+", "", normalized)
     normalized = re.sub(
+        r"(?i)\s+(?:wearing|dressed in|in) an? [\w-]+ "
+        r"(?:top|shirt|jacket|sweater|hoodie|coat|dress)\b",
+        "",
+        normalized,
+    )
+    normalized = re.sub(
         r"(?i)\bhigh-rise (?:residential|apartment) buildings?\b",
         "high-rise buildings",
         normalized,

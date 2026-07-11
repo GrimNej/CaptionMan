@@ -55,3 +55,11 @@ def test_evidence_normalization_preserves_confident_specific_details() -> None:
     assert "orange kitten" in normalized
     assert "desktop computer" in normalized
     assert "green foliage" in normalized
+
+
+def test_evidence_normalization_removes_incidental_clothing() -> None:
+    normalized = _normalize_evidence_text(
+        "A person in an orange top types at a desktop computer in a modern office."
+    )
+
+    assert normalized == "A person types at a desktop computer in a modern office."
