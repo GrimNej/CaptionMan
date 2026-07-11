@@ -394,3 +394,11 @@
 - Commands run: Exact embedded-key Docker doctor, mock judged run, full real-provider v1-v3 run, input-aware validation, ASCII/quality scan, and output review.
 - Result: Infrastructure, schema, runtime, style presence, and quality artifact gates passed. This is the final source change before registry push.
 - Next step: Rebuild, run the final bounded gates, push the unchanged Docker Hub tag, and verify anonymous pull.
+
+### 2026-07-11 13:05
+- Milestone: Leaderboard-quality image published and verified
+- Summary: Rebuilt the exact post-normalization source as a single-platform `linux/amd64` image, completed a full real-provider v1-v3 run, replaced the existing Docker Hub submission tag, and verified the published artifact without registry credentials.
+- Files changed: `README.md`, `docs/SUBMISSION_CHECKLIST.md`, `docs/SPEC_LOCK.md`, `docs/PROGRESS.md`, `docs/TEST_REPORT.md`, and `docs/AGENT_HANDOFF.md`.
+- Commands run: Embedded-key final build; image doctor; mounted official mock run plus validator; full real-provider v1-v3 run plus validator and quality scans; Docker Hub push; clean-config manifest inspection and pull; published-image doctor; published-image mounted mock run plus validator; 62-test backend suite; Ruff checks; no-secrets and source-hygiene scans.
+- Result: `docker.io/grimnej/captionman:submission` is public, 277.21 MiB compressed, a plain Docker v2 `linux/amd64` manifest, and resolves to `sha256:c5faf2947724f36e186ba5b03eaa700de91d5fb4328816d6561cacb521966af1`. The exact image completed all three guide tasks and 12 requested captions in 95.06 seconds, well inside the 10-minute limit. Provider doctor and official output validation passed.
+- Next step: Re-save or resubmit the unchanged tag reference `docker.io/grimnej/captionman:submission`, then wait for a new leaderboard score. Revoke the embedded temporary key after judging.

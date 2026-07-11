@@ -77,4 +77,5 @@
 - Input adapter infers scene content from task IDs, filenames, or URLs: no
 - Judged visual evidence: 10-14 timestamped images across the full video
 - Caption generation: one shared requested-style JSON batch plus targeted per-style recovery
-- Docker mock run validated: pending final 2026-07-11 rebuilt-image gate
+- Docker mock run validated: yes, from the anonymously pulled final image on 2026-07-11
+- Docker real v1-v3 run validated: yes, from exact final image digest `sha256:c5faf2947724f36e186ba5b03eaa700de91d5fb4328816d6561cacb521966af1`

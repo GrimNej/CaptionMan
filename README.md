@@ -55,7 +55,7 @@ That is the project moat: **Caption Court**.
 | Hosted demo | <https://captionman.grimnej.com/studio> |
 | Public repository | <https://github.com/GrimNej/CaptionMan> |
 | Docker image | `docker.io/grimnej/captionman:submission` |
-| Pinned digest | `docker.io/grimnej/captionman@sha256:b0626dc06303c3b711b0e29711b2b485eac6b84b5daef84dd10ebd12af99af2c` |
+| Pinned digest | `docker.io/grimnej/captionman@sha256:c5faf2947724f36e186ba5b03eaa700de91d5fb4328816d6561cacb521966af1` |
 
 The Docker image is the official judged artifact. The hosted demo is a review surface for humans.
 
