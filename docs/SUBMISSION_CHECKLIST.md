@@ -3,11 +3,11 @@
 ## Final Submission Artifact
 
 - Docker image URL: `docker.io/grimnej/captionman:submission`
-- Current manifest digest: `sha256:c5faf2947724f36e186ba5b03eaa700de91d5fb4328816d6561cacb521966af1`
+- Current manifest digest: `sha256:0e672ddfcf898971344043be5d29bffa01de132e15e6e929cf84e876608fdfae`
 - Public pull verified: yes, with a clean unauthenticated Docker config
 - Final image doctor verified: yes
 - Final guide practice v1-v3 run verified: yes
-- Compressed registry size: 277.21 MiB
+- Compressed registry size: 277.20 MiB
 - GitHub repository: `https://github.com/GrimNej/CaptionMan`
 
 ## Track 2 Requirements
@@ -120,7 +120,7 @@ The final doctor check must report:
 Latest verified digest:
 
 ```text
-docker.io/grimnej/captionman:submission@sha256:c5faf2947724f36e186ba5b03eaa700de91d5fb4328816d6561cacb521966af1
+docker.io/grimnej/captionman:submission@sha256:0e672ddfcf898971344043be5d29bffa01de132e15e6e929cf84e876608fdfae
 ```
 
 ## Submit

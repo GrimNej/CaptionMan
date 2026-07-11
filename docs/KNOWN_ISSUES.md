@@ -63,7 +63,7 @@
 - Area: Caption quality
 - Description: Humor can introduce figurative comparisons that are stylistically strong but add unnecessary unsupported specificity.
 - Reproduction: Run varied hidden-like videos and inspect whether jokes introduce brands, private intent, profession, or unseen outcomes.
-- Current workaround: Batch prompts ban unsupported brands/classifications and private intent; structural safety rejects speculative-intent patterns and regenerates only the affected style.
+- Current workaround: Batch prompts ban unsupported brands/classifications and private intent; final safety requires meaningful evidence-anchor overlap, rejects speculative-intent patterns, and requires unseen technical concepts to be visibly figurative before accepting the caption.
 - Owner/next step: Prefer evidence-preserving prompt changes over broad phrase blacklists or sample-specific canned captions.
 
 ### ISSUE-008: Restored Uploads Cannot Rerun Without Re-Selecting The File

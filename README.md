@@ -55,7 +55,7 @@ That is the project moat: **Caption Court**.
 | Hosted demo | <https://captionman.grimnej.com/studio> |
 | Public repository | <https://github.com/GrimNej/CaptionMan> |
 | Docker image | `docker.io/grimnej/captionman:submission` |
-| Pinned digest | `docker.io/grimnej/captionman@sha256:c5faf2947724f36e186ba5b03eaa700de91d5fb4328816d6561cacb521966af1` |
+| Pinned digest | `docker.io/grimnej/captionman@sha256:0e672ddfcf898971344043be5d29bffa01de132e15e6e929cf84e876608fdfae` |
 
 The Docker image is the official judged artifact. The hosted demo is a review surface for humans.
 
@@ -155,7 +155,7 @@ CaptionMan uses role-based routing rather than pretending one model should do ev
 |---|---|
 | Visual understanding | Qwen3.7 Plus primary with a budget-counted Kimi K2.7 fallback |
 | Caption writing | GLM route through Fireworks |
-| Output safety | Evidence retry, deterministic completeness/speculation gates, and per-style GLM recovery |
+| Output safety | Evidence retry, anchor-overlap and figurative-claim gates, plus bounded per-style GLM recovery |
 | Gemma | Configured specialist route; claimed only to the level reported by `captionman doctor` |
 
 Current public claim: **Gemma is configured as an inactive specialist option, while the verified champion route uses Qwen3.7 Plus vision, Kimi K2.7 evidence fallback, and GLM four-style writing.**

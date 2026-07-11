@@ -145,3 +145,11 @@
 - Decision: Use Qwen3.7 Plus as the primary visual observer, validate the semantic evidence before captioning, and spend at most one additional budgeted evidence call on Kimi K2.7 when the primary call fails or remains generic. Pass only compact normalized evidence to GLM 5.2 for four-style writing.
 - Alternatives considered: Hardcode the three public descriptions; inspect other submissions; accept generic evidence; keep Kimi K2.6 without retesting; make every video use two vision models.
 - Consequences: Normal execution remains two calls, the measured v1-v3 route is faster and semantically sharper, transient vision failures no longer silently become generic captions, and the official call budget accounts for fallback use.
+
+### ADR-018: Final Captions Must Prove Anchor Overlap
+- Date: 2026-07-11
+- Status: accepted
+- Context: A live calibration caption preserved the office scene but stated an unseen code deployment as a literal action. Prompt instructions alone did not guarantee that stylistic additions remained figurative, and schema validation cannot detect semantic drift.
+- Decision: Require every final caption to share meaningful terms with the compact evidence anchor. For `humorous_tech`, any technical concept absent from the evidence must be explicitly marked as figurative with `like`, `as if`, or `as though`; otherwise use the evidence-grounded style fallback.
+- Alternatives considered: Trust prompt compliance; ban all technical vocabulary; add another model judge; add public-sample-specific rules.
+- Consequences: Unrelated captions and literal unseen software claims fail closed without another model call. Some risky jokes become conservative deterministic metaphors, preserving factuality, style presence, latency, and hidden-set generalization.

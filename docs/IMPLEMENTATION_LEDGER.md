@@ -243,3 +243,12 @@
 - Behavior implemented: Captions use compact subject/action/setting anchors with 24-word targets and a 26-word safety tolerance; incidental clothing, uncertain person labels, production-style claims, canned sarcasm, and full temporal-detail leakage are removed. Qwen3.7 Plus is the primary observer, generic evidence triggers one budget-counted Kimi K2.7 attempt, and GLM receives only normalized compact evidence rather than the full replay graph.
 - Tests added: Compact-context boundary, generic-evidence retry accounting, provider reasoning-content recovery, uncertain-person and time-lapse normalization, clothing removal, canned-style rejection, and caption-length tolerance.
 - Known limitations: Public examples and one unrelated holdout cannot reproduce the hidden LLM judge. The replacement image must still pass exact Docker real-provider gates before promotion.
+
+### Slice ID: CM-026
+- Milestone: Semantic postcondition and final Qwen release
+- Objective: Prevent schema-valid styled captions from drifting away from evidence or presenting unseen technical actions as facts, then publish the exact verified artifact.
+- Files added: None.
+- Files modified: Caption safety, batch prompt, focused tests, README, schema/submission docs, and living docs.
+- Behavior implemented: Final captions require meaningful overlap with the compact scene anchor. Unseen technical terms in `humorous_tech` require an explicit figurative marker, while deterministic fallback preserves the scene and requested tone without another provider call. Evidence normalization also preserves sentence-initial capitalization after removing uncertain qualifiers.
+- Tests added: Unrelated-caption rejection, unmarked unseen-tech rejection, explicit-metaphor acceptance, and sentence-initial capitalization preservation.
+- Known limitations: The public evaluator still exposes only an aggregate score. These postconditions reduce observable semantic failure modes but cannot guarantee a leaderboard rank before the hidden judge reruns.
