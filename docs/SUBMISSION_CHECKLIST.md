@@ -2,7 +2,7 @@
 
 ## Final Submission Artifact
 
-- Docker image URL: `ghcr.io/grimnej/captionman:submission`
+- Docker image URL: `docker.io/grimnej/captionman:submission`
 - Current manifest digest: `sha256:b0626dc06303c3b711b0e29711b2b485eac6b84b5daef84dd10ebd12af99af2c`
 - Public pull verified: yes, with a clean unauthenticated Docker config
 - Final image doctor verified: yes
@@ -118,7 +118,7 @@ The final doctor check must report:
 Latest verified digest:
 
 ```text
-ghcr.io/grimnej/captionman:submission@sha256:b0626dc06303c3b711b0e29711b2b485eac6b84b5daef84dd10ebd12af99af2c
+docker.io/grimnej/captionman:submission@sha256:b0626dc06303c3b711b0e29711b2b485eac6b84b5daef84dd10ebd12af99af2c
 ```
 
 ## Submit

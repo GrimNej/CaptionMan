@@ -945,3 +945,11 @@
 - Output summary: `ghcr.io/grimnej/captionman:submission` pulled without registry credentials, serves as `application/vnd.docker.distribution.manifest.v2+json`, doctor passed with `linux/amd64`, official mode, `fireworks_direct`, embedded credential source, Kimi vision model ready, GLM caption/judge models ready, and live provider check passing. The v1-v3 official practice set wrote `/output/results.json` in about 94 seconds and validation passed.
 - Failures: The submission platform rejected the digest-form reference with `PULL_ERROR`, even though the underlying image was public. The platform's own message asks for a tag reference.
 - Fixes attempted: Built and pushed the safer tag-only submission artifact `ghcr.io/grimnej/captionman:submission` with provenance/SBOM attestations disabled.
+
+### 2026-07-11 10:15
+- Command: Direct anonymous Docker Hub registry manifest check; `docker manifest inspect docker.io/grimnej/captionman:submission`; `docker pull --platform linux/amd64 docker.io/grimnej/captionman:submission`; `docker run --rm docker.io/grimnej/captionman:submission captionman doctor`; mounted mock official run; `python scripts/validate_results.py output/dockerhub-submission-mock/results.json`.
+- Environment: Docker Desktop Linux engine, Docker Hub public registry, final embedded temporary hackathon Fireworks credential.
+- Result: pass
+- Output summary: Docker Hub returned HTTP 200 for an anonymous manifest request, with content type `application/vnd.docker.distribution.manifest.v2+json` and digest `sha256:b0626dc06303c3b711b0e29711b2b485eac6b84b5daef84dd10ebd12af99af2c`. The Docker Hub tag pulled as `linux/amd64`, doctor passed with live Fireworks access, the mounted official mock run wrote `/output/results.json`, and validation passed.
+- Failures: Direct GHCR anonymous registry access returned 401 for the same tag, confirming the submission platform's `PULL_ERROR` was registry visibility, not image quality.
+- Fixes attempted: Mirrored the exact same verified image digest to Docker Hub under `docker.io/grimnej/captionman:submission`.
