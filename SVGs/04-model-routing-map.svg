@@ -35,13 +35,14 @@
 
   <rect x="455" y="205" width="290" height="215" class="core pulse"/>
   <text x="505" y="260" class="tw">Champion Route</text>
-  <text x="505" y="292" class="bw">fireworks_kimi_glm</text>
+  <text x="505" y="292" class="bw">fireworks_qwen37_glm</text>
   <text x="505" y="332" class="bw">bounded calls per video</text>
   <text x="505" y="362" class="bw">schema adapter at output</text>
 
   <rect x="75" y="180" width="260" height="110" class="card pulse"/>
-  <text x="110" y="222" class="t">Kimi Vision</text>
-  <text x="110" y="250" class="b">frame and scene understanding</text>
+  <text x="110" y="218" class="t">Qwen 3.7 Vision</text>
+  <text x="110" y="246" class="b">primary scene understanding</text>
+  <text x="110" y="270" class="b">Kimi 2.7 counted fallback</text>
 
   <rect x="75" y="360" width="260" height="110" class="card pulse"/>
   <text x="110" y="402" class="t">Download + FFmpeg</text>

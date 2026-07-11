@@ -113,7 +113,8 @@ The final doctor check must report:
 - `AI_PROVIDER=fireworks_direct`
 - `OFFICIAL_MODE=true`
 - credential source `embedded_hackathon_key`
-- route `fireworks_kimi_glm`
+- route `fireworks_qwen37_glm`
+- Qwen3.7 Plus primary vision model and Kimi K2.7 evidence fallback both ready/serverless
 - Gemma configured but inactive unless a verified serverless Gemma route is later activated
 
 Latest verified digest:

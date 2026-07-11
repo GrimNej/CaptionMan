@@ -153,12 +153,12 @@ CaptionMan uses role-based routing rather than pretending one model should do ev
 
 | Role | Verified Route |
 |---|---|
-| Visual understanding | Kimi route through Fireworks |
+| Visual understanding | Qwen3.7 Plus primary with a budget-counted Kimi K2.7 fallback |
 | Caption writing | GLM route through Fireworks |
-| Output safety | Deterministic completeness, speculation, and schema gates with per-style GLM recovery |
+| Output safety | Evidence retry, deterministic completeness/speculation gates, and per-style GLM recovery |
 | Gemma | Configured specialist route; claimed only to the level reported by `captionman doctor` |
 
-Current public claim: **Gemma is configured as an inactive specialist option, while the verified champion route for the final Docker image is Kimi vision + GLM four-style writing.**
+Current public claim: **Gemma is configured as an inactive specialist option, while the verified champion route uses Qwen3.7 Plus vision, Kimi K2.7 evidence fallback, and GLM four-style writing.**
 
 This wording is deliberate. CaptionMan does not claim Gemma-only caption generation or Gemma multimodal behavior unless the doctor output and tournament notes verify that route.
 
@@ -216,7 +216,9 @@ Set at least:
 FIREWORKS_API_KEY=...
 AI_PROVIDER=fireworks_direct
 MODEL_ROUTING_MODE=champion
-CHAMPION_ROUTE=fireworks_kimi_glm
+CHAMPION_ROUTE=fireworks_qwen37_glm
+VISION_MODEL=accounts/fireworks/models/qwen3p7-plus
+VISION_FALLBACK_MODEL=accounts/fireworks/models/kimi-k2p7-code
 GEMMA_MODEL=accounts/fireworks/models/gemma-4-31b-it
 GEMMA_USAGE_MODE=off
 REQUIRE_GEMMA_FOR_SUBMISSION=false

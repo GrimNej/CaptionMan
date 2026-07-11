@@ -91,7 +91,7 @@ class FireworksProvider:
             "live_check": live_check,
         }
 
-    def build_evidence(self, task: VideoTask) -> EvidenceGraph:
+    def build_evidence(self, task: VideoTask, attempt: int = 0) -> EvidenceGraph:
         video_path = self._resolve_video(task)
         probe = probe_video(video_path)
         artifact_dir = self.settings.data_dir / "fireworks" / task.video_id
@@ -105,8 +105,11 @@ class FireworksProvider:
         vision_frames = _prepare_vision_frames(frames, artifact_dir, self.settings)
         prompt = _evidence_prompt(float(probe.duration_seconds or 0), len(vision_frames))
         content = _vision_content(prompt, vision_frames, frame_artifacts)
+        vision_model = self.settings.vision_model
+        if attempt > 0 and self.settings.vision_fallback_model:
+            vision_model = self.settings.vision_fallback_model
         response = self.client.chat.completions.create(
-            model=self.settings.vision_model,
+            model=vision_model,
             messages=[
                 {
                     "role": "system",
@@ -125,7 +128,7 @@ class FireworksProvider:
             reasoning_effort="none",
             temperature=0,
         )
-        content = response.choices[0].message.content or "{}"
+        content = _message_content(response.choices[0].message) or "{}"
         fallback_hint = str(task.metadata.get("description") or "")
         payload = _extract_json_or_fallback(content, fallback_hint=fallback_hint)
         segments = [
@@ -280,7 +283,7 @@ class FireworksProvider:
         return cleaned
 
     def _model_checks(self) -> dict[str, dict[str, object]]:
-        return {
+        checks = {
             "vision_model": self._check_model(
                 self.settings.vision_model,
                 requires_image=True,
@@ -288,6 +291,15 @@ class FireworksProvider:
             "caption_model": self._check_model(self._caption_model()),
             "judge_model": self._check_model(self.settings.judge_model),
         }
+        if (
+            self.settings.vision_fallback_model
+            and self.settings.vision_fallback_model != self.settings.vision_model
+        ):
+            checks["vision_fallback_model"] = self._check_model(
+                self.settings.vision_fallback_model,
+                requires_image=True,
+            )
+        return checks
 
     def _caption_model(self) -> str:
         if self.settings.gemma_usage_mode == "specialist" and self.settings.gemma_model:
@@ -328,9 +340,12 @@ class FireworksProvider:
     def _resolve_video(self, task: VideoTask) -> Path:
         if task.video_uri.startswith(("http://", "https://")):
             suffix = Path(task.video_uri.split("?", 1)[0]).suffix or ".mp4"
+            destination = self.settings.data_dir / "downloads" / f"{task.video_id}{suffix}"
+            if destination.is_file() and destination.stat().st_size > 0:
+                return destination
             return download_video(
                 task.video_uri,
-                self.settings.data_dir / "downloads" / f"{task.video_id}{suffix}",
+                destination,
                 self.settings,
             )
         if task.video_uri.startswith("file://"):
@@ -421,6 +436,21 @@ def _extract_json(content: str) -> dict[str, Any]:
     return data
 
 
+def _message_content(message: object) -> str:
+    content = getattr(message, "content", None)
+    if isinstance(content, str) and content.strip():
+        return content
+    reasoning = getattr(message, "reasoning_content", None)
+    if isinstance(reasoning, str) and reasoning.strip():
+        return reasoning
+    model_extra = getattr(message, "model_extra", None)
+    if isinstance(model_extra, dict):
+        reasoning = model_extra.get("reasoning_content")
+        if isinstance(reasoning, str) and reasoning.strip():
+            return reasoning
+    return ""
+
+
 def _extract_json_or_fallback(content: str, fallback_hint: str = "") -> dict[str, Any]:
     try:
         return _extract_json(content)
@@ -455,7 +485,27 @@ def _string_list(value: object) -> list[str]:
 
 
 def _normalize_evidence_text(text: str) -> str:
-    normalized = re.sub(r"(?i)\blaptop(?: computer)?\b", "computer", text)
+    normalized = text
+    described_as_time_lapse = bool(re.search(r"(?i)\btime[- ]lapse\b", normalized))
+    normalized = re.sub(r"(?i)^time[- ]lapse of\s+", "", normalized)
+    normalized = re.sub(
+        r"(?i)\s+in (?:a )?time[- ]lapse(?: sequence| video| footage)?\b",
+        "",
+        normalized,
+    )
+    normalized = re.sub(r"(?i)\btime[- ]lapse(?: sequence| video| footage)?\b", "", normalized)
+    if described_as_time_lapse:
+        normalized = re.sub(
+            r"(?i)\b(move|moves|moving|flow|flows|flowing) rapidly\b",
+            r"\1",
+            normalized,
+        )
+    normalized = re.sub(r"(?i)\b(?:woman|man)'s\b", "person's", normalized)
+    normalized = re.sub(r"(?i)\b(?:woman|man)\b", "person", normalized)
+    normalized = re.sub(r"(?i)\b(?:women|men)\b", "people", normalized)
+    normalized = re.sub(r"(?i)\b(?:girl|boy)'s\b", "child's", normalized)
+    normalized = re.sub(r"(?i)\b(?:girl|boy)\b", "child", normalized)
+    normalized = re.sub(r"(?i)\blaptop(?: computer)?\b", "computer", normalized)
     normalized = re.sub(r"(?i)\b(?:light|dark)-colored\s+", "", normalized)
     normalized = re.sub(
         r"(?i)\s+(?:wearing|dressed in|in) an? [\w-]+ "

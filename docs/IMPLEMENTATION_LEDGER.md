@@ -234,3 +234,12 @@
 - Behavior implemented: Judged runs use 10-14 timestamped 768px images rather than one contact sheet, disable Kimi/GLM reasoning for structured low-latency output, build domain-neutral semantic evidence, suppress unsupported production-style and high-risk subtype inference, generate all four styles from one factual core, retry only missing or invalid styles, reject incomplete and speculative-intent captions, and never infer scene content from public sample IDs or URLs.
 - Tests added: Duration-scaled timestamp coverage, domain-neutral unstructured evidence recovery, batch-provider routing, public-sample-ID collision protection, incomplete caption recovery, speculative intent rejection, prompt scoring alignment, and no scene inference from URL/task ID.
 - Known limitations: The organizer exposes only one aggregate LLM-judge score, so a leaderboard gain cannot be guaranteed before resubmission. Audio tracks are detected but not transcribed, and Gemma remains configured but inactive because the current account does not expose a verified serverless Gemma route.
+
+### Slice ID: CM-025
+- Milestone: Public-example calibration and vision champion refresh
+- Objective: Improve hidden-set accuracy and tone without hardcoding public inputs or inspecting outside submissions.
+- Files added: None.
+- Files modified: Fireworks provider, pipeline budget handling, provider configuration, evidence/caption prompts, caption safety, Docker defaults, model tournament script, deployment templates, tests, README diagrams, and living docs.
+- Behavior implemented: Captions use compact subject/action/setting anchors with 24-word targets and a 26-word safety tolerance; incidental clothing, uncertain person labels, production-style claims, canned sarcasm, and full temporal-detail leakage are removed. Qwen3.7 Plus is the primary observer, generic evidence triggers one budget-counted Kimi K2.7 attempt, and GLM receives only normalized compact evidence rather than the full replay graph.
+- Tests added: Compact-context boundary, generic-evidence retry accounting, provider reasoning-content recovery, uncertain-person and time-lapse normalization, clothing removal, canned-style rejection, and caption-length tolerance.
+- Known limitations: Public examples and one unrelated holdout cannot reproduce the hidden LLM judge. The replacement image must still pass exact Docker real-provider gates before promotion.

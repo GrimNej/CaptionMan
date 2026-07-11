@@ -32,3 +32,4 @@ def test_fireworks_evidence_prompt_does_not_infer_visual_style_from_blur() -> No
     assert "hairstyle" in prompt
     assert "persistent scene meaning" in prompt
     assert "usually 10-20 words" in prompt
+    assert "most discriminative subject" in prompt

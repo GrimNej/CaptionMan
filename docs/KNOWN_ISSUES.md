@@ -34,20 +34,20 @@
 - Current workaround: Docker Desktop Linux engine was running for the 2026-07-10 submission packaging audit; keep Docker Desktop running for final build/push and public pull verification.
 - Owner/next step: Keep Docker Desktop running when executing final Docker gates.
 
-### ISSUE-004: Fireworks Vision Model May Ignore JSON-Only Prompt
+### ISSUE-004: Fireworks Vision Response May Be Empty Or Unstructured
 - Severity: low
 - Area: Provider quality
-- Description: `kimi-k2p6` is verified as image-capable. Disabling reasoning produced strict JSON in current holdout and v1-v3 canaries, but provider behavior can still vary.
+- Description: Serverless vision responses can occasionally be empty, generic, or place usable content in a provider reasoning field even when JSON output is requested.
 - Reproduction: Run a real-provider task with debug replay and inspect whether `uncertainty_notes` reports an unstructured response.
-- Current workaround: The fallback parser is domain-neutral and extracts concrete observations without relying on filenames, task IDs, public URLs, or sample descriptions.
-- Owner/next step: Keep the fallback regression tests and monitor real runs; do not add benchmark-specific fallback answers.
+- Current workaround: Recover provider reasoning content when present, reject generic evidence, and make one budget-counted evidence retry with Kimi K2.7 after Qwen3.7 Plus. The domain-neutral parser remains the final boundary and never uses filenames, task IDs, URLs, or sample descriptions.
+- Owner/next step: Keep retry/model-readiness regressions and monitor real runs; do not add benchmark-specific fallback answers.
 
 ### ISSUE-005: Gemma Specialist Route Not Serverless On Current Account
 - Severity: medium
 - Area: Model routing
 - Description: `GEMMA_MODEL=accounts/fireworks/models/gemma-4-31b-it` is configured, but Fireworks doctor/model-list evidence shows it is not serverless for this account, so it cannot be the active caption model for the current direct route.
 - Reproduction: Set `GEMMA_USAGE_MODE=specialist` and run `uv run captionman doctor`; the caption model check fails closed on `serverless=false`.
-- Current workaround: Keep `GEMMA_USAGE_MODE=off` and use the verified `fireworks_kimi_glm` champion route.
+- Current workaround: Keep `GEMMA_USAGE_MODE=off` and use the verified `fireworks_qwen37_glm` champion route.
 - Owner/next step: Only activate Gemma if a serverless Gemma model becomes available and `captionman doctor` plus bounded canaries pass.
 
 ### ISSUE-006: Studio Upload Is Demo-Only, Not Judged Mode

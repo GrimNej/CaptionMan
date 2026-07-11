@@ -7,7 +7,7 @@ from app.evidence.evidence_schema import EvidenceGraph
 from app.providers.base import CaptionStyle
 
 MAX_FINAL_CAPTION_CHARS = 320
-MAX_FINAL_CAPTION_WORDS = 24
+MAX_FINAL_CAPTION_WORDS = 26
 
 META_FRAGMENTS = (
     "the user",

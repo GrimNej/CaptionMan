@@ -50,11 +50,21 @@ def test_overlong_caption_is_rejected() -> None:
     caption = (
         "Traffic moves along a city boulevard while tall buildings, traffic lights, "
         "crosswalks, buses, cars, trees, sidewalks, windows, and distant signs all compete "
-        "for unnecessary attention."
+        "for unnecessary attention during rush hour."
     )
 
-    assert len(caption.split()) > 24
+    assert len(caption.split()) > 26
     assert not caption_is_usable(caption)
+
+
+def test_twenty_six_word_caption_is_within_safety_tolerance() -> None:
+    caption = (
+        "A cyclist rides through a rainy city street while pedestrians cross nearby, "
+        "turning the wet commute into a careful balancing act for everyone involved each morning."
+    )
+
+    assert len(caption.split()) == 26
+    assert caption_is_usable(caption)
 
 
 def test_contact_sheet_language_is_rejected() -> None:

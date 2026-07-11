@@ -23,3 +23,7 @@ class BatchCaptionProvider(Protocol):
         evidence: EvidenceGraph,
         styles: tuple[CaptionStyle, ...],
     ) -> dict[CaptionStyle, str]: ...
+
+
+class EvidenceProvider(Protocol):
+    def build_evidence(self, task: VideoTask, attempt: int = 0) -> EvidenceGraph: ...

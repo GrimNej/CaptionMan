@@ -27,6 +27,15 @@ ROUTE_ENVS: dict[str, dict[str, str]] = {
         "CHAMPION_ROUTE": "fireworks_kimi_glm",
         "GEMMA_USAGE_MODE": "off",
     },
+    "fireworks_qwen37_glm": {
+        "AI_PROVIDER": "fireworks_direct",
+        "OFFICIAL_MODE": "true",
+        "MODEL_ROUTING_MODE": "champion",
+        "CHAMPION_ROUTE": "fireworks_qwen37_glm",
+        "VISION_MODEL": "accounts/fireworks/models/qwen3p7-plus",
+        "VISION_FALLBACK_MODEL": "accounts/fireworks/models/kimi-k2p7-code",
+        "GEMMA_USAGE_MODE": "off",
+    },
     "specialist_vision_gemma_style": {
         "AI_PROVIDER": "fireworks_direct",
         "OFFICIAL_MODE": "true",

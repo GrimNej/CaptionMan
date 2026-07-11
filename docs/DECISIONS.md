@@ -137,3 +137,11 @@
 - Decision: Remove every sample-derived scene hint and answer fallback. Send 10-14 individually compressed, timestamped images to Kimi with reasoning disabled, build domain-neutral semantic evidence, and ask GLM for all requested tones in one scoring-aligned JSON batch. Production aesthetics are omitted unless unmistakable and essential; uncertain computer and building-use subtypes are normalized to accurate parent categories. Reject structurally incomplete, meta, or speculative-intent drafts and recover only the affected style.
 - Alternatives considered: Tune only the old per-style prompts; add an unconditional GLM review call; compare outputs with competitor submissions; activate an unverified Gemma route.
 - Consequences: Normal real-provider execution drops from five logical calls to two, temporal and visual detail increase, all styles share one factual core, and hidden clips no longer inherit public-sample assumptions. A trial review call was rejected because it changed none of 16 measured captions while adding latency and cost.
+
+### ADR-017: Qwen Primary Vision With Counted Kimi Fallback
+- Date: 2026-07-11
+- Status: accepted
+- Context: The public-example calibration showed that compact subject/action/setting anchors score more directly against the published accuracy rubric. A bounded serverless tournament found Qwen3.7 Plus more specific and faster than the previous Kimi K2.6 route, but one Qwen request returned generic evidence.
+- Decision: Use Qwen3.7 Plus as the primary visual observer, validate the semantic evidence before captioning, and spend at most one additional budgeted evidence call on Kimi K2.7 when the primary call fails or remains generic. Pass only compact normalized evidence to GLM 5.2 for four-style writing.
+- Alternatives considered: Hardcode the three public descriptions; inspect other submissions; accept generic evidence; keep Kimi K2.6 without retesting; make every video use two vision models.
+- Consequences: Normal execution remains two calls, the measured v1-v3 route is faster and semantically sharper, transient vision failures no longer silently become generic captions, and the official call budget accounts for fallback use.

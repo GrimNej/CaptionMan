@@ -26,6 +26,7 @@ class Settings(BaseSettings):
         default="",
         validation_alias=AliasChoices("VISION_MODEL", "DEFAULT_VISION_MODEL"),
     )
+    vision_fallback_model: str = ""
     text_model: str = Field(
         default="",
         validation_alias=AliasChoices("TEXT_MODEL", "DEFAULT_TEXT_MODEL"),
@@ -60,6 +61,7 @@ class Settings(BaseSettings):
     max_seconds_per_video: float = 120
     max_total_seconds: float = 900
     max_model_calls_per_video: int = 14
+    max_evidence_attempts: int = 2
     request_timeout_seconds: int = 120
     max_retries: int = 3
     style_concurrency: int = 2

@@ -74,6 +74,7 @@ def _route_report(settings: Settings) -> dict[str, object]:
         "champion_route": settings.champion_route,
         "official_safe": settings.ai_provider in {"mock", "proxy", "fireworks", "fireworks_direct"},
         "visual_model": visual_model or None,
+        "visual_fallback_model": settings.vision_fallback_model or None,
         "caption_model": caption_model or None,
         "repair_model": repair_model or None,
         "proxy_route_active": settings.ai_provider == "proxy",

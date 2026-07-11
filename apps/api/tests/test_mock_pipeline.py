@@ -22,7 +22,7 @@ def test_mock_pipeline_produces_four_styles() -> None:
 
 def test_pipeline_uses_provider_evidence_builder_when_available(monkeypatch) -> None:
     class EvidenceProvider(MockProvider):
-        def build_evidence(self, task: VideoTask) -> EvidenceGraph:
+        def build_evidence(self, task: VideoTask, attempt: int = 0) -> EvidenceGraph:
             return EvidenceGraph(
                 video_id=task.video_id,
                 overall_summary="Provider-built evidence",
@@ -37,6 +37,41 @@ def test_pipeline_uses_provider_evidence_builder_when_available(monkeypatch) -> 
     )
 
     assert replay[0]["evidence"]["overall_summary"] == "Provider-built evidence"
+
+
+def test_pipeline_retries_generic_provider_evidence_within_budget(monkeypatch) -> None:
+    class EvidenceProvider(MockProvider):
+        def __init__(self) -> None:
+            self.attempts: list[int] = []
+
+        def build_evidence(self, task: VideoTask, attempt: int = 0) -> EvidenceGraph:
+            self.attempts.append(attempt)
+            if attempt == 0:
+                return EvidenceGraph(
+                    video_id=task.video_id,
+                    overall_summary="A video clip is shown.",
+                    main_event="A video clip is shown.",
+                )
+            return EvidenceGraph(
+                video_id=task.video_id,
+                overall_summary="A surfer rides a breaking wave near shore.",
+                main_event="A surfer balances on a board in the ocean.",
+            )
+
+    provider = EvidenceProvider()
+    monkeypatch.setattr("app.core.pipeline.make_provider", lambda _settings: provider)
+
+    _results, replay = run_pipeline(
+        [VideoTask(video_id="hidden-surf", video_uri="mock://hidden-surf")],
+        Settings(ai_provider="mock", max_evidence_attempts=2),
+    )
+
+    assert provider.attempts == [0, 1]
+    assert "surfer" in replay[0]["evidence"]["overall_summary"].lower()
+    assert replay[0]["budget"]["call_stages"][:2] == [
+        "evidence:vision:1",
+        "evidence:vision:2",
+    ]
 
 
 def test_pipeline_prefers_one_batch_caption_call(monkeypatch) -> None:

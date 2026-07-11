@@ -7,7 +7,7 @@ services:
         RUNTIME_AI_PROVIDER: "fireworks_direct"
         RUNTIME_OFFICIAL_MODE: "true"
         RUNTIME_MODEL_ROUTING_MODE: "champion"
-        RUNTIME_CHAMPION_ROUTE: "fireworks_kimi_glm"
+        RUNTIME_CHAMPION_ROUTE: "fireworks_qwen37_glm"
         RUNTIME_GEMMA_USAGE_MODE: "off"
         ALLOW_EMBEDDED_HACKATHON_KEY: "false"
     command:
@@ -24,7 +24,9 @@ services:
       AI_PROVIDER: "fireworks_direct"
       OFFICIAL_MODE: "true"
       MODEL_ROUTING_MODE: "champion"
-      CHAMPION_ROUTE: "fireworks_kimi_glm"
+      CHAMPION_ROUTE: "fireworks_qwen37_glm"
+      VISION_MODEL: "accounts/fireworks/models/qwen3p7-plus"
+      VISION_FALLBACK_MODEL: "accounts/fireworks/models/kimi-k2p7-code"
       GEMMA_USAGE_MODE: "off"
       REQUIRE_GEMMA_FOR_SUBMISSION: "false"
       DATA_DIR: "/data"
@@ -32,6 +34,8 @@ services:
       MAX_DOWNLOAD_MB: "100"
       MAX_VIDEO_SECONDS: "130"
       MAX_SECONDS_PER_VIDEO: "120"
+      MAX_MODEL_CALLS_PER_VIDEO: "8"
+      MAX_EVIDENCE_ATTEMPTS: "2"
     volumes:
       - ./data:/data
     expose:

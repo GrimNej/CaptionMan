@@ -139,11 +139,16 @@ if ($null -eq $apiPid) {
     $env:OFFICIAL_MODE = "true"
     $env:AI_PROVIDER = $Provider
     $env:MODEL_ROUTING_MODE = "champion"
-    $env:CHAMPION_ROUTE = "fireworks_kimi_glm"
+    $env:CHAMPION_ROUTE = "fireworks_qwen37_glm"
+    $env:VISION_MODEL = "accounts/fireworks/models/qwen3p7-plus"
+    $env:VISION_FALLBACK_MODEL = "accounts/fireworks/models/kimi-k2p7-code"
     $env:GEMMA_USAGE_MODE = "off"
     $env:CAPTION_CANDIDATES_PER_STYLE = "1"
-    $env:MAX_MODEL_CALLS_PER_VIDEO = "5"
-    $env:NUM_FRAMES = "4"
+    $env:MAX_MODEL_CALLS_PER_VIDEO = "8"
+    $env:MAX_EVIDENCE_ATTEMPTS = "2"
+    $env:NUM_FRAMES = "12"
+    $env:MIN_FRAMES = "10"
+    $env:MAX_FRAMES = "14"
     $env:CORS_ORIGINS = "http://localhost:$WebPort,http://127.0.0.1:$WebPort"
 
     $apiPid = Start-ServiceProcess `

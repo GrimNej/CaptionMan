@@ -10,7 +10,7 @@ ENV EMBEDDED_FIREWORKS_KEY_PATH=/app/.captionman/final_fireworks_key
 ARG RUNTIME_AI_PROVIDER=mock
 ARG RUNTIME_OFFICIAL_MODE=false
 ARG RUNTIME_MODEL_ROUTING_MODE=champion
-ARG RUNTIME_CHAMPION_ROUTE=fireworks_kimi_glm
+ARG RUNTIME_CHAMPION_ROUTE=fireworks_qwen37_glm
 ARG RUNTIME_GEMMA_USAGE_MODE=off
 
 ENV AI_PROVIDER=$RUNTIME_AI_PROVIDER
@@ -20,7 +20,8 @@ ENV CHAMPION_ROUTE=$RUNTIME_CHAMPION_ROUTE
 ENV GEMMA_USAGE_MODE=$RUNTIME_GEMMA_USAGE_MODE
 ENV REQUIRE_GEMMA_FOR_SUBMISSION=false
 ENV FIREWORKS_BASE_URL=https://api.fireworks.ai/inference/v1
-ENV VISION_MODEL=accounts/fireworks/models/kimi-k2p6
+ENV VISION_MODEL=accounts/fireworks/models/qwen3p7-plus
+ENV VISION_FALLBACK_MODEL=accounts/fireworks/models/kimi-k2p7-code
 ENV TEXT_MODEL=accounts/fireworks/models/glm-5p2
 ENV JUDGE_MODEL=accounts/fireworks/models/glm-5p2
 ENV GEMMA_MODEL=accounts/fireworks/models/gemma-4-31b-it
@@ -30,7 +31,8 @@ ENV MIN_FRAMES=10
 ENV MAX_FRAMES=14
 ENV FRAME_MAX_WIDTH=768
 ENV FRAME_JPEG_QUALITY=82
-ENV MAX_MODEL_CALLS_PER_VIDEO=6
+ENV MAX_MODEL_CALLS_PER_VIDEO=8
+ENV MAX_EVIDENCE_ATTEMPTS=2
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends ffmpeg curl ca-certificates \

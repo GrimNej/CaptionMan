@@ -1,11 +1,14 @@
 from __future__ import annotations
 
+from types import SimpleNamespace
+
 from app.core.config import Settings
 from app.evidence.evidence_schema import EvidenceGraph, EvidenceSegment
 from app.providers.fireworks import (
     _caption_context_json,
     _extract_json_or_fallback,
     _frame_count,
+    _message_content,
     _normalize_evidence_text,
     _summary_from_observations,
 )
@@ -75,6 +78,26 @@ def test_evidence_normalization_removes_conjoined_incidental_clothing() -> None:
     assert normalized == "A person types in an office."
 
 
+def test_evidence_normalization_neutralizes_uncertain_person_labels() -> None:
+    normalized = _normalize_evidence_text(
+        "A woman types while a boy watches the man's computer screen."
+    )
+
+    assert normalized == "A person types while a child watches the person's computer screen."
+
+
+def test_evidence_normalization_removes_inferred_time_lapse_language() -> None:
+    anchor = _normalize_evidence_text(
+        "Time-lapse of traffic flowing through a city street with autumn trees."
+    )
+    event = _normalize_evidence_text(
+        "Vehicles move rapidly through an intersection in a time-lapse sequence."
+    )
+
+    assert anchor == "traffic flowing through a city street with autumn trees."
+    assert event == "Vehicles move through an intersection."
+
+
 def test_caption_context_excludes_incidental_timeline_details() -> None:
     evidence = EvidenceGraph(
         video_id="hidden-4",
@@ -96,3 +119,13 @@ def test_caption_context_excludes_incidental_timeline_details() -> None:
     assert "wet city street" in context
     assert "red sign" not in context
     assert "segments" not in context
+
+
+def test_message_content_recovers_provider_reasoning_field() -> None:
+    message = SimpleNamespace(
+        content="",
+        reasoning_content=None,
+        model_extra={"reasoning_content": '{"overall_summary":"A cyclist rides."}'},
+    )
+
+    assert _message_content(message) == '{"overall_summary":"A cyclist rides."}'
