@@ -977,3 +977,11 @@
 - Output summary: The canary was semantically grounded and schema-valid. Python inspection confirmed one model-generated U+2014 em dash, which PowerShell displayed as mojibake despite valid UTF-8 JSON.
 - Failures: Judge-facing text could render inconsistently in non-UTF-8 terminals.
 - Fixes attempted: Central caption cleanup now normalizes smart dashes, quotes, non-breaking spaces, and ellipses to portable ASCII before official output; regression coverage locks the behavior.
+
+### 2026-07-11 12:35
+- Command: Full embedded-key Docker v1-v3 run; result validation; ASCII/artifact scan; direct original-frame inspection for v1 and v3.
+- Environment: Final-candidate `linux/amd64` image, embedded temporary Fireworks key, 10 timestamped images per practice clip.
+- Result: automated pass; visual findings fixed before push
+- Output summary: Three tasks and all 12 captions were present, ASCII-safe, artifact-free, schema-valid, and completed in 74.33 seconds. Visual inspection confirmed v1 semantics but found a separate desktop monitor/keyboard mislabeled as a laptop in v3, unnecessary hairstyle detail, and speculative `presumably solving` language in v2 sarcasm.
+- Failures: Automated schema and phrase scans did not detect object-classification error or the new speculative marker.
+- Fixes attempted: Added content-general person/action prioritization, laptop-versus-desktop evidence rules, and safety rejection for `apparently`, `probably`, `presumably`, and `supposedly`.

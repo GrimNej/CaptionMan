@@ -24,7 +24,7 @@ META_FRAGMENTS = (
 )
 
 SPECULATIVE_INTENT_PATTERNS = (
-    r"\bprobably (?:hopes?|hoping|thinks?|thinking|wants?|waiting)\b",
+    r"\b(?:apparently|probably|presumably|supposedly)\b",
     r"\b(?:hoping|wishing|thinking|deciding|planning|pretending) to\b",
 )
 

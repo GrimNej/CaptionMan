@@ -370,3 +370,11 @@
 - Commands run: Docker canary, Python code-point inspection, focused and full backend checks.
 - Result: Semantic output remained valid; punctuation normalization is deterministic and provider-independent.
 - Next step: Rebuild and rerun the exact final Docker canary before the full practice set.
+
+### 2026-07-11 12:35
+- Milestone: Person and workstation grounding
+- Summary: Full Docker v1-v3 output passed all automated checks, then direct frame inspection found private-intent humor for the kitten and a laptop-versus-desktop misclassification plus incidental hairstyle detail for the office scene.
+- Files changed: Evidence and batch prompts, caption safety, focused tests, and living docs.
+- Commands run: Full embedded-key Docker practice run, input-aware validation, ASCII/artifact scans, and direct v1/v3 frame inspection.
+- Result: Root causes were isolated to evidence specificity and speculative wording rather than schema or runtime behavior.
+- Next step: Lock general person/object grounding rules, rebuild, and repeat final Docker quality checks.
