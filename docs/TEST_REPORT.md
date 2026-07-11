@@ -993,3 +993,11 @@
 - Output summary: Provider evidence normalized the uncertain hardware subtype to `computer`, removed hairstyle and building-use inference, and produced office/typing captions without laptop or speculative-adverb artifacts. Replay recorded two normal calls plus one per-style recovery.
 - Failures: Prompt compliance alone did not prevent Kimi from repeating the laptop misclassification; a non-tech simile used `pretending` without one of the previously blocked adverbs.
 - Fixes attempted: Added content-general evidence normalization and expanded private-intent detection to expect, hope, plan, pretend, want, and wish variants, including `pretending not to`.
+
+### 2026-07-11 12:55
+- Command: Exact final-candidate Docker doctor; mock run and validation; full v1-v3 real-provider run; ASCII, structure, speculative-language, production-style, and generic-fallback scans.
+- Environment: `linux/amd64` image `captionman:leaderboard-quality`, embedded temporary key, Fireworks Kimi/GLM champion route.
+- Result: pass
+- Output summary: Doctor and mock gates passed; all three real tasks and 12 required captions completed in 78.32 seconds; official validation and quality scans passed. Direct output review found only a vague `light-colored` qualifier in v2.
+- Failures: Vague light/dark color labels can reduce precision without helping identification.
+- Fixes attempted: Normalize vague `light-colored` and `dark-colored` evidence qualifiers away while retaining specific colors when the vision model supplies them.

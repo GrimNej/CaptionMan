@@ -457,6 +457,7 @@ def _string_list(value: object) -> list[str]:
 def _normalize_evidence_text(text: str) -> str:
     normalized = re.sub(r"(?i)\blaptop(?: computer)?\b", "computer", text)
     normalized = re.sub(r"(?i)\bdesktop (?:computer|workstation)\b", "computer", normalized)
+    normalized = re.sub(r"(?i)\b(?:light|dark)-colored\s+", "", normalized)
     normalized = re.sub(
         r"(?i)\bhigh-rise (?:residential|apartment) buildings?\b",
         "high-rise buildings",

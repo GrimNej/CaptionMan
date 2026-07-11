@@ -386,3 +386,11 @@
 - Commands run: Focused tests; direct-provider v3 rerun with replay evidence; input-aware validation; person/workstation artifact scan.
 - Result: Evidence and all captions used `computer`, focused on typing and glancing in an office, and omitted laptop/hairstyle details. A remaining `pretending` simile was converted into a deterministic invalid-output condition so the affected style must recover.
 - Next step: Run full gates, rebuild the final image, and repeat exact Docker practice validation.
+
+### 2026-07-11 12:55
+- Milestone: Final conservative color handling
+- Summary: The exact Docker v1-v3 run passed in 78.32 seconds, then output inspection found the low-value qualifier `light-colored kitten`. Added evidence normalization that drops vague light/dark color qualifiers while preserving specific confident colors such as orange.
+- Files changed: Fireworks evidence normalization, focused test, and living docs.
+- Commands run: Exact embedded-key Docker doctor, mock judged run, full real-provider v1-v3 run, input-aware validation, ASCII/quality scan, and output review.
+- Result: Infrastructure, schema, runtime, style presence, and quality artifact gates passed. This is the final source change before registry push.
+- Next step: Rebuild, run the final bounded gates, push the unchanged Docker Hub tag, and verify anonymous pull.
