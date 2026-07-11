@@ -46,6 +46,17 @@ def test_incomplete_caption_is_rejected() -> None:
     assert not caption_is_usable("A yellow flower opens against.")
 
 
+def test_overlong_caption_is_rejected() -> None:
+    caption = (
+        "Traffic moves along a city boulevard while tall buildings, traffic lights, "
+        "crosswalks, buses, cars, trees, sidewalks, windows, and distant signs all compete "
+        "for unnecessary attention."
+    )
+
+    assert len(caption.split()) > 24
+    assert not caption_is_usable(caption)
+
+
 def test_contact_sheet_language_is_rejected() -> None:
     assert not caption_is_usable("The contact sheet shows a flower opening in four frames.")
 

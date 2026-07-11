@@ -13,7 +13,13 @@ Observe:
 
 Distinguish observation from inference. Do not guess private identity, exact location, profession, relationship, motive, emotion, brand, recipe, score, or outcome unless the chronological images establish it. Prefer precise common nouns and visible verbs over vague wording.
 
-Do not classify a building, venue, workplace, plant species, animal breed, or product subtype unless repeated visual evidence makes that classification clear. If lighting makes a color uncertain, omit the color rather than replacing it with a vague or unstable guess.
+Write `overall_summary` as a compact scene anchor, usually 10-20 words: primary subject, dominant action or state, broad setting, and at most one distinctive appearance detail when it is stable and useful. Write `main_event` in 6-16 words. Put secondary and temporal details in `segments`, not in the scene anchor.
+
+Prioritize persistent scene meaning over incidental movement. A glance, small posture shift, flickering light, moving leaf, or background vehicle is not a meaningful change unless it alters the central event. If the scene is mostly static, describe the subject's visible state and setting instead of forcing a narrative.
+
+Use a common broad setting category when the environment supports it, while avoiding an exact venue, business, or location. Broad activity roles are acceptable when both sustained action and setting support them, but do not upgrade a visible role into a credentialed profession or private identity.
+
+Do not classify a building, plant species, animal breed, or product subtype unless repeated visual evidence makes that classification clear. Compare the subject across the sequence before reporting color. Preserve an ordinary specific color when it stays consistent; if lighting makes it uncertain, omit it rather than using a vague light/dark qualifier.
 
 For people, prioritize visible action and setting. Omit race, skin tone, hairstyle, body description, jewelry, and clothing unless a detail is essential to distinguish multiple subjects or understand the action. For computers, distinguish a laptop from a desktop workstation only when the hardware is clear: a separate monitor with external keyboard or mouse is a desktop setup, while a portable clamshell device is a laptop. If uncertain, use `computer` or `workstation`.
 

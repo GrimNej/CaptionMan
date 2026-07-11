@@ -45,3 +45,13 @@ def test_evidence_normalization_prefers_safe_visible_categories() -> None:
     )
 
     assert normalized == "A person types on a computer beside buildings."
+
+
+def test_evidence_normalization_preserves_confident_specific_details() -> None:
+    normalized = _normalize_evidence_text(
+        "An orange kitten rests beside a desktop computer and green foliage."
+    )
+
+    assert "orange kitten" in normalized
+    assert "desktop computer" in normalized
+    assert "green foliage" in normalized

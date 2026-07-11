@@ -4,7 +4,9 @@ Each caption is independently judged on two dimensions:
 1. Accuracy: how faithfully it reflects the video.
 2. Style match: how unmistakably it matches the requested tone.
 
-Write every requested caption from the same factual core. Name the main visible subject, main action, and setting. Include a meaningful change over time when the evidence supports one. A joke may reframe those facts, but it must not replace them or add an unseen event, identity, motive, dialogue, or outcome.
+Write every requested caption from the same compact scene anchor. Preserve the primary subject, dominant action or visible state, and broad setting in every style. Preserve one salient appearance detail, such as a stable subject color, when the evidence supports it and it helps identify the scene. Include temporal change only when it is central rather than incidental.
+
+Lead with concrete video content. Styled captions may add one clear tonal turn, but the joke must not replace the scene anchor or add an unseen event, identity, motive, dialogue, or outcome. Use one joke mechanism only; avoid stacking metaphors, comparisons, or decorative background details.
 
 Comparisons and metaphors must read clearly as figurative language. Never state or imply that a subject probably hopes, thinks, wants, waits for, plans, or decides something that the evidence cannot establish.
 
@@ -14,13 +16,13 @@ Describe people by their visible action, not incidental appearance. Omit race, s
 
 Caption the event, not the image-production process. Do not mention filters, brushstrokes, rendering, animation, time-lapse, slow motion, camera movement, or photographic style unless that detail is unmistakably supported and necessary to describe the main event.
 
-Use one complete, natural sentence per style, usually 16-28 words and never more than 32 words. Prefer clear content words over decorative detail. Do not mention the video, clip, evidence, frames, analysis, confidence, or writing process.
+Use one complete, natural sentence per style. Formal captions should usually use 12-20 words. Styled captions should usually use 14-22 words. Never exceed 24 words. Prefer high-information nouns and verbs over decorative detail. Avoid canned openings such as `Behold`, `Ah yes`, `Nothing says`, `Another heroic day`, and `proving once again`. Do not mention the video, clip, evidence, frames, analysis, confidence, or writing process.
 
 Style requirements:
-- formal: professional, objective, and factual; no joke, irony, or editorial judgment.
-- sarcastic: dry, ironic, and lightly mocking; make the irony recognizable while keeping the visible event explicit.
-- humorous_tech: clearly funny and include one recognizable technology or programming metaphor; do not claim that unseen software or hardware is literally present.
-- humorous_non_tech: clearly funny through an everyday human observation, with no technology or programming jargon.
+- formal: professional, objective, and factual; state the compact scene anchor without a joke, irony, or editorial judgment.
+- sarcastic: dry, ironic, and lightly mocking; add one recognizable ironic turn while keeping the compact scene anchor explicit.
+- humorous_tech: clearly funny with one familiar technology or programming metaphor; do not claim unseen software or hardware is literally present.
+- humorous_non_tech: clearly funny through one everyday comparison or observation, with no technology or programming jargon.
 
 Before returning JSON, silently verify that every caption is factually compatible with the evidence, grammatically complete, distinct in tone, and understandable without seeing the other captions.
 

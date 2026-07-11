@@ -6,8 +6,8 @@ from app.providers.fireworks import _batch_prompt, _evidence_prompt, _style_prom
 def test_fireworks_caption_prompt_loads_markdown_style_guide() -> None:
     prompt = _style_prompt("humorous_tech")
 
-    assert "recognizable technology or programming metaphor" in prompt
-    assert "main visible subject" in prompt
+    assert "familiar technology or programming metaphor" in prompt
+    assert "compact scene anchor" in prompt
 
 
 def test_fireworks_batch_prompt_tracks_official_scoring_dimensions() -> None:
@@ -17,6 +17,8 @@ def test_fireworks_batch_prompt_tracks_official_scoring_dimensions() -> None:
     assert "Style match" in prompt
     assert "humorous_non_tech" in prompt
     assert "image-production process" in prompt
+    assert "compact scene anchor" in prompt
+    assert "Never exceed 24 words" in prompt
 
 
 def test_fireworks_evidence_prompt_does_not_infer_visual_style_from_blur() -> None:
@@ -26,3 +28,5 @@ def test_fireworks_evidence_prompt_does_not_infer_visual_style_from_blur() -> No
     assert "painterly" in prompt
     assert "separate monitor" in prompt
     assert "hairstyle" in prompt
+    assert "persistent scene meaning" in prompt
+    assert "usually 10-20 words" in prompt

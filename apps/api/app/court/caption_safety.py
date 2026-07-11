@@ -7,6 +7,7 @@ from app.evidence.evidence_schema import EvidenceGraph
 from app.providers.base import CaptionStyle
 
 MAX_FINAL_CAPTION_CHARS = 320
+MAX_FINAL_CAPTION_WORDS = 24
 
 META_FRAGMENTS = (
     "the user",
@@ -87,6 +88,8 @@ def ensure_safe_caption(caption: str, evidence: EvidenceGraph, style: CaptionSty
 
 def caption_is_usable(caption: str) -> bool:
     if not caption or len(caption) < 12 or len(caption.split()) < 3:
+        return False
+    if len(caption.split()) > MAX_FINAL_CAPTION_WORDS:
         return False
     lowered = caption.lower()
     if any(fragment in lowered for fragment in META_FRAGMENTS):
