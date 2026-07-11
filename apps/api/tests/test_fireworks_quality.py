@@ -40,7 +40,8 @@ def test_summary_selection_is_not_hardcoded_to_public_domains() -> None:
 
 def test_evidence_normalization_prefers_safe_visible_categories() -> None:
     normalized = _normalize_evidence_text(
-        "A person with an afro hairstyle types on a laptop beside light-colored residential buildings."
+        "A person with an afro hairstyle types on a laptop beside "
+        "light-colored residential buildings."
     )
 
     assert normalized == "A person types on a computer beside buildings."
