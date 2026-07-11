@@ -124,6 +124,18 @@ def test_fallback_preserves_each_requested_tone() -> None:
     assert "tiny performance" in outputs["humorous_non_tech"]
 
 
+def test_fallback_adds_article_to_bare_singular_person_subject() -> None:
+    evidence = EvidenceGraph(
+        video_id="hidden-office",
+        overall_summary="A woman types at a desktop computer in a modern office.",
+        main_event="Woman types on a keyboard and views a monitor.",
+    )
+
+    caption = fallback_caption(evidence, "sarcastic")
+
+    assert caption.startswith("A woman types")
+
+
 def test_unrelated_caption_is_replaced_with_evidence_anchor() -> None:
     caption = ensure_safe_caption(
         "A chef prepares a meal in a crowded restaurant kitchen.",

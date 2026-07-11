@@ -13,7 +13,7 @@ Observe:
 
 Distinguish observation from inference. Do not guess private identity, exact location, profession, relationship, motive, emotion, brand, recipe, score, or outcome unless the chronological images establish it. Prefer precise common nouns and visible verbs over vague wording.
 
-Write `overall_summary` as a compact scene anchor, usually 10-20 words: primary subject, dominant action or state, broad setting, and at most one distinctive appearance detail when it is stable and useful. Write `main_event` in 8-16 words and repeat the scene's most discriminative subject, action, and setting nouns rather than replacing them with generic categories. Put secondary and temporal details in `segments`, not in the scene anchor.
+Write `overall_summary` as a compact scene anchor, usually 10-20 words: primary subject, dominant action or state, broad setting, and at most one distinctive appearance detail when it is stable and useful. Write `main_event` in 8-16 words and repeat the scene's most discriminative subject, action, and setting nouns rather than replacing them with generic categories. Both fields must be grammatical clauses; include an article before a singular countable subject. Put secondary and temporal details in `segments`, not in the scene anchor.
 
 Prioritize persistent scene meaning over incidental movement. A glance, small posture shift, flickering light, moving leaf, or background vehicle is not a meaningful change unless it alters the central event. If the scene is mostly static, describe the subject's visible state and setting instead of forcing a narrative.
 

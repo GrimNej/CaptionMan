@@ -211,7 +211,7 @@ def clean_caption(caption: str, limit: int = MAX_FINAL_CAPTION_CHARS) -> str:
 
 
 def fallback_caption(evidence: EvidenceGraph, style: CaptionStyle) -> str:
-    subject = _scene_subject(evidence).rstrip(".!? ")
+    subject = _naturalize_fallback_subject(_scene_subject(evidence).rstrip(".!? "))
     if style == "formal":
         return clean_caption(subject)
     if style == "sarcastic":
@@ -219,6 +219,12 @@ def fallback_caption(evidence: EvidenceGraph, style: CaptionStyle) -> str:
     if style == "humorous_tech":
         return clean_caption(f"{subject}, like a program executing one very literal instruction")
     return clean_caption(f"{subject}, turning the ordinary moment into a tiny performance")
+
+
+def _naturalize_fallback_subject(subject: str) -> str:
+    if re.match(r"(?i)^(?:woman|man|girl|boy|person|child)\b", subject):
+        return f"A {subject[:1].lower()}{subject[1:]}"
+    return subject
 
 
 def _caption_matches_evidence(caption: str, evidence: EvidenceGraph) -> bool:
