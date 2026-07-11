@@ -53,6 +53,7 @@ def run_pipeline(
             )
             batch_method = getattr(provider, "caption_batch", None)
             batch_outputs: dict[CaptionStyle, str] = {}
+            caption_recovery_calls = 0
             if callable(batch_method) and budget.can_call_model():
                 budget.register_model_call("captions:batch")
                 try:
@@ -65,13 +66,16 @@ def run_pipeline(
                 batch_caption = batch_outputs.get(style, "")
                 if batch_caption:
                     candidates.append(batch_caption)
-                if not candidates:
+                if not candidates and caption_recovery_calls < settings.max_caption_recovery_calls:
                     try:
                         candidates = generate_candidates(
                             task, evidence, style, provider, budget, settings
                         )
+                        caption_recovery_calls += 1
                     except Exception:  # noqa: BLE001
                         candidates = [fallback_caption(evidence, style)]
+                if not candidates:
+                    candidates = [fallback_caption(evidence, style)]
                 accepted = [caption for caption in candidates if validate_caption(caption).ok]
                 selected = select_final(accepted or candidates, style)
                 caption = ensure_safe_caption(selected, evidence, style)

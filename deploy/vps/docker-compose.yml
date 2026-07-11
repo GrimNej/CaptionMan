@@ -36,6 +36,7 @@ services:
       MAX_SECONDS_PER_VIDEO: "120"
       MAX_MODEL_CALLS_PER_VIDEO: "8"
       MAX_EVIDENCE_ATTEMPTS: "2"
+      MAX_CAPTION_RECOVERY_CALLS: "1"
     volumes:
       - ./data:/data
     expose:

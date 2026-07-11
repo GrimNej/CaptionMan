@@ -165,14 +165,10 @@ def fallback_caption(evidence: EvidenceGraph, style: CaptionStyle) -> str:
     if style == "formal":
         return clean_caption(subject)
     if style == "sarcastic":
-        return clean_caption(
-            f"{subject}, treating the occasion with far more ceremony than strictly necessary"
-        )
+        return clean_caption(f"{subject}, making a routine moment look impressively official")
     if style == "humorous_tech":
-        return clean_caption(
-            f"{subject}, keeping the real-world processing loop refreshingly easy to follow"
-        )
-    return clean_caption(f"{subject}, turning everyday timing into a small comedy of its own")
+        return clean_caption(f"{subject}, running the visible action like one very literal loop")
+    return clean_caption(f"{subject}, turning the ordinary moment into a tiny performance")
 
 
 def _caption_from_json(text: str) -> str | None:
@@ -195,11 +191,14 @@ def _scene_subject(evidence: EvidenceGraph) -> str:
     candidates = [evidence.main_event, evidence.overall_summary]
     for segment in evidence.segments:
         candidates.extend(segment.observations)
+    usable: list[str] = []
     for candidate in candidates:
         cleaned = _remove_artifact_language(candidate)
         if _is_generic_subject(cleaned) or not caption_is_usable(clean_caption(cleaned)):
             continue
-        return cleaned
+        usable.append(cleaned)
+    if usable:
+        return min(usable, key=lambda value: len(value.split()))
     return "A visible scene unfolds in the video"
 
 

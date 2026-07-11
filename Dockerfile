@@ -33,6 +33,7 @@ ENV FRAME_MAX_WIDTH=768
 ENV FRAME_JPEG_QUALITY=82
 ENV MAX_MODEL_CALLS_PER_VIDEO=8
 ENV MAX_EVIDENCE_ATTEMPTS=2
+ENV MAX_CAPTION_RECOVERY_CALLS=1
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends ffmpeg curl ca-certificates \

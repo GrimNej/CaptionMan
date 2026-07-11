@@ -120,3 +120,44 @@ def test_pipeline_prefers_one_batch_caption_call(monkeypatch) -> None:
     assert provider.single_calls == 0
     assert results[0].formal.startswith("A runner")
     assert replay[0]["budget"]["call_stages"] == ["captions:batch"]
+
+
+def test_pipeline_caps_per_style_recovery_calls(monkeypatch) -> None:
+    class PartialBatchProvider(MockProvider):
+        def __init__(self) -> None:
+            self.single_calls = 0
+
+        def caption_batch(self, task, evidence, styles):  # noqa: ANN001
+            return {"formal": "A cyclist rides along a wet city street."}
+
+        def caption(self, task, evidence, style):  # noqa: ANN001
+            self.single_calls += 1
+            return super().caption(task, evidence, style)
+
+    provider = PartialBatchProvider()
+    monkeypatch.setattr("app.core.pipeline.make_provider", lambda _settings: provider)
+
+    results, replay = run_pipeline(
+        [
+            VideoTask(
+                video_id="hidden-rain",
+                video_uri="mock://hidden-rain",
+                metadata={"description": "A cyclist rides along a wet city street"},
+            )
+        ],
+        Settings(ai_provider="mock", official_mode=True, max_caption_recovery_calls=1),
+    )
+
+    assert provider.single_calls == 1
+    assert all(
+        (
+            results[0].formal,
+            results[0].sarcastic,
+            results[0].humorous_tech,
+            results[0].humorous_non_tech,
+        )
+    )
+    assert (
+        len([stage for stage in replay[0]["budget"]["call_stages"] if stage.startswith("caption:")])
+        == 1
+    )

@@ -119,8 +119,9 @@ def test_fallback_preserves_each_requested_tone() -> None:
         for style in ("formal", "sarcastic", "humorous_tech", "humorous_non_tech")
     }
     assert len(set(outputs.values())) == 4
-    assert "processing loop" in outputs["humorous_tech"]
-    assert "ceremony" in outputs["sarcastic"]
+    assert "literal loop" in outputs["humorous_tech"]
+    assert "impressively official" in outputs["sarcastic"]
+    assert "tiny performance" in outputs["humorous_non_tech"]
 
 
 def test_ensure_safe_caption_replaces_dangling_generation() -> None:
