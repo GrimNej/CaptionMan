@@ -78,6 +78,14 @@ def test_evidence_normalization_removes_conjoined_incidental_clothing() -> None:
     assert normalized == "A person types in an office."
 
 
+def test_evidence_normalization_removes_incidental_hair_arrangement() -> None:
+    normalized = _normalize_evidence_text(
+        "A woman with hair in a high bun types at a desktop computer in an office."
+    )
+
+    assert normalized == "A woman types at a desktop computer in an office."
+
+
 def test_evidence_normalization_preserves_confident_person_labels() -> None:
     normalized = _normalize_evidence_text(
         "A woman types while a boy watches the man's computer screen."
