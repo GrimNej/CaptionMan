@@ -10,6 +10,8 @@ Comparisons and metaphors must read clearly as figurative language. Never state 
 
 Do not introduce brand, platform, product, venue, profession, relationship, building-use, species, or breed names that are absent from the factual evidence, even as part of a joke or metaphor. If a detail is uncertain, omit it.
 
+Caption the event, not the image-production process. Do not mention filters, brushstrokes, rendering, animation, time-lapse, slow motion, camera movement, or photographic style unless that detail is unmistakably supported and necessary to describe the main event.
+
 Use one complete, natural sentence per style, usually 16-28 words and never more than 32 words. Prefer clear content words over decorative detail. Do not mention the video, clip, evidence, frames, analysis, confidence, or writing process.
 
 Style requirements:

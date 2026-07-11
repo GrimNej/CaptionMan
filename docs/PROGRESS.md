@@ -354,3 +354,11 @@
 - Commands run: Participant-guide PDF extraction and page rendering; official event-page scoring audit; Fireworks model capability query; baseline and improved real-provider flower holdouts; two v1-v3 real-provider practice runs; `uv run captionman doctor`; `uv run ruff check .`; `uv run ruff format --check .`; `uv run pytest`; input-aware result validation; source-hygiene and no-secrets scans.
 - Result: Official scoring is confirmed as LLM-judged accuracy plus tone rather than string similarity. Baseline holdout used five calls in 25.6 seconds and emitted an incomplete sarcastic fragment. The corrected path used two calls, produced strict evidence plus four complete styles, passed validation, and ran the v1-v3 practice set in 75.2 seconds. A three-call review experiment was discarded after changing zero of 16 captions while adding latency. Backend finished with 59 passing tests.
 - Next step: Build the exact embedded-key `linux/amd64` submission image, run Docker mock and real-provider gates, push the replacement tag, verify anonymous pull, and resubmit the unchanged Docker reference.
+
+### 2026-07-11 12:15
+- Milestone: Semantic evidence correction
+- Summary: Visually inspected the Docker v1 canary frames and caught an unsupported production-style interpretation: ordinary photographic traffic footage was described as painterly with visible brushstrokes. Tightened evidence and batch prompts to prioritize semantic events and suppress inferred filters, rendering, animation, time-lapse, camera technique, and visual style.
+- Files changed: `prompts/evidence_extraction.md`, `prompts/caption_batch.md`, prompt-loading tests, and living docs.
+- Commands run: Original-frame visual inspection; focused Ruff and prompt tests; real-provider v1 rerun; input-aware validation; production-style artifact scan.
+- Result: The rerun described vehicles, the intersection, traffic signals, trees, and tall buildings; all painterly, brushstroke, rendering, filter, and platform-brand language was absent. Two-call execution and official schema remained intact.
+- Next step: Rebuild the exact final image from the semantic prompt commit and repeat Docker gates.

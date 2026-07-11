@@ -961,3 +961,11 @@
 - Output summary: Official documentation confirms Track 2 captions are scored by an LLM judge for accuracy and style match across roughly 12 hidden clips. The pre-change flower holdout made five logical calls in 25.6 seconds, produced unstructured contact-sheet evidence, and emitted a dangling sarcastic caption that still passed the JSON schema. The corrected two-call path used 10 timestamped images, returned strict evidence plus four complete tones, finished the same holdout in 21.35 seconds, and completed v1-v3 in 75.19 seconds. Result validation and artifact scans passed. Full backend checks finished with 59 passing tests.
 - Failures: Shell-level `NUM_FRAMES=6` variables initially overrode the updated `.env`; one trial unconditional review call changed zero of 16 captions; broad earlier safety logic and sample-specific scene hints violated hidden-set generalization requirements.
 - Fixes attempted: Explicitly verified runtime frame settings, removed all task-ID/URL/filename scene inference and canned sample answers, added duration-scaled multi-image evidence, disabled model reasoning, batched all tones from one factual core, added per-style invalid-output recovery, rejected speculative private intent, and discarded the no-value review call.
+
+### 2026-07-11 12:15
+- Command: Docker v1 canary frame inspection; focused prompt tests; direct-provider v1 semantic rerun; `python scripts/validate_results.py`; caption artifact scan.
+- Environment: Windows PowerShell, original extracted UHD traffic frames, Kimi K2.6 vision, GLM 5.2 batch caption route.
+- Result: pass
+- Output summary: Visual inspection proved the clip was normal photographic footage even though the first Docker canary called it painterly and mentioned brushstrokes. After prompt correction, evidence and all captions focused on traffic, intersection, signals, autumn trees, and tall buildings. Validation passed and the result contained none of the banned production-style artifacts.
+- Failures: Schema validation alone did not detect the semantic production-style hallucination.
+- Fixes attempted: Added explicit semantic-content guidance and a prompt regression that warns motion blur/compression do not prove painterly, rendered, filtered, animated, or time-lapse footage.
