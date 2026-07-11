@@ -362,3 +362,11 @@
 - Commands run: Original-frame visual inspection; focused Ruff and prompt tests; real-provider v1 rerun; input-aware validation; production-style artifact scan.
 - Result: The rerun described vehicles, the intersection, traffic signals, trees, and tall buildings; all painterly, brushstroke, rendering, filter, and platform-brand language was absent. Two-call execution and official schema remained intact.
 - Next step: Rebuild the exact final image from the semantic prompt commit and repeat Docker gates.
+
+### 2026-07-11 12:25
+- Milestone: Portable official caption text
+- Summary: Confirmed a final Docker canary contained valid UTF-8 U+2014 punctuation that displayed as mojibake in Windows PowerShell. Added central smart-punctuation normalization so official captions remain portable ASCII across evaluator logs and terminals.
+- Files changed: Caption safety, regression tests, and living docs.
+- Commands run: Docker canary, Python code-point inspection, focused and full backend checks.
+- Result: Semantic output remained valid; punctuation normalization is deterministic and provider-independent.
+- Next step: Rebuild and rerun the exact final Docker canary before the full practice set.

@@ -969,3 +969,11 @@
 - Output summary: Visual inspection proved the clip was normal photographic footage even though the first Docker canary called it painterly and mentioned brushstrokes. After prompt correction, evidence and all captions focused on traffic, intersection, signals, autumn trees, and tall buildings. Validation passed and the result contained none of the banned production-style artifacts.
 - Failures: Schema validation alone did not detect the semantic production-style hallucination.
 - Fixes attempted: Added explicit semantic-content guidance and a prompt regression that warns motion blur/compression do not prove painterly, rendered, filtered, animated, or time-lapse footage.
+
+### 2026-07-11 12:25
+- Command: Final-image v1 canary, UTF-8 code-point inspection, focused caption-safety test.
+- Environment: `linux/amd64` Docker image with official mode and embedded temporary key; Windows PowerShell host.
+- Result: pass after fix
+- Output summary: The canary was semantically grounded and schema-valid. Python inspection confirmed one model-generated U+2014 em dash, which PowerShell displayed as mojibake despite valid UTF-8 JSON.
+- Failures: Judge-facing text could render inconsistently in non-UTF-8 terminals.
+- Fixes attempted: Central caption cleanup now normalizes smart dashes, quotes, non-breaking spaces, and ellipses to portable ASCII before official output; regression coverage locks the behavior.

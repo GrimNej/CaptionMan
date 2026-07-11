@@ -36,6 +36,12 @@ def test_clean_caption_joins_wrapped_caption_lines() -> None:
     )
 
 
+def test_clean_caption_normalizes_smart_punctuation_for_portable_json() -> None:
+    assert clean_caption(
+        "Traffic reboots\u2014then moves through the city\u2019s intersection"
+    ) == ("Traffic reboots - then moves through the city's intersection.")
+
+
 def test_incomplete_caption_is_rejected() -> None:
     assert not caption_is_usable("A yellow flower opens against.")
 

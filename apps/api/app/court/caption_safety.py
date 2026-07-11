@@ -28,6 +28,20 @@ SPECULATIVE_INTENT_PATTERNS = (
     r"\b(?:hoping|wishing|thinking|deciding|planning|pretending) to\b",
 )
 
+ASCII_PUNCTUATION = str.maketrans(
+    {
+        "\u00a0": " ",
+        "\u2011": "-",
+        "\u2013": "-",
+        "\u2014": " - ",
+        "\u2018": "'",
+        "\u2019": "'",
+        "\u201c": '"',
+        "\u201d": '"',
+        "\u2026": "...",
+    }
+)
+
 DANGLING_WORDS = {
     "a",
     "against",
@@ -95,7 +109,7 @@ def caption_is_usable(caption: str) -> bool:
 
 
 def clean_caption(caption: str, limit: int = MAX_FINAL_CAPTION_CHARS) -> str:
-    cleaned = caption.strip()
+    cleaned = caption.translate(ASCII_PUNCTUATION).strip()
     cleaned = re.sub(r"^```(?:json)?\s*|\s*```$", "", cleaned, flags=re.IGNORECASE)
     extracted = _caption_from_json(cleaned)
     if extracted is not None:
