@@ -86,6 +86,14 @@ def test_evidence_normalization_neutralizes_uncertain_person_labels() -> None:
     assert normalized == "A person types while a child watches the person's computer screen."
 
 
+def test_evidence_normalization_preserves_sentence_initial_capitalization() -> None:
+    normalized = _normalize_evidence_text(
+        "Woman types at a white desk in an office with a large monitor."
+    )
+
+    assert normalized == "Person types at a white desk in an office with a large monitor."
+
+
 def test_evidence_normalization_removes_inferred_time_lapse_language() -> None:
     anchor = _normalize_evidence_text(
         "Time-lapse of traffic flowing through a city street with autumn trees."
@@ -94,7 +102,7 @@ def test_evidence_normalization_removes_inferred_time_lapse_language() -> None:
         "Vehicles move rapidly through an intersection in a time-lapse sequence."
     )
 
-    assert anchor == "traffic flowing through a city street with autumn trees."
+    assert anchor == "Traffic flowing through a city street with autumn trees."
     assert event == "Vehicles move through an intersection."
 
 

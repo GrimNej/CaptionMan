@@ -486,6 +486,7 @@ def _string_list(value: object) -> list[str]:
 
 def _normalize_evidence_text(text: str) -> str:
     normalized = text
+    started_with_uppercase = normalized.lstrip()[:1].isupper()
     described_as_time_lapse = bool(re.search(r"(?i)\btime[- ]lapse\b", normalized))
     normalized = re.sub(r"(?i)^time[- ]lapse of\s+", "", normalized)
     normalized = re.sub(
@@ -531,7 +532,10 @@ def _normalize_evidence_text(text: str) -> str:
         normalized,
     )
     normalized = re.sub(r"(?i)\s+with an? [\w-]+ hairstyle\b", "", normalized)
-    return re.sub(r"\s+", " ", normalized).strip()
+    normalized = re.sub(r"\s+", " ", normalized).strip()
+    if started_with_uppercase and normalized[:1].islower():
+        normalized = normalized[:1].upper() + normalized[1:]
+    return normalized
 
 
 def _caption_context_json(evidence: EvidenceGraph) -> str:
