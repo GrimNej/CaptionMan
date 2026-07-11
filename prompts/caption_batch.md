@@ -14,7 +14,7 @@ Comparisons and metaphors must read clearly as figurative language. Never state 
 
 Do not introduce brand, platform, product, venue, profession, relationship, building-use, species, or breed names that are absent from the factual evidence, even as part of a joke or metaphor. If a detail is uncertain, omit it.
 
-Describe people by their visible action, not incidental appearance. Omit race, skin tone, hairstyle, body description, jewelry, and clothing unless essential to the event. Preserve evidence distinctions between a laptop and a desktop workstation; when uncertain, say computer or workstation.
+Describe people by their visible action, not incidental appearance. Preserve a broad person category such as woman, man, girl, or boy only when the factual evidence states it confidently; otherwise say person or child. Do not infer profession or exact age. Omit race, skin tone, hairstyle, body description, jewelry, and clothing unless essential to the event. Preserve evidence distinctions between a laptop and a desktop workstation; when uncertain, say computer or workstation.
 
 Caption the event, not the image-production process. Do not mention filters, brushstrokes, rendering, animation, time-lapse, slow motion, camera movement, or photographic style unless that detail is unmistakably supported and necessary to describe the main event.
 

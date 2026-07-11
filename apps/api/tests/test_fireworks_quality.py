@@ -78,12 +78,12 @@ def test_evidence_normalization_removes_conjoined_incidental_clothing() -> None:
     assert normalized == "A person types in an office."
 
 
-def test_evidence_normalization_neutralizes_uncertain_person_labels() -> None:
+def test_evidence_normalization_preserves_confident_person_labels() -> None:
     normalized = _normalize_evidence_text(
         "A woman types while a boy watches the man's computer screen."
     )
 
-    assert normalized == "A person types while a child watches the person's computer screen."
+    assert normalized == "A woman types while a boy watches the man's computer screen."
 
 
 def test_evidence_normalization_preserves_sentence_initial_capitalization() -> None:
@@ -91,7 +91,7 @@ def test_evidence_normalization_preserves_sentence_initial_capitalization() -> N
         "Woman types at a white desk in an office with a large monitor."
     )
 
-    assert normalized == "Person types at a white desk in an office with a large monitor."
+    assert normalized == "Woman types at a white desk in an office with a large monitor."
 
 
 def test_evidence_normalization_removes_inferred_time_lapse_language() -> None:

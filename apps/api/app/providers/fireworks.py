@@ -501,11 +501,6 @@ def _normalize_evidence_text(text: str) -> str:
             r"\1",
             normalized,
         )
-    normalized = re.sub(r"(?i)\b(?:woman|man)'s\b", "person's", normalized)
-    normalized = re.sub(r"(?i)\b(?:woman|man)\b", "person", normalized)
-    normalized = re.sub(r"(?i)\b(?:women|men)\b", "people", normalized)
-    normalized = re.sub(r"(?i)\b(?:girl|boy)'s\b", "child's", normalized)
-    normalized = re.sub(r"(?i)\b(?:girl|boy)\b", "child", normalized)
     normalized = re.sub(r"(?i)\blaptop(?: computer)?\b", "computer", normalized)
     normalized = re.sub(r"(?i)\b(?:light|dark)-colored\s+", "", normalized)
     normalized = re.sub(
