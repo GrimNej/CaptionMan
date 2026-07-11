@@ -132,13 +132,22 @@ DANGLING_WORDS = {
 
 def ensure_safe_caption(caption: str, evidence: EvidenceGraph, style: CaptionStyle) -> str:
     cleaned = clean_caption(caption)
-    if (
-        not caption_is_usable(cleaned)
-        or not _caption_matches_evidence(cleaned, evidence)
-        or not _style_claims_are_safe(cleaned, evidence, style)
-    ):
+    if not caption_is_safe_for_evidence(cleaned, evidence, style):
         return fallback_caption(evidence, style)
     return cleaned
+
+
+def caption_is_safe_for_evidence(
+    caption: str,
+    evidence: EvidenceGraph,
+    style: CaptionStyle,
+) -> bool:
+    cleaned = clean_caption(caption)
+    return (
+        caption_is_usable(cleaned)
+        and _caption_matches_evidence(cleaned, evidence)
+        and _style_claims_are_safe(cleaned, evidence, style)
+    )
 
 
 def caption_is_usable(caption: str) -> bool:

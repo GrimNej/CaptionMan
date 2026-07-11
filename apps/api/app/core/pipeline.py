@@ -6,7 +6,11 @@ from app.core.budget import BudgetExceededError, BudgetState
 from app.core.config import Settings
 from app.core.fallbacks import progressive_fallback_from_best_available_evidence
 from app.court.candidate_generator import generate_candidates
-from app.court.caption_safety import ensure_safe_caption, fallback_caption
+from app.court.caption_safety import (
+    caption_is_safe_for_evidence,
+    ensure_safe_caption,
+    fallback_caption,
+)
 from app.court.final_selector import select_final
 from app.court.hard_rules import validate_caption
 from app.evidence.evidence_schema import EvidenceGraph
@@ -64,7 +68,11 @@ def run_pipeline(
             for style in requested_styles:
                 candidates = []
                 batch_caption = batch_outputs.get(style, "")
-                if batch_caption:
+                if batch_caption and caption_is_safe_for_evidence(
+                    batch_caption,
+                    evidence,
+                    style,
+                ):
                     candidates.append(batch_caption)
                 if not candidates and caption_recovery_calls < settings.max_caption_recovery_calls:
                     try:
@@ -76,7 +84,12 @@ def run_pipeline(
                         candidates = [fallback_caption(evidence, style)]
                 if not candidates:
                     candidates = [fallback_caption(evidence, style)]
-                accepted = [caption for caption in candidates if validate_caption(caption).ok]
+                accepted = [
+                    caption
+                    for caption in candidates
+                    if validate_caption(caption).ok
+                    and caption_is_safe_for_evidence(caption, evidence, style)
+                ]
                 selected = select_final(accepted or candidates, style)
                 caption = ensure_safe_caption(selected, evidence, style)
                 style_outputs[style] = caption

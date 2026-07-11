@@ -161,3 +161,55 @@ def test_pipeline_caps_per_style_recovery_calls(monkeypatch) -> None:
         len([stage for stage in replay[0]["budget"]["call_stages"] if stage.startswith("caption:")])
         == 1
     )
+
+
+def test_pipeline_recovers_batch_caption_that_fails_style_grounding(monkeypatch) -> None:
+    class UnsafeBatchProvider(MockProvider):
+        def __init__(self) -> None:
+            self.single_styles: list[str] = []
+
+        def caption_batch(self, task, evidence, styles):  # noqa: ANN001
+            return {
+                "formal": "A runner crosses a red outdoor track beside empty stadium seats.",
+                "sarcastic": (
+                    "A runner crosses a red track, giving the empty stadium seats their "
+                    "most exclusive performance."
+                ),
+                "humorous_tech": (
+                    "A runner crosses a red outdoor track while deploying code to production."
+                ),
+                "humorous_non_tech": (
+                    "A runner crosses a red track like the empty stadium seats are keeping score."
+                ),
+            }
+
+        def caption(self, task, evidence, style):  # noqa: ANN001
+            self.single_styles.append(style)
+            return (
+                "A runner crosses a red outdoor track like a progress bar finally reaching "
+                "the empty stadium seats."
+            )
+
+    provider = UnsafeBatchProvider()
+    monkeypatch.setattr("app.core.pipeline.make_provider", lambda _settings: provider)
+
+    results, replay = run_pipeline(
+        [
+            VideoTask(
+                video_id="hidden-track",
+                video_uri="mock://hidden-track",
+                metadata={
+                    "description": "A runner crosses a red outdoor track beside empty stadium seats"
+                },
+            )
+        ],
+        Settings(ai_provider="mock", official_mode=True, max_caption_recovery_calls=1),
+    )
+
+    assert provider.single_styles == ["humorous_tech"]
+    assert "like a progress bar" in results[0].humorous_tech
+    assert "deploying code" not in results[0].humorous_tech
+    assert replay[0]["budget"]["call_stages"] == [
+        "captions:batch",
+        "caption:humorous_tech",
+    ]
