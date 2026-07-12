@@ -86,6 +86,15 @@ def test_evidence_normalization_removes_incidental_hair_arrangement() -> None:
     assert normalized == "A woman types at a desktop computer in an office."
 
 
+def test_evidence_normalization_repairs_appearance_cleanup_fragments() -> None:
+    normalized = _normalize_evidence_text(
+        "A woman with dark hair styled in a high bun sits at a white desk, over. "
+        "She types on a keyboard."
+    )
+
+    assert normalized == "A woman sits at a white desk. She types on a keyboard."
+
+
 def test_evidence_normalization_preserves_confident_person_labels() -> None:
     normalized = _normalize_evidence_text(
         "A woman types while a boy watches the man's computer screen."

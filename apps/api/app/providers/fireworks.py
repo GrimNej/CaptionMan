@@ -527,13 +527,14 @@ def _normalize_evidence_text(text: str) -> str:
         normalized,
     )
     normalized = re.sub(
-        r"(?i)\s+with (?:her |his |their )?hair "
-        r"(?:styled |tied |pulled )?in(?:to)? an? "
+        r"(?i)\s+with (?:(?:her|his|their)\s+)?(?:[\w-]+\s+){0,3}hair\s+"
+        r"(?:styled\s+|tied\s+|pulled\s+)?in(?:to)?\s+an?\s+"
         r"(?:high |low )?(?:bun|ponytail|braid)\b",
         "",
         normalized,
     )
     normalized = re.sub(r"(?i)\s+with an? [\w-]+ hairstyle\b", "", normalized)
+    normalized = re.sub(r",\s*(?:over|under|near|beside)\s*\.", ".", normalized)
     normalized = re.sub(r"\s+", " ", normalized).strip()
     if started_with_uppercase and normalized[:1].islower():
         normalized = normalized[:1].upper() + normalized[1:]
