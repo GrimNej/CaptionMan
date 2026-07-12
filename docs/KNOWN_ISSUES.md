@@ -63,7 +63,7 @@
 - Area: Caption quality
 - Description: Humor can introduce figurative comparisons that are stylistically strong but add unnecessary unsupported specificity.
 - Reproduction: Run varied hidden-like videos and inspect whether jokes introduce brands, private intent, profession, or unseen outcomes.
-- Current workaround: Batch prompts ban unsupported brands/classifications and private intent; final safety requires meaningful evidence-anchor overlap, rejects speculative-intent patterns, and requires unseen technical concepts to be visibly figurative before accepting the caption.
+- Current workaround: Batch prompts ban unsupported brands/classifications and private intent; final safety requires meaningful evidence-anchor overlap, rejects speculative-intent patterns, and requires unseen technical concepts to be visibly figurative. Up to three affected styles can use targeted recovery under the eight-call cap.
 - Owner/next step: Prefer evidence-preserving prompt changes over broad phrase blacklists or sample-specific canned captions.
 
 ### ISSUE-008: Restored Uploads Cannot Rerun Without Re-Selecting The File
@@ -81,3 +81,11 @@
 - Reproduction: Inspect the scored leaderboard entry; no per-clip or per-style report is provided.
 - Current workaround: Optimize strictly against the published rubric, use non-sample holdouts, remove all sample-derived behavior, validate every output structurally, and compare call/runtime/fallback evidence across bounded canaries.
 - Owner/next step: Resubmit the updated public image and use the next aggregate score as the only authoritative external measurement. Do not claim a top-five score before the leaderboard confirms it.
+
+### ISSUE-010: FAQ Contains A Track 2 Style-Label Typo
+- Severity: low
+- Area: Official guidance interpretation
+- Description: The FAQ's final Track 2 style checklist says `non-humorous tech`, but its Track 2 schema line and all eight public examples use `humorous_non_tech`.
+- Reproduction: Compare the Track 2 sample-task header and keys with the final style checklist on page 9.
+- Current workaround: Preserve the actual requested schema key `humorous_non_tech`; do not emit an unrequested replacement field.
+- Owner/next step: Change only if organizers publish a corrected machine-readable schema.

@@ -261,3 +261,12 @@
 - Behavior implemented: VPS Compose explicitly sets Qwen3.7 primary vision, Kimi K2.7 fallback, 10-14 sampled images at 768px, an eight-call cap, two evidence attempts, and one caption recovery. Credentials remain in the server-only env file.
 - Tests added: Compose validation, internal/public health checks, public doctor inspection, real hosted URL canary, replay frame/call inspection, and public Judge Verdict content check.
 - Known limitations: The VPS is a human-review surface and remains outside official Docker scoring. Its first uncached API rebuild took about six minutes on the small Oracle host.
+
+### Slice ID: CM-028
+- Milestone: Judging FAQ and retired-validation green flag
+- Objective: Audit every FAQ criterion, test all eight retired Track 2 clips, and improve general caption reliability without embedding public answers.
+- Files added: `docs/JUDGING_FAQ_AUDIT.md`.
+- Files modified: Pipeline recovery, caption safety, Fireworks evidence normalization, evidence/style prompts, recovery configuration, Docker/VPS/launcher defaults, hosted replay URL handling, web metadata, tests, README, submission docs, and living docs.
+- Behavior implemented: Evidence/style-unsafe batch drafts can use targeted recovery; up to three styles may recover under the eight-call cap. Broad person categories are retained only when multi-frame evidence supports them, incidental hair arrangements are removed without leaving sentence fragments, deterministic person fallbacks receive grammatical articles, and hosted frame URLs remain on the browser-visible origin.
+- Tests added: Unsafe batch recovery, confident person-category preservation, incidental hair-arrangement cleanup, fallback article naturalization, same-origin replay URL adaptation, production web build, and hosted browser/frame verification.
+- Known limitations: Retired examples do not reveal the hidden judge. Audio is not transcribed, and provider wording remains variable within deterministic safety boundaries.

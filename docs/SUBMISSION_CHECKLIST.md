@@ -3,10 +3,10 @@
 ## Final Submission Artifact
 
 - Docker image URL: `docker.io/grimnej/captionman:submission`
-- Current manifest digest: `sha256:0e672ddfcf898971344043be5d29bffa01de132e15e6e929cf84e876608fdfae`
+- Current manifest digest: `sha256:756a80fa9de66565476b4b50d4b5624e21dc3857483990329f55718e9105fe11`
 - Public pull verified: yes, with a clean unauthenticated Docker config
 - Final image doctor verified: yes
-- Final guide practice v1-v3 run verified: yes
+- Final retired public-validation v1-v8 run verified: yes, 32 captions in 199.8 seconds
 - Compressed registry size: 277.20 MiB
 - GitHub repository: `https://github.com/GrimNej/CaptionMan`
 
@@ -88,6 +88,7 @@ Use the temporary hackathon-only key file under ignored `.data/final-secrets/`.
 ```powershell
 docker buildx build `
   --platform linux/amd64 `
+  --provenance=false `
   --no-cache `
   --build-arg ALLOW_EMBEDDED_HACKATHON_KEY=true `
   --build-arg RUNTIME_AI_PROVIDER=fireworks_direct `
@@ -120,7 +121,7 @@ The final doctor check must report:
 Latest verified digest:
 
 ```text
-docker.io/grimnej/captionman:submission@sha256:0e672ddfcf898971344043be5d29bffa01de132e15e6e929cf84e876608fdfae
+docker.io/grimnej/captionman:submission@sha256:756a80fa9de66565476b4b50d4b5624e21dc3857483990329f55718e9105fe11
 ```
 
 ## Submit

@@ -55,7 +55,7 @@ That is the project moat: **Caption Court**.
 | Hosted demo | <https://captionman.grimnej.com/studio> |
 | Public repository | <https://github.com/GrimNej/CaptionMan> |
 | Docker image | `docker.io/grimnej/captionman:submission` |
-| Pinned digest | `docker.io/grimnej/captionman@sha256:0e672ddfcf898971344043be5d29bffa01de132e15e6e929cf84e876608fdfae` |
+| Pinned digest | `docker.io/grimnej/captionman@sha256:756a80fa9de66565476b4b50d4b5624e21dc3857483990329f55718e9105fe11` |
 
 The Docker image is the official judged artifact. The hosted demo is a review surface for humans.
 
@@ -345,6 +345,7 @@ The result is a system built for both evaluation and inspection: clean enough fo
 | Document | Purpose |
 |---|---|
 | [`docs/SUBMISSION_CHECKLIST.md`](docs/SUBMISSION_CHECKLIST.md) | Final image and submission gates |
+| [`docs/JUDGING_FAQ_AUDIT.md`](docs/JUDGING_FAQ_AUDIT.md) | Criterion-by-criterion Track 2 judging audit |
 | [`docs/TEST_REPORT.md`](docs/TEST_REPORT.md) | Verification history |
 | [`docs/SPEC_LOCK.md`](docs/SPEC_LOCK.md) | Track 2 schema and adapter notes |
 | [`docs/CREDENTIAL_STRATEGY.md`](docs/CREDENTIAL_STRATEGY.md) | Direct/provider/proxy credential strategy |

@@ -131,7 +131,7 @@
 - Consequences: Local demo startup is more repeatable and easier to explain, while judged Docker mode remains CLI-first and independent from the frontend.
 
 ### ADR-016: Hidden-Set Quality Uses Multi-Image Evidence And One Shared Style Batch
-- Date: 2026-07-11
+- Date: 2026-07-12
 - Status: accepted
 - Context: The first scored image reached only 0.46. Audit evidence showed six video frames collapsed into a low-resolution contact sheet, one separate text call per style, broad safety phrase bans, sample-ID scene hints, and sample-specific fallback captions. A non-sample flower run also emitted an incomplete sarcastic fragment that passed schema validation.
 - Decision: Remove every sample-derived scene hint and answer fallback. Send 10-14 individually compressed, timestamped images to Kimi with reasoning disabled, build domain-neutral semantic evidence, and ask GLM for all requested tones in one scoring-aligned JSON batch. Production aesthetics are omitted unless unmistakable and essential; uncertain computer and building-use subtypes are normalized to accurate parent categories. Reject structurally incomplete, meta, or speculative-intent drafts and recover only the affected style.
@@ -161,3 +161,11 @@
 - Decision: Pin model route, frame count bounds, frame encoding, call budget, evidence attempts, and caption recovery directly in `deploy/vps/docker-compose.yml`. Keep the server env file responsible for credentials, not scoring-critical quality settings.
 - Alternatives considered: Edit the private env file in place; rely on Dockerfile defaults; accept lower-quality demo sampling.
 - Consequences: The hosted Studio and judged image now use the same bounded quality profile, and future stale env values cannot silently downgrade public demo output.
+
+### ADR-020: Retired Examples Are Black-Box Tests, Not Runtime Knowledge
+- Date: 2026-07-11
+- Status: accepted
+- Context: The judging FAQ provides eight retired public validation videos and illustrative reference captions, while explicitly stating that hidden cases and internal judge prompts are not shared. Several reference captions intentionally speculate or omit visible details.
+- Decision: Run all retired clips as evaluator-shaped black-box tests, inspect their source frames, and calibrate only general rules. Never add task-ID, URL, filename, hash, or reference-caption branches. Preserve clearly supported broad person categories, remove incidental hairstyle evidence, and route up to three unsafe styles through bounded recovery under the existing eight-call ceiling.
+- Alternatives considered: Return near-verbatim public references; add URL-specific few-shot mappings; optimize string similarity; keep one recovery even when multiple styles fail safety.
+- Consequences: CaptionMan matches the FAQ's accuracy, specificity, style, completeness, and reliability criteria while remaining valid for the separate hidden set. Normal execution remains two calls; recovery cost appears only when drafts fail safety.

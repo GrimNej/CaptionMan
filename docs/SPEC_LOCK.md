@@ -78,6 +78,7 @@
 - Judged visual evidence: 10-14 timestamped images across the full video
 - Caption generation: one shared requested-style JSON batch plus targeted per-style recovery
 - Final caption boundary: meaningful evidence-anchor overlap is required; unseen technical concepts must be explicitly figurative
-- Hosted demo quality profile matches judged frame and recovery bounds: yes, verified by a 10-frame/two-call public replay
+- Hosted demo quality profile matches judged frame and recovery bounds: yes, verified by a 10-frame/four-call public replay; all frame URLs use the public origin
 - Docker mock run validated: yes, from the anonymously pulled final image on 2026-07-11
-- Docker real v1-v3 run validated: yes, from exact final image digest `sha256:0e672ddfcf898971344043be5d29bffa01de132e15e6e929cf84e876608fdfae`
+- Retired public-validation set status: all v1-v8 tasks and 32 styles validated in 199.8 seconds
+- Docker real v1-v8 run validated: yes, from exact final image digest `sha256:756a80fa9de66565476b4b50d4b5624e21dc3857483990329f55718e9105fe11`

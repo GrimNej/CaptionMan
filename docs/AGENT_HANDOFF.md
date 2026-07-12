@@ -2,13 +2,13 @@
 
 ## Current State
 
-- Current milestone: The Qwen champion judged image is published and anonymously pull-verified, and the hosted Studio now runs the same frame and recovery quality profile. Judged Docker behavior remains independent from the frontend.
+- Current milestone: The FAQ-audited Qwen champion image is published, anonymously pull-verified, and validated on all eight retired Track 2 examples. The hosted replay now serves run-specific frames through the public origin; judged Docker behavior remains independent from the frontend.
 - Current branch: `main`
-- Last completed task: Aligned the isolated VPS API with the verified Qwen release, pinned 10-14 frame and bounded recovery settings in Compose, and verified a 10-frame/two-call public canary plus its Judge Verdict page.
+- Last completed task: Audited all nine FAQ pages, validated every retired Track 2 clip on the exact public digest, published a plain single-platform manifest, and deployed/visually verified the hosted replay fixes.
 - Final submission reference: `docker.io/grimnej/captionman:submission`
-- Immutable digest: `sha256:0e672ddfcf898971344043be5d29bffa01de132e15e6e929cf84e876608fdfae`
+- Immutable digest: `sha256:756a80fa9de66565476b4b50d4b5624e21dc3857483990329f55718e9105fe11`
 - Image contract: plain Docker v2 manifest, `linux/amd64`, 277.20 MiB compressed, default command `captionman run --input /input/tasks.json --output /output/results.json`.
-- Last passing gates: full backend suite with 79 tests; Ruff lint and format checks; no-secrets and source-hygiene scans; exact-image doctor; mounted official mock run; exact-image real v1-v3 run in 56.43 seconds; input-aware validator; manual review of all 12 captions; anonymous Docker Hub manifest inspection and pull; published-digest live doctor and mock run; hosted 10-frame/two-call canary in 56.12 seconds; public Judge Verdict content check.
+- Last passing gates: 83 backend tests; 5 web tests; targeted Biome; production Next.js build; Ruff; no-secrets and source-hygiene scans; key-free Docker boundary/mock checks; exact-image doctor/mock; exact public-digest v1-v8 run in 199.8 seconds; 8 tasks and 32 manually reviewed captions; input-aware validator and artifact scans; anonymous Docker Hub manifest/digest pull; hosted real-provider canary; all 10 public frame endpoints; Playwright with zero browser errors or warnings.
 - Environment assumptions: `uv` manages the backend; pnpm is pinned to 11.7.0; Docker Desktop runs the Linux engine. The final image uses the approved temporary embedded hackathon credential because Track 2 does not inject credentials.
 - Git state: `.env`, `.data/final-secrets/`, `extra_files/`, generated outputs, presentation work, and local Docker verification data remain ignored. No secret value is committed or documented.
 
@@ -24,6 +24,7 @@
 - Keep official output debug-free and limited to `task_id` plus requested `captions`.
 - Keep frontend work independent from the judged runner.
 - Do not add benchmark-specific answers, task-ID scene hints, competitor language, or copied submission material.
+- Treat FAQ examples as retired black-box validation only; do not copy their caption text or create URL/hash mappings.
 - Do not claim Gemma is active. Doctor currently reports Gemma configured, usage `off`, and active `false`; Qwen3.7 Plus with one counted Kimi K2.7 evidence fallback and GLM 5.2 writing is the verified champion route.
 - The scoreboard is authoritative. The prior 0.46 score was from the replaced image, not proof that the new image will reach a particular rank.
 - After judging, revoke the temporary Fireworks key, revoke the GitHub token disclosed during setup, delete local secret files, and remove the key-containing image if practical.
