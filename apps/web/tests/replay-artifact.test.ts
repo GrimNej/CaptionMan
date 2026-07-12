@@ -1,4 +1,4 @@
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { getApiBase } from "../lib/api-base";
 import {
   artifactFromApiArtifacts,
@@ -8,6 +8,10 @@ import {
 afterEach(() => {
   vi.unstubAllEnvs();
   vi.unstubAllGlobals();
+});
+
+beforeEach(() => {
+  vi.stubEnv("NEXT_PUBLIC_API_BASE_URL", "");
 });
 
 describe("replay artifact adapter", () => {
@@ -83,7 +87,7 @@ describe("replay artifact adapter", () => {
     expect(artifact.runId).toBe("run-001");
     expect(artifact.video.id).toBe("v1");
     expect(artifact.finalCaptions.formal).toContain("Traffic");
-    expect(artifact.frames[0]?.thumbnailUrl).toContain(
+    expect(artifact.frames[0]?.thumbnailUrl).toBe(
       "/api/runs/run-001/artifacts/frames/F01",
     );
     expect(artifact.evidenceSegments[0]?.supportedBy.length).toBeGreaterThan(0);
@@ -116,7 +120,7 @@ describe("replay artifact adapter", () => {
       },
     });
 
-    expect(artifact.frames[0]?.thumbnailUrl).toContain(
+    expect(artifact.frames[0]?.thumbnailUrl).toBe(
       "/api/runs/run-single/artifacts/frames/F01",
     );
   });

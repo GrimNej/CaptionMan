@@ -1,4 +1,4 @@
-import { getApiBase } from "./api-base";
+import { getApiBase, getPublicApiBase } from "./api-base";
 import { mockReplay } from "./mock-replay";
 import {
   type CaptionStyle,
@@ -104,7 +104,7 @@ export function artifactFromApiArtifacts({
   );
   const result = parsedResults[0];
   const evidence = rawReplay.evidence ?? {};
-  const base = getApiBase();
+  const base = getPublicApiBase();
   const segments = evidence.segments?.length
     ? evidence.segments
     : [
