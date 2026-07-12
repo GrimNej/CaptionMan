@@ -6,6 +6,9 @@ import { QueryProvider } from "@/components/layout/query-provider";
 export const metadata: Metadata = {
   title: "CaptionMan",
   description: "Captions With Receipts",
+  icons: {
+    icon: "/captionman-frame.svg",
+  },
 };
 
 export default function RootLayout({
